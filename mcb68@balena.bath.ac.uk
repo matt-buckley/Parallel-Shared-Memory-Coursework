@@ -7,12 +7,9 @@
 // Should this even be in a function?
 double meanOfFour(double *nums) {
     double sum = 0;
-
-    int i;
-    for (i = 0; i < 4; i++) {
+    for (int i = 0; i < 4; i++) {
         sum += nums[i];
     }
-
     return sum / 4;
 }
 
@@ -58,9 +55,8 @@ int main(int argc, char *argv[]) {
     // Here as does all calculations on 'old' values before updating, rather than
     double newArray[5][5];
     memcpy(newArray, testArray, arraySize * arraySize * sizeof(double));
-    int i, j;
-    for (i = 0; i < 5; i++) {
-        for (j = 0; j < 5; j++) {
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
             printf("%f\t", newArray[i][j]);
         }
         printf("\n");
@@ -69,8 +65,8 @@ int main(int argc, char *argv[]) {
 
     do {
         double biggestDiff = 0.0;
-        for (i = 0; i < arraySize; i++) {
-            for (j = 0; j < arraySize; j++) {
+        for (int i = 0; i < arraySize; i++) {
+            for (int j = 0; j < arraySize; j++) {
                 if (i != 0 && j != 0 && i != 4 && j != 4) {
                     double nums[4] = {testArray[i-1][j], testArray[i][j-1], testArray[i+1][j], testArray[i][j+1]};
                     double avg = meanOfFour(nums);
@@ -86,8 +82,8 @@ int main(int argc, char *argv[]) {
         iterationNum += 1;
         memcpy(testArray, newArray, arraySize * arraySize * sizeof(double));
 
-        for (i = 0; i < 5; i++) {
-            for (j = 0; j < 5; j++) {
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
                 printf("%f\t", newArray[i][j]);
             }
             printf("\n");
@@ -97,8 +93,8 @@ int main(int argc, char *argv[]) {
     } while (calcPrecision > precision); //comparison here as will already do at least once
 
     printf("After %d iterations:\n\n", iterationNum);
-    for (i = 0; i < 5; i++) {
-        for (j = 0; j < 5; j++) {
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
             printf("%f\t", testArray[i][j]);
         }
         printf("\n");
