@@ -51,6 +51,13 @@ int main(int argc, char *argv[]) {
         {1.0, 1.0, 1.0, 1.0, 1.0}
     };
 
+    //double testArray[4][4] = {
+    //    {1.0, 1.0, 1.0, 1.0},
+    //    {1.0, 0.0, 0.0, 1.0},
+    //    {1.0, 0.0, 0.0, 1.0},
+    //    {1.0, 1.0, 1.0, 1.0}
+    //};
+
     // A lot of this needs changing, including nested for loops, assigning values unnecessarily, and more
     double calcPrecision = 1.0;
     int iterationNum = 0;
@@ -66,17 +73,17 @@ int main(int argc, char *argv[]) {
         printf("\n");
     }
     printf("\n");
-
+    
     do {
         double biggestDiff = 0.0;
         for (i = 0; i < arraySize; i++) {
             for (j = 0; j < arraySize; j++) {
-                if (i != 0 && j != 0 && i != 4 && j != 4) {
+                if (i != 0 && j != 0 && i != arraySize - 1 && j != arraySize - 1) {
                     double nums[4] = {testArray[i-1][j], testArray[i][j-1], testArray[i+1][j], testArray[i][j+1]};
                     double avg = meanOfFour(nums);
                     double diff = fabs(testArray[i][j] - avg);
                     newArray[i][j] = avg;
-                    if (diff < calcPrecision && diff > biggestDiff) {
+                    if (diff > biggestDiff) {
                         biggestDiff = diff;
                         calcPrecision = diff;
                     }
