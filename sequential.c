@@ -67,7 +67,6 @@ int main(int argc, char *argv[]) {
     //};
 
     // A lot of this needs changing, including nested for loops, assigning values unnecessarily, and more
-    double calcPrecision = 1.0;
     int iterationNum = 0;
 
     // Here as does all calculations on 'old' values before updating, rather than
@@ -81,8 +80,9 @@ int main(int argc, char *argv[]) {
     }
     printf("\n");
     
+    double biggestDiff;
     do {
-        double biggestDiff = 0.0;
+        biggestDiff = 0.0;
         for (i = 0; i < arraySize; i++) {
             for (j = 0; j < arraySize; j++) {
                 if (i != 0 && j != 0 && i != arraySize - 1 && j != arraySize - 1) {
@@ -92,7 +92,6 @@ int main(int argc, char *argv[]) {
                     newArray[i][j] = avg;
                     if (diff > biggestDiff) {
                         biggestDiff = diff;
-                        calcPrecision = diff;
                     }
                 }
             }
@@ -108,7 +107,7 @@ int main(int argc, char *argv[]) {
         }
         printf("\n");
 
-    } while (calcPrecision > precision); //comparison here as will already do at least once
+    } while (biggestDiff > precision); //comparison here as will already do at least once
 
     printf("After %d iterations:\n\n", iterationNum);
     for (i = 0; i < arraySize; i++) {
