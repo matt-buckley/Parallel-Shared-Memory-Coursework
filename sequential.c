@@ -19,37 +19,45 @@ double meanOfFour(double *nums) {
 int main(int argc, char *argv[]) {
 
     // Any way to make these const?
-    int arraySize;
-    double precision;
+    int arraySize = 5;
+    double precision = 0.001;
+    // For iteration
+    int i, j;
 
     // Define dimension
     if (argc > 1) {
         arraySize = atoi(argv[1]);
-    } else {
-        arraySize = 5; //default
     }
 
     // Define precision
     if (argc > 2) {
         char *temp;
         precision = strtod(argv[2], &temp);
-    } else {
-        precision = 0.001;
     }
 
 
 
     // Change to use malloc
-    //double testArray[arraySize][arraySize];
+    double testArray[arraySize][arraySize];
+    for (i = 0; i < arraySize; i++) {
+        for (j = 0; j < arraySize; j++) {
+            if (i == 0 || j == 0 || i == arraySize - 1 || j == arraySize - 1) {
+                testArray[i][j] = 1.0;
+            }
+            else {
+                testArray[i][j] = 0.0;
+            }
+        }
+    }
 
     // HARDCODED
-    double testArray[5][5] = {
-        {1.0, 1.0, 1.0, 1.0, 1.0},
-        {1.0, 0.0, 0.0, 0.0, 1.0},
-        {1.0, 0.0, 0.0, 0.0, 1.0},
-        {1.0, 0.0, 0.0, 0.0, 1.0},
-        {1.0, 1.0, 1.0, 1.0, 1.0}
-    };
+    //double testArray[5][5] = {
+    //    {1.0, 1.0, 1.0, 1.0, 1.0},
+    //    {1.0, 0.0, 0.0, 0.0, 1.0},
+    //    {1.0, 0.0, 0.0, 0.0, 1.0},
+    //    {1.0, 0.0, 0.0, 0.0, 1.0},
+    //    {1.0, 1.0, 1.0, 1.0, 1.0}
+    //};
 
     //double testArray[4][4] = {
     //    {1.0, 1.0, 1.0, 1.0},
@@ -63,11 +71,10 @@ int main(int argc, char *argv[]) {
     int iterationNum = 0;
 
     // Here as does all calculations on 'old' values before updating, rather than
-    double newArray[5][5];
+    double newArray[arraySize][arraySize];
     memcpy(newArray, testArray, arraySize * arraySize * sizeof(double));
-    int i, j;
-    for (i = 0; i < 5; i++) {
-        for (j = 0; j < 5; j++) {
+    for (i = 0; i < arraySize; i++) {
+        for (j = 0; j < arraySize; j++) {
             printf("%f\t", newArray[i][j]);
         }
         printf("\n");
@@ -93,8 +100,8 @@ int main(int argc, char *argv[]) {
         iterationNum += 1;
         memcpy(testArray, newArray, arraySize * arraySize * sizeof(double));
 
-        for (i = 0; i < 5; i++) {
-            for (j = 0; j < 5; j++) {
+        for (i = 0; i < arraySize; i++) {
+            for (j = 0; j < arraySize; j++) {
                 printf("%f\t", newArray[i][j]);
             }
             printf("\n");
@@ -104,8 +111,8 @@ int main(int argc, char *argv[]) {
     } while (calcPrecision > precision); //comparison here as will already do at least once
 
     printf("After %d iterations:\n\n", iterationNum);
-    for (i = 0; i < 5; i++) {
-        for (j = 0; j < 5; j++) {
+    for (i = 0; i < arraySize; i++) {
+        for (j = 0; j < arraySize; j++) {
             printf("%f\t", testArray[i][j]);
         }
         printf("\n");
