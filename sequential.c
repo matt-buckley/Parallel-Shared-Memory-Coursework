@@ -33,6 +33,10 @@ int main(int argc, char *argv[]) {
     if (argc > 2) {
         char *temp;
         precision = strtod(argv[2], &temp);
+        if (precision <= 0 || precision > 1) {
+            printf("Error with entered precision, please enter a precision between 0 and 1\n");
+            return 0;
+        }
     }
 
 
