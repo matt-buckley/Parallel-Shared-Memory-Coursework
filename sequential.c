@@ -9,21 +9,21 @@ double precision;
 
 // This is always going to be 4, and passing more arguments to make it reusable would increase unnecessary communication
 // Should this even be in a function?
-double meanOfFour(double *nums) {
+void meanOfFour(double *nums, double **newArray, int i, int j) {
     double sum = 0;
 
-    int i;
-    for (i = 0; i < 4; i++) {
-        sum += nums[i];
+    int k;
+    for (k = 0; k < 4; k++) {
+        sum += nums[k];
     }
 
-    //newArray[i][j] = sum / 4;
+    newArray[i][j] = sum / 4;
 
-    return sum / 4; // calculating again should be faster than fetching from memory
+    //return sum / 4; // calculating again should be faster than fetching from memory
 }
 
 void startFunction(double *nums) {
-    meanOfFour(nums);
+    //meanOfFour(nums);
 }
 
 void createThreads(double *nums, double **newArray, int i, int j) {
@@ -113,9 +113,8 @@ int main(int argc, char *argv[]) {
             for (j = 1; j < arraySize - 1; j++) {
                 double nums[4] = {testArray[i-1][j], testArray[i][j-1], testArray[i+1][j], testArray[i][j+1]};
                 //createThreads(nums, newArray, i, j);
-                double avg = meanOfFour(nums);
-                double diff = fabs(testArray[i][j] - avg);
-                newArray[i][j] = avg;
+                meanOfFour(nums, newArray, i, j);
+                double diff = fabs(testArray[i][j] - newArray[i][j]);
                 if (diff > biggestDiff) {
                     biggestDiff = diff;
                 }
