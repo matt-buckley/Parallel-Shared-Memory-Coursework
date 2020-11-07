@@ -2,6 +2,10 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#include <pthread.h>
+
+int arraySize;
+double precision;
 
 // This is always going to be 4, and passing more arguments to make it reusable would increase unnecessary communication
 // Should this even be in a function?
@@ -13,14 +17,35 @@ double meanOfFour(double *nums) {
         sum += nums[i];
     }
 
-    return sum / 4;
+    //newArray[i][j] = sum / 4;
+
+    return sum / 4; // calculating again should be faster than fetching from memory
+}
+
+void startFunction(double *nums) {
+    meanOfFour(nums);
+}
+
+void createThreads(double *nums, double **newArray, int i, int j) {
+    pthread_t thread;
+
+    // In progress
+    /*struct arguments {
+        double *nums;
+        int i;
+        int j;
+        double newArray[][arraySize];
+    };
+    struct arguments args = {nums, i, j, newArray};*/
+
+    pthread_create(&thread, NULL, (void *(*)(void *))startFunction, (void *)nums);
 }
 
 int main(int argc, char *argv[]) {
 
     // Any way to make these const?
-    int arraySize = 5;
-    double precision = 0.001;
+    arraySize = 5;
+    precision = 0.001;
     // For iteration
     int i, j;
 
@@ -39,10 +64,14 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    // A lot of this needs changing, including nested for loops, assigning values unnecessarily, and more
+    int iterationNum = 0;
 
-
-    // Change to use malloc
-    double testArray[arraySize][arraySize];
+    double **testArray = (double **) malloc(arraySize * sizeof(double *));
+    for (i = 0; i < arraySize; i++) {
+        testArray[i] = (double *) malloc(arraySize * sizeof(double));
+    }
+    //double testArray[arraySize][arraySize];
     for (i = 0; i < arraySize; i++) {
         for (j = 0; j < arraySize; j++) {
             if (i == 0 || j == 0 || i == arraySize - 1 || j == arraySize - 1) {
@@ -54,28 +83,21 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    // HARDCODED
-    //double testArray[5][5] = {
-    //    {1.0, 1.0, 1.0, 1.0, 1.0},
-    //    {1.0, 0.0, 0.0, 0.0, 1.0},
-    //    {1.0, 0.0, 0.0, 0.0, 1.0},
-    //    {1.0, 0.0, 0.0, 0.0, 1.0},
-    //    {1.0, 1.0, 1.0, 1.0, 1.0}
-    //};
-
-    //double testArray[4][4] = {
-    //    {1.0, 1.0, 1.0, 1.0},
-    //    {1.0, 0.0, 0.0, 1.0},
-    //    {1.0, 0.0, 0.0, 1.0},
-    //    {1.0, 1.0, 1.0, 1.0}
-    //};
-
-    // A lot of this needs changing, including nested for loops, assigning values unnecessarily, and more
-    int iterationNum = 0;
-
     // Here as does all calculations on 'old' values before updating, rather than
-    double newArray[arraySize][arraySize];
-    memcpy(newArray, testArray, arraySize * arraySize * sizeof(double));
+    double **newArray = (double **) malloc(arraySize * sizeof(double *));
+    for (i = 0; i < arraySize; i++) {
+        newArray[i] = (double *) malloc(arraySize * sizeof(double));
+    }
+
+    //double newArray[arraySize][arraySize];
+    // Can't use memcpy() as this copies the pointers rather than the values
+    //memcpy(newArray, testArray, arraySize * arraySize * sizeof(double));
+    for (i = 0; i < arraySize; i++) {
+        for (j = 0; j < arraySize; j++) {
+            newArray[i][j] = testArray[i][j];
+        }
+    }
+
     for (i = 0; i < arraySize; i++) {
         for (j = 0; j < arraySize; j++) {
             printf("%f\t", newArray[i][j]);
@@ -87,29 +109,33 @@ int main(int argc, char *argv[]) {
     double biggestDiff;
     do {
         biggestDiff = 0.0;
-        for (i = 0; i < arraySize; i++) {
-            for (j = 0; j < arraySize; j++) {
-                if (i != 0 && j != 0 && i != arraySize - 1 && j != arraySize - 1) {
-                    double nums[4] = {testArray[i-1][j], testArray[i][j-1], testArray[i+1][j], testArray[i][j+1]};
-                    double avg = meanOfFour(nums);
-                    double diff = fabs(testArray[i][j] - avg);
-                    newArray[i][j] = avg;
-                    if (diff > biggestDiff) {
-                        biggestDiff = diff;
-                    }
+        for (i = 1; i < arraySize - 1; i++) {
+            for (j = 1; j < arraySize - 1; j++) {
+                double nums[4] = {testArray[i-1][j], testArray[i][j-1], testArray[i+1][j], testArray[i][j+1]};
+                //createThreads(nums, newArray, i, j);
+                double avg = meanOfFour(nums);
+                double diff = fabs(testArray[i][j] - avg);
+                newArray[i][j] = avg;
+                if (diff > biggestDiff) {
+                    biggestDiff = diff;
                 }
             }
         }
         iterationNum += 1;
-        memcpy(testArray, newArray, arraySize * arraySize * sizeof(double));
-
+        //memcpy(testArray, newArray, arraySize * arraySize * sizeof(double));
         for (i = 0; i < arraySize; i++) {
+            for (j = 0; j < arraySize; j++) {
+                testArray[i][j] = newArray[i][j];
+            }
+        }
+
+        /*for (i = 0; i < arraySize; i++) {
             for (j = 0; j < arraySize; j++) {
                 printf("%f\t", newArray[i][j]);
             }
             printf("\n");
         }
-        printf("\n");
+        printf("\n");*/
 
     } while (biggestDiff > precision); //comparison here as will already do at least once
 
