@@ -6,39 +6,45 @@
 
 int arraySize;
 double precision;
+struct startFunctionArguments {
+    int i, j;
+};
+double **newArray;
+double **testArray;
 
 // This is always going to be 4, and passing more arguments to make it reusable would increase unnecessary communication
 // Should this even be in a function?
-void meanOfFour(double *nums, double **newArray, int i, int j) {
-    double sum = 0;
+double meanOfFour(int i, int j, int test) {
+    
+    double sum = testArray[i-1][j] + testArray[i][j-1] + testArray[i+1][j] + testArray[i][j+1]; //optimise this
 
-    int k;
-    for (k = 0; k < 4; k++) {
-        sum += nums[k];
+    if (test != 1) {
+        newArray[i][j] = sum / 4;
+    } else {
+        return newArray[i][j];
     }
-
-    newArray[i][j] = sum / 4;
 
     //return sum / 4; // calculating again should be faster than fetching from memory
 }
 
-void startFunction(double *nums) {
-    //meanOfFour(nums);
+void *startFunction(void *arguments) {
+
+    struct startFunctionArguments *args = (struct startFunctionArguments *) arguments;
+
+    int i = args -> i;
+    int j = args -> j;
+
+    meanOfFour(i, j, 1);
 }
 
-void createThreads(double *nums, double **newArray, int i, int j) {
+void createThreads(int i, int j) {
     pthread_t thread;
 
-    // In progress
-    /*struct arguments {
-        double *nums;
-        int i;
-        int j;
-        double newArray[][arraySize];
-    };
-    struct arguments args = {nums, i, j, newArray};*/
+    struct startFunctionArguments *args = malloc(sizeof(struct startFunctionArguments));
+    args -> i = i;
+    args -> j = j;
 
-    pthread_create(&thread, NULL, (void *(*)(void *))startFunction, (void *)nums);
+    pthread_create(&thread, NULL, startFunction, (void *)args);
 }
 
 int main(int argc, char *argv[]) {
@@ -67,7 +73,7 @@ int main(int argc, char *argv[]) {
     // A lot of this needs changing, including nested for loops, assigning values unnecessarily, and more
     int iterationNum = 0;
 
-    double **testArray = (double **) malloc(arraySize * sizeof(double *));
+    testArray = (double **) malloc(arraySize * sizeof(double *));
     for (i = 0; i < arraySize; i++) {
         testArray[i] = (double *) malloc(arraySize * sizeof(double));
     }
@@ -84,7 +90,7 @@ int main(int argc, char *argv[]) {
     }
 
     // Here as does all calculations on 'old' values before updating, rather than
-    double **newArray = (double **) malloc(arraySize * sizeof(double *));
+    newArray = (double **) malloc(arraySize * sizeof(double *));
     for (i = 0; i < arraySize; i++) {
         newArray[i] = (double *) malloc(arraySize * sizeof(double));
     }
@@ -111,9 +117,11 @@ int main(int argc, char *argv[]) {
         biggestDiff = 0.0;
         for (i = 1; i < arraySize - 1; i++) {
             for (j = 1; j < arraySize - 1; j++) {
-                double nums[4] = {testArray[i-1][j], testArray[i][j-1], testArray[i+1][j], testArray[i][j+1]};
-                //createThreads(nums, newArray, i, j);
-                meanOfFour(nums, newArray, i, j);
+                if (i == 2 && j == 2 && iterationNum == 1) {
+                    createThreads(i, j);
+                }
+                meanOfFour(i, j, 0);
+                // NEEDS TO BE DONE AT THE END OF THE ITERATION WHEN IN PARALLEL
                 double diff = fabs(testArray[i][j] - newArray[i][j]);
                 if (diff > biggestDiff) {
                     biggestDiff = diff;
@@ -128,13 +136,13 @@ int main(int argc, char *argv[]) {
             }
         }
 
-        /*for (i = 0; i < arraySize; i++) {
+        for (i = 0; i < arraySize; i++) {
             for (j = 0; j < arraySize; j++) {
                 printf("%f\t", newArray[i][j]);
             }
             printf("\n");
         }
-        printf("\n");*/
+        printf("\n");
 
     } while (biggestDiff > precision); //comparison here as will already do at least once
 
