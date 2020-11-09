@@ -7,14 +7,14 @@
 int arraySize;
 double precision;
 struct startFunctionArguments {
-    int i, j;
+    int row;
 };
 double **newArray;
 double **testArray;
 
 // This is always going to be 4, and passing more arguments to make it reusable would increase unnecessary communication
 // Should this even be in a function?
-double meanOfFour(int i, int j, int test) {
+/*double meanOfFour(int i, int j, int test) {
     
     double sum = testArray[i-1][j] + testArray[i][j-1] + testArray[i+1][j] + testArray[i][j+1]; //optimise this
 
@@ -25,26 +25,38 @@ double meanOfFour(int i, int j, int test) {
     }
 
     //return sum / 4; // calculating again should be faster than fetching from memory
+}*/
+
+void averageRow(int row) {
+
+    int col;
+    for (col = 1; col < arraySize - 1; col++) {
+        double sum = testArray[row-1][col] + testArray[row][col-1] + testArray[row+1][col] + testArray[row][col+1];
+        newArray[row][col] = sum / 4;
+    }
+
 }
 
 void *startFunction(void *arguments) {
 
     struct startFunctionArguments *args = (struct startFunctionArguments *) arguments;
 
-    int i = args -> i;
-    int j = args -> j;
+    //meanOfFour(i, j, 1);
 
-    meanOfFour(i, j, 1);
+    averageRow(args -> row);
+
+    //pthread_barrier_wait(args -> barrier);
 }
 
-void createThreads(int i, int j) {
+void createThreads(int row, pthread_t *threadArray) {
     pthread_t thread;
 
     struct startFunctionArguments *args = malloc(sizeof(struct startFunctionArguments));
-    args -> i = i;
-    args -> j = j;
+    args -> row = row;
 
     pthread_create(&thread, NULL, startFunction, (void *)args);
+
+    threadArray[row - 1] = thread;
 }
 
 int main(int argc, char *argv[]) {
@@ -113,21 +125,33 @@ int main(int argc, char *argv[]) {
     printf("\n");
     
     double biggestDiff;
+    //pthread_barrier_t barrier;
+    //pthread_barrier_init(&barrier, NULL, arraySize - 1);
     do {
+
+        pthread_t threadArray[arraySize - 2];
+
+        for (i = 1; i < arraySize - 1; i++) {
+            createThreads(i, threadArray);
+        }
+
+        //pthread_barrier_wait(&barrier);
+        // BARRIER WOULD BE BETTER HERE
+        for (i = 0; i < arraySize - 2; i++) {
+            pthread_join(threadArray[i], NULL);
+        }
+
+        // Precision checker
         biggestDiff = 0.0;
         for (i = 1; i < arraySize - 1; i++) {
-            for (j = 1; j < arraySize - 1; j++) {
-                if (i == 2 && j == 2 && iterationNum == 1) {
-                    createThreads(i, j);
-                }
-                meanOfFour(i, j, 0);
-                // NEEDS TO BE DONE AT THE END OF THE ITERATION WHEN IN PARALLEL
+            for (j = 1; j < arraySize; j++) {
                 double diff = fabs(testArray[i][j] - newArray[i][j]);
                 if (diff > biggestDiff) {
                     biggestDiff = diff;
                 }
             }
         }
+
         iterationNum += 1;
         //memcpy(testArray, newArray, arraySize * arraySize * sizeof(double));
         for (i = 0; i < arraySize; i++) {
@@ -136,6 +160,7 @@ int main(int argc, char *argv[]) {
             }
         }
 
+/*
         for (i = 0; i < arraySize; i++) {
             for (j = 0; j < arraySize; j++) {
                 printf("%f\t", newArray[i][j]);
@@ -143,6 +168,7 @@ int main(int argc, char *argv[]) {
             printf("\n");
         }
         printf("\n");
+*/
 
     } while (biggestDiff > precision); //comparison here as will already do at least once
 
