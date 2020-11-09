@@ -9,6 +9,7 @@ int arraySize;
 double precision;
 struct startFunctionArguments {
     int row;
+    int rowsToProcess;
 };
 double **newArray;
 double **testArray;
@@ -28,36 +29,36 @@ double **testArray;
     //return sum / 4; // calculating again should be faster than fetching from memory
 }*/
 
-void averageRow(int row) {
-
-    int col;
-    for (col = 1; col < arraySize - 1; col++) {
-        double sum = testArray[row-1][col] + testArray[row][col-1] + testArray[row+1][col] + testArray[row][col+1];
-        newArray[row][col] = sum / 4;
-    }
-
-}
-
-void *startFunction(void *arguments) {
+// Can just combine this with the function above
+void *averageRows(void *arguments) {
 
     struct startFunctionArguments *args = (struct startFunctionArguments *) arguments;
 
-    //meanOfFour(i, j, 1);
+    int col;
+    int row = args -> row;
+    int rowsToProcess = args -> rowsToProcess;
 
-    averageRow(args -> row);
+    int currentRow;
+    for (currentRow = row; currentRow < row + rowsToProcess; currentRow++) {
+        for (col = 1; col < arraySize - 1; col++) {
+            double sum = testArray[currentRow - 1][col] + testArray[currentRow][col - 1] + testArray[currentRow + 1][col] + testArray[currentRow][col + 1];
+            newArray[currentRow][col] = sum / 4;
+        }
+    }
 
     //pthread_barrier_wait(args -> barrier);
 }
 
-void createThreads(int row, pthread_t *threadArray) {
+void createThreads(int row, int rowsToProcess, pthread_t *threadArray, int numCurrentThreads) {
     pthread_t thread;
 
     struct startFunctionArguments *args = malloc(sizeof(struct startFunctionArguments));
     args -> row = row;
+    args -> rowsToProcess = rowsToProcess;
 
-    pthread_create(&thread, NULL, startFunction, (void *)args);
+    pthread_create(&thread, NULL, averageRows, (void *)args);
 
-    threadArray[row - 1] = thread;
+    threadArray[numCurrentThreads] = thread;
 }
 
 int main(int argc, char *argv[]) {
@@ -65,6 +66,7 @@ int main(int argc, char *argv[]) {
     // Any way to make these const?
     arraySize = 5;
     precision = 0.001;
+    int numThreads = arraySize - 2;
     // For iteration
     int i, j;
 
@@ -81,6 +83,26 @@ int main(int argc, char *argv[]) {
             printf("Error with entered precision, please enter a precision between 0 and 1\n");
             return 0;
         }
+    }
+
+    if (argc > 3) {
+        char *temp;
+        numThreads = atoi(argv[3]);
+        if (numThreads == 0) {
+            printf("Invalid number of threads - please enter -1 to use the default");
+            return 0;
+        }
+        if (numThreads == -1) {
+            numThreads = arraySize - 2;
+        }
+
+
+
+
+        // IN REPORT - MENTION THE ABOVE, AND MENTION WHAT THE DEFAULT IS
+    
+    
+    
     }
 
     // A lot of this needs changing, including nested for loops, assigning values unnecessarily, and more
@@ -151,26 +173,49 @@ int main(int argc, char *argv[]) {
     printf("\n");
     
     double biggestDiff;
+    pthread_t threadArray[arraySize - 2];
+    int rowsPerThread;
+    int numThreadsWithAnExtraRow;
+    int numCurrentThreads;
+
+    if (numThreads <= arraySize - 2) {
+        rowsPerThread = (arraySize - 2) / numThreads;
+        numThreadsWithAnExtraRow = (arraySize - 2) % numThreads;
+        // Split up columns too
+    }
+    // TODO: handle if numThreads > number of rows to process
+
     //pthread_barrier_t barrier;
     //pthread_barrier_init(&barrier, NULL, arraySize - 1);
     do {
 
-        pthread_t threadArray[arraySize - 2];
+        numCurrentThreads = 0;
 
-        for (i = 1; i < arraySize - 1; i++) {
-            createThreads(i, threadArray);
+        for (i = 1; i < arraySize - 1;) {
+            if (numThreadsWithAnExtraRow > 0) {
+                createThreads(i, rowsPerThread + 1, threadArray, numCurrentThreads);
+                numThreadsWithAnExtraRow -= 1;
+                i += (rowsPerThread + 1);
+            }
+            else {
+                createThreads(i, rowsPerThread, threadArray, numCurrentThreads);
+                i += rowsPerThread;
+            }
+            numCurrentThreads += 1;
         }
+
+        numThreadsWithAnExtraRow = (arraySize - 2) % numThreads; // is a caluclation or a memory fetch faster here?
 
         //pthread_barrier_wait(&barrier);
         // BARRIER WOULD BE BETTER HERE
-        for (i = 0; i < arraySize - 2; i++) {
+        for (i = 0; i < numThreads; i++) {
             pthread_join(threadArray[i], NULL);
         }
 
         // Precision checker
         biggestDiff = 0.0;
         for (i = 1; i < arraySize - 1; i++) {
-            for (j = 1; j < arraySize; j++) {
+            for (j = 1; j < arraySize - 1; j++) {
                 double diff = fabs(testArray[i][j] - newArray[i][j]);
                 if (diff > biggestDiff) {
                     biggestDiff = diff;
