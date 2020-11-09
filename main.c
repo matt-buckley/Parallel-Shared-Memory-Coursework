@@ -3,6 +3,7 @@
 #include <math.h>
 #include <string.h>
 #include <pthread.h>
+//#include <math.h>
 
 int arraySize;
 double precision;
@@ -89,14 +90,39 @@ int main(int argc, char *argv[]) {
     for (i = 0; i < arraySize; i++) {
         testArray[i] = (double *) malloc(arraySize * sizeof(double));
     }
-    //double testArray[arraySize][arraySize];
-    for (i = 0; i < arraySize; i++) {
-        for (j = 0; j < arraySize; j++) {
-            if (i == 0 || j == 0 || i == arraySize - 1 || j == arraySize - 1) {
-                testArray[i][j] = 1.0;
+    
+    if (argc > 4) {
+        /* Omitted because requires using -lm compile flag
+        if ((int) sqrt((double )argc - 4) != arraySize) {
+            printf("Error - entered array does not match array size.");
+            return 0;
+        }
+        */
+        int argcCounter;
+        i = -1;
+        j = 0;
+        char *temp;
+        for (argcCounter = 4; argcCounter < argc; argcCounter++) {
+            // Reset to start of next line
+            if (((argcCounter - 4) % arraySize) == 0) {
+                i += 1;
+                j = 0;
             }
             else {
-                testArray[i][j] = 0.0;
+                j += 1;
+            }  
+            testArray[i][j] = strtod(argv[argcCounter], &temp);
+        }
+    }
+    else {
+        for (i = 0; i < arraySize; i++) {
+            for (j = 0; j < arraySize; j++) {
+                if (i == 0 || j == 0 || i == arraySize - 1 || j == arraySize - 1) {
+                    testArray[i][j] = 1.0;
+                }
+                else {
+                    testArray[i][j] = 0.0;
+                }
             }
         }
     }
