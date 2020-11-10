@@ -8,8 +8,8 @@
 int arraySize;
 double precision;
 struct startFunctionArguments {
-    int row;
-    int rowsToProcess;
+    int elementLoc;
+    int elementsToProcess;
 };
 double **newArray;
 double **testArray;
@@ -34,31 +34,60 @@ void *averageRows(void *arguments) {
 
     struct startFunctionArguments *args = (struct startFunctionArguments *) arguments;
 
-    int col;
-    int row = args -> row;
-    int rowsToProcess = args -> rowsToProcess;
+    int elementLoc = args -> elementLoc;
+    int elementsToProcess = args -> elementsToProcess;
 
-    int currentRow;
+    //printf("elementLoc: %d\n", elementLoc);
+    //printf("elementsToProcess: %d\n", elementsToProcess);
+    int row = ((elementLoc - 1) / (arraySize - 2)) + 1;
+    int col = (elementLoc - ((row - 1) * (arraySize - 2)));
+    //printf("Initial row: %d\n", row);
+    //printf("Initial column: %d\n", col);
+    //printf("\n");
+
+    while (elementsToProcess > 0) {
+        //if (row > arraySize - 2 || col > arraySize - 2) {
+        /*    printf("elementLoc: %d\n", args -> elementLoc);
+            printf("elementsToProcess: %d\n", args -> elementsToProcess);
+            printf("Initial row: %d\n", ((elementLoc - 1) / (arraySize - 2)) + 1);
+            printf("Initial column: %d\n", (elementLoc - ((((elementLoc - 1) / (arraySize - 2)) + 1) - 1) * (arraySize - 2)));
+            printf("Row: %d\n", row);
+            printf("Column: %d\n\n", col);
+        *///}
+        double sum = testArray[row - 1][col] + testArray[row][col - 1] + testArray[row + 1][col] + testArray[row][col + 1];
+        newArray[row][col] = sum / 4;
+
+        col += 1;
+        if (col == arraySize - 1) {
+            row += 1;
+            col = 1;
+        }
+        elementsToProcess--;
+    }
+
+    /*int currentRow;
+    int currentCol;
     for (currentRow = row; currentRow < row + rowsToProcess; currentRow++) {
         for (col = 1; col < arraySize - 1; col++) {
             double sum = testArray[currentRow - 1][col] + testArray[currentRow][col - 1] + testArray[currentRow + 1][col] + testArray[currentRow][col + 1];
             newArray[currentRow][col] = sum / 4;
         }
-    }
+    }*/
 
     //pthread_barrier_wait(args -> barrier);
 }
 
-void createThreads(int row, int rowsToProcess, pthread_t *threadArray, int numCurrentThreads) {
+void createThreads(int elementLoc, int elementsToProcess, pthread_t *threadArray, int numCurrentThreads) {
     pthread_t thread;
 
     struct startFunctionArguments *args = malloc(sizeof(struct startFunctionArguments));
-    args -> row = row;
-    args -> rowsToProcess = rowsToProcess;
+    args -> elementLoc = elementLoc;
+    args -> elementsToProcess = elementsToProcess;
 
     pthread_create(&thread, NULL, averageRows, (void *)args);
 
     threadArray[numCurrentThreads] = thread;
+    
 }
 
 int main(int argc, char *argv[]) {
@@ -66,7 +95,6 @@ int main(int argc, char *argv[]) {
     // Any way to make these const?
     arraySize = 5;
     precision = 0.001;
-    int numThreads = arraySize - 2;
     // For iteration
     int i, j;
 
@@ -74,6 +102,9 @@ int main(int argc, char *argv[]) {
     if (argc > 1) {
         arraySize = atoi(argv[1]);
     }
+
+    // Define default thread count based on number of threads
+    int numThreads = arraySize - 2;
 
     // Define precision
     if (argc > 2) {
@@ -86,7 +117,6 @@ int main(int argc, char *argv[]) {
     }
 
     if (argc > 3) {
-        char *temp;
         numThreads = atoi(argv[3]);
         if (numThreads == 0) {
             printf("Invalid number of threads - please enter -1 to use the default");
@@ -164,56 +194,75 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    for (i = 0; i < arraySize; i++) {
+    /*for (i = 0; i < arraySize; i++) {
         for (j = 0; j < arraySize; j++) {
             printf("%f\t", newArray[i][j]);
         }
         printf("\n");
     }
-    printf("\n");
+    printf("\n");*/
     
     double biggestDiff;
-    pthread_t threadArray[arraySize - 2];
-    int rowsPerThread;
-    int numThreadsWithAnExtraRow;
+    pthread_t threadArray[numThreads];
+    int elementsPerThread;
+    int numThreadsWithAnExtraElement;
     int numCurrentThreads;
+    int elementLoc; // CAN REUSE i INSTEAD ONCE DEBUGGING COMPLETE
 
-    if (numThreads <= arraySize - 2) {
-        rowsPerThread = (arraySize - 2) / numThreads;
-        numThreadsWithAnExtraRow = (arraySize - 2) % numThreads;
-        // Split up columns too
+    if (numThreads > (arraySize - 2) * (arraySize - 2)) {
+        printf("Error - cannot be more threads than there are mutable elements in array. Reducing number of threads to this value.\n");
+        numThreads = (arraySize - 2) * (arraySize - 2);
     }
-    // TODO: handle if numThreads > number of rows to process
+    
+    elementsPerThread = (arraySize - 2) * (arraySize - 2) / numThreads;
+    numThreadsWithAnExtraElement = (arraySize - 2) * (arraySize - 2) % numThreads;
 
     //pthread_barrier_t barrier;
     //pthread_barrier_init(&barrier, NULL, arraySize - 1);
     do {
 
         numCurrentThreads = 0;
+        numThreadsWithAnExtraElement = (arraySize - 2) * (arraySize - 2) % numThreads; // is a caluclation or a memory fetch faster here?
 
-        for (i = 1; i < arraySize - 1;) {
-            if (numThreadsWithAnExtraRow > 0) {
-                createThreads(i, rowsPerThread + 1, threadArray, numCurrentThreads);
-                numThreadsWithAnExtraRow -= 1;
-                i += (rowsPerThread + 1);
+        // Only operates inside the mutable grid
+        //printf("elementsPerThread: %d\n", elementsPerThread);
+        //printf("numThreadsWithAnExtraELement: %d\n", numThreadsWithAnExtraElement);
+        for (elementLoc = 1; elementLoc <= ((arraySize - 2) * (arraySize - 2));) {
+            if (elementLoc < 0) {
+                printf("elementsPerThread: %d\n", elementsPerThread);
+                printf("numThreadsWithAnExtraELement: %d\n", numThreadsWithAnExtraElement);
+                printf("i: %d\n", elementLoc);
+                exit(0);
+            }
+            if (numThreadsWithAnExtraElement > 0) {
+                createThreads(elementLoc, elementsPerThread + 1, threadArray, numCurrentThreads);
+                numThreadsWithAnExtraElement -= 1;
+                elementLoc += (elementsPerThread + 1);
             }
             else {
-                createThreads(i, rowsPerThread, threadArray, numCurrentThreads);
-                i += rowsPerThread;
+                //printf("%d\n", numCurrentThreads);
+                //printf("before createThreads: %d\n", elementLoc);
+                //printf("elementsPerThread before createThreads: %d\n", elementsPerThread);
+                //printf("Address of i in main: %p\n", &elementLoc);
+                createThreads(elementLoc, elementsPerThread, threadArray, numCurrentThreads);
+                //printf("before incrementing i: %d\n", elementLoc);
+                //printf("elementsPerThread before incrementing i: %d\n", elementsPerThread);
+                elementLoc += elementsPerThread;
+                //printf("else: %d\n\n", elementLoc);
+                //exit(0);
             }
             numCurrentThreads += 1;
         }
 
-        numThreadsWithAnExtraRow = (arraySize - 2) % numThreads; // is a caluclation or a memory fetch faster here?
-
         //pthread_barrier_wait(&barrier);
         // BARRIER WOULD BE BETTER HERE
-        for (i = 0; i < numThreads; i++) {
+        for (i = 0; i < numCurrentThreads; i++) {
             pthread_join(threadArray[i], NULL);
         }
 
         // Precision checker
         biggestDiff = 0.0;
+
         for (i = 1; i < arraySize - 1; i++) {
             for (j = 1; j < arraySize - 1; j++) {
                 double diff = fabs(testArray[i][j] - newArray[i][j]);
@@ -243,13 +292,13 @@ int main(int argc, char *argv[]) {
 
     } while (biggestDiff > precision); //comparison here as will already do at least once
 
-    printf("After %d iterations:\n\n", iterationNum);
-    for (i = 0; i < arraySize; i++) {
+    printf("Completed after %d iterations using %d threads\n", iterationNum, numCurrentThreads);
+    /*for (i = 0; i < arraySize; i++) {
         for (j = 0; j < arraySize; j++) {
             printf("%f\t", testArray[i][j]);
         }
         printf("\n");
-    }
+    }*/
 
     return 0;
 
