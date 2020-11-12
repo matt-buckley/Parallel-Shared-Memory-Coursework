@@ -305,12 +305,12 @@ int main(int argc, char *argv[]) {
     } while (biggestDiff > precision); //comparison here as will already do at least once
 
     printf("Completed after %d iterations using %d threads\n", iterationNum, numCurrentThreads);
-    for (i = 0; i < arraySize; i++) {
+    /*for (i = 0; i < arraySize; i++) {
         for (j = 0; j < arraySize; j++) {
             printf("%f\t", testArray[i][j]);
         }
         printf("\n");
-    }
+    }*/
 
     return 0;
 

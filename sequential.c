@@ -39,6 +39,50 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    if (argc > 3) {
+        /* Omitted because requires using -lm compile flag
+        if ((int) sqrt((double )argc - 4) != arraySize) {
+            printf("Error - entered array does not match array size.");
+            return 0;
+        }
+        */
+        int argcCounter;
+        i = -1;
+        j = 0;
+        char *temp;
+        for (argcCounter = 3; argcCounter < argc; argcCounter++) {
+            // Reset to start of next line
+            if (((argcCounter - 3) % arraySize) == 0) {
+                i += 1;
+                j = 0;
+            }
+            else {
+                j += 1;
+            }  
+            testArray[i][j] = strtod(argv[argcCounter], &temp);
+        }
+    }
+    else {
+        // Random integers between 0 and RAND_MAX
+        /*for (i = 0; i < arraySize; i++) {
+            for (j = 0; j < arraySize; j++) {
+                testArray[i][j] = rand();
+            }
+        }*/
+
+        // 1.0s on outside
+        for (i = 0; i < arraySize; i++) {
+            for (j = 0; j < arraySize; j++) {
+                if (i == 0 || j == 0 || i == arraySize - 1 || j == arraySize - 1) {
+                    testArray[i][j] = 1.0;
+                }
+                else {
+                    testArray[i][j] = 0.0;
+                }
+            }
+        }
+    }
+
 
 
     // Change to use malloc
@@ -98,12 +142,12 @@ int main(int argc, char *argv[]) {
     } while (biggestDiff > precision); //comparison here as will already do at least once
 
     printf("After %d iterations:\n\n", iterationNum);
-    for (i = 0; i < arraySize; i++) {
+    /*for (i = 0; i < arraySize; i++) {
         for (j = 0; j < arraySize; j++) {
             printf("%f\t", testArray[i][j]);
         }
         printf("\n");
-    }
+    }*/
 
     return 0;
 
