@@ -128,13 +128,13 @@ int main(int argc, char *argv[]) {
         iterationNum += 1;
         memcpy(testArray, newArray, arraySize * arraySize * sizeof(double));
 
-        for (i = 0; i < arraySize; i++) {
+        /*for (i = 0; i < arraySize; i++) {
             for (j = 0; j < arraySize; j++) {
                 printf("%f\t", newArray[i][j]);
             }
             printf("\n");
         }
-        printf("\n");
+        printf("\n");*/
 
     } while (biggestDiff > precision); //comparison here as will already do at least once
 
