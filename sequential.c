@@ -38,6 +38,7 @@ int main(int argc, char *argv[]) {
             return 0;
         }
     }
+    double testArray[arraySize][arraySize];
 
     if (argc > 3) {
         /* Omitted because requires using -lm compile flag
@@ -83,10 +84,6 @@ int main(int argc, char *argv[]) {
         }
     }
 
-
-
-    // Change to use malloc
-    double testArray[arraySize][arraySize];
     for (i = 0; i < arraySize; i++) {
         for (j = 0; j < arraySize; j++) {
             if (i == 0 || j == 0 || i == arraySize - 1 || j == arraySize - 1) {
