@@ -101,13 +101,13 @@ int main(int argc, char *argv[]) {
     // Here as does all calculations on 'old' values before updating, rather than
     double newArray[arraySize][arraySize];
     memcpy(newArray, testArray, arraySize * arraySize * sizeof(double));
-    for (i = 0; i < arraySize; i++) {
+    /*for (i = 0; i < arraySize; i++) {
         for (j = 0; j < arraySize; j++) {
             printf("%f\t", newArray[i][j]);
         }
         printf("\n");
     }
-    printf("\n");
+    printf("\n");*/
     
     double biggestDiff;
     do {
@@ -138,7 +138,7 @@ int main(int argc, char *argv[]) {
 
     } while (biggestDiff > precision); //comparison here as will already do at least once
 
-    printf("After %d iterations:\n\n", iterationNum);
+    printf("Completed sequentially after %d iterations\n", iterationNum);
     /*for (i = 0; i < arraySize; i++) {
         for (j = 0; j < arraySize; j++) {
             printf("%f\t", testArray[i][j]);
