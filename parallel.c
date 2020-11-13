@@ -4,6 +4,7 @@
 #include <string.h>
 #include <pthread.h>
 //#include <math.h>
+#include <stdbool.h>
 
 int arraySize;
 double precision;
@@ -13,6 +14,7 @@ struct startFunctionArguments {
 };
 double **newArray;
 double **testArray;
+bool precisionMetForAll;
 
 // This is always going to be 4, and passing more arguments to make it reusable would increase unnecessary communication
 // Should this even be in a function?
@@ -56,6 +58,13 @@ void *averageRows(void *arguments) {
         *///}
         double sum = testArray[row - 1][col] + testArray[row][col - 1] + testArray[row + 1][col] + testArray[row][col + 1];
         newArray[row][col] = sum / 4;
+
+        if (precisionMetForAll == true) { // if 0, do nothing because at least one value is still > precision
+            double diff = fabs(testArray[row][col] - newArray[row][col]);
+            if (diff > precision) {
+                precisionMetForAll = false;
+            }
+        }
 
         col += 1;
         if (col == arraySize - 1) {
@@ -191,6 +200,19 @@ int main(int argc, char *argv[]) {
         }
     }
 
+
+    if (arraySize < 3) { // array has no mutable values
+        for (i = 0; i < arraySize; i++) {
+            for (j = 0; j < arraySize; j++) {
+                printf("%f\t", testArray[i][j]);
+            }
+        }
+        printf("\n");
+        return 0;
+    }
+
+
+
     // Here as does all calculations on 'old' values before updating, rather than
     newArray = (double **) malloc(arraySize * sizeof(double *));
     for (i = 0; i < arraySize; i++) {
@@ -214,7 +236,6 @@ int main(int argc, char *argv[]) {
     }
     printf("\n");*/
     
-    double biggestDiff;
     pthread_t threadArray[numThreads];
     int elementsPerThread;
     int numThreadsWithAnExtraElement;
@@ -235,6 +256,7 @@ int main(int argc, char *argv[]) {
 
         numCurrentThreads = 0;
         numThreadsWithAnExtraElement = (arraySize - 2) * (arraySize - 2) % numThreads; // is a caluclation or a memory fetch faster here?
+        precisionMetForAll = true;
 
         // Only operates inside the mutable grid
         //printf("elementsPerThread: %d\n", elementsPerThread);
@@ -272,18 +294,6 @@ int main(int argc, char *argv[]) {
             pthread_join(threadArray[i], NULL);
         }
 
-        // Precision checker
-        biggestDiff = 0.0;
-
-        for (i = 1; i < arraySize - 1; i++) {
-            for (j = 1; j < arraySize - 1; j++) {
-                double diff = fabs(testArray[i][j] - newArray[i][j]);
-                if (diff > biggestDiff) {
-                    biggestDiff = diff;
-                }
-            }
-        }
-
         iterationNum += 1;
         //memcpy(testArray, newArray, arraySize * arraySize * sizeof(double));
         for (i = 0; i < arraySize; i++) {
@@ -292,17 +302,17 @@ int main(int argc, char *argv[]) {
             }
         }
 
-/*
-        for (i = 0; i < arraySize; i++) {
+
+        /*for (i = 0; i < arraySize; i++) {
             for (j = 0; j < arraySize; j++) {
                 printf("%f\t", newArray[i][j]);
             }
             printf("\n");
         }
-        printf("\n");
-*/
+        printf("\n");*/
 
-    } while (biggestDiff > precision); //comparison here as will already do at least once
+
+    } while (precisionMetForAll == false); //comparison here as will already do at least once
 
     printf("Completed after %d iterations using %d threads\n", iterationNum, numCurrentThreads);
     /*for (i = 0; i < arraySize; i++) {
