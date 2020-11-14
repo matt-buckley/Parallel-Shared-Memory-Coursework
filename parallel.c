@@ -72,6 +72,7 @@ void *averageRows(void *arguments) {
             col = 1;
         }
         elementsToProcess--;
+
     }
 
     /*int currentRow;
@@ -102,7 +103,7 @@ void createThreads(int elementLoc, int elementsToProcess, pthread_t *threadArray
 int main(int argc, char *argv[]) {
 
     // Any way to make these const?
-    arraySize = 5;
+    arraySize = 18;
     precision = 0.001;
     // For iteration
     int i, j;
@@ -113,7 +114,7 @@ int main(int argc, char *argv[]) {
     }
 
     // Define default thread count based on number of threads
-    int numThreads = arraySize - 2;
+    int numThreads = 16;
 
     // Define precision
     if (argc > 2) {
@@ -181,9 +182,10 @@ int main(int argc, char *argv[]) {
     }
     else {
         // Random integers between 0 and RAND_MAX
-        /*for (i = 0; i < arraySize; i++) {
+        /*srand(5);
+        for (i = 0; i < arraySize; i++) {
             for (j = 0; j < arraySize; j++) {
-                testArray[i][j] = rand();
+                testArray[i][j] = rand() / (double) RAND_MAX;
             }
         }*/
 
@@ -314,13 +316,14 @@ int main(int argc, char *argv[]) {
 
     } while (precisionMetForAll == false); //comparison here as will already do at least once
 
-    printf("Completed after %d iterations using %d threads\n", iterationNum, numCurrentThreads);
-    /*for (i = 0; i < arraySize; i++) {
+    printf("Completed after %d iterations using %d threads.\n", iterationNum, numCurrentThreads);
+    FILE *file = fopen("resultParallel.txt", "w");
+    for (i = 0; i < arraySize; i++) {
         for (j = 0; j < arraySize; j++) {
-            printf("%f\t", testArray[i][j]);
+           fprintf(file, "%f", testArray[i][j]);
         }
-        printf("\n");
-    }*/
+        fprintf(file, "\n");
+    }
 
     return 0;
 

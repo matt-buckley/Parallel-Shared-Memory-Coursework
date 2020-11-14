@@ -1,4 +1,6 @@
-Automate testing for different sizes and different values
+Correctness testing
+Barriers
+Automate testing for different sizes and different values (enter same seed in through command line)
 Automate speedup and efficiency calculations
 Implement improved speedup
 Write report

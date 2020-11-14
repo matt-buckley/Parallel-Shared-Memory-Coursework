@@ -19,7 +19,7 @@ double meanOfFour(double *nums) {
 int main(int argc, char *argv[]) {
 
     // Any way to make these const?
-    int arraySize = 5;
+    int arraySize = 18;
     double precision = 0.001;
     // For iteration
     int i, j;
@@ -65,9 +65,10 @@ int main(int argc, char *argv[]) {
     }
     else {
         // Random integers between 0 and RAND_MAX
-        /*for (i = 0; i < arraySize; i++) {
+        /*srand(5);
+        for (i = 0; i < arraySize; i++) {
             for (j = 0; j < arraySize; j++) {
-                testArray[i][j] = rand();
+                testArray[i][j] = rand() / (double) RAND_MAX;
             }
         }*/
 
@@ -80,17 +81,6 @@ int main(int argc, char *argv[]) {
                 else {
                     testArray[i][j] = 0.0;
                 }
-            }
-        }
-    }
-
-    for (i = 0; i < arraySize; i++) {
-        for (j = 0; j < arraySize; j++) {
-            if (i == 0 || j == 0 || i == arraySize - 1 || j == arraySize - 1) {
-                testArray[i][j] = 1.0;
-            }
-            else {
-                testArray[i][j] = 0.0;
             }
         }
     }
@@ -138,13 +128,14 @@ int main(int argc, char *argv[]) {
 
     } while (biggestDiff > precision); //comparison here as will already do at least once
 
-    printf("Completed sequentially after %d iterations\n", iterationNum);
-    /*for (i = 0; i < arraySize; i++) {
+    printf("Completed sequentially after %d iterations.\n", iterationNum);
+    FILE *file = fopen("resultSequential.txt", "w");
+    for (i = 0; i < arraySize; i++) {
         for (j = 0; j < arraySize; j++) {
-            printf("%f\t", testArray[i][j]);
+            fprintf(file, "%f", testArray[i][j]);
         }
-        printf("\n");
-    }*/
+        fprintf(file, "\n");
+    }
 
     return 0;
 
