@@ -132,9 +132,6 @@ int main(int argc, char *argv[]) {
             printf("Invalid number of threads - please enter -1 to use the default");
             return 0;
         }
-        if (numThreads == -1) {
-            numThreads = arraySize - 2;
-        }
 
 
 
