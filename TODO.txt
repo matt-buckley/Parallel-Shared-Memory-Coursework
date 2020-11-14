@@ -1,8 +1,8 @@
 Correctness testing
 Barriers
+File input for custom arrays
 Automate testing for different sizes and different values (enter same seed in through command line)
 Automate speedup and efficiency calculations
 Implement improved speedup
 Write report
-Correctness testing
 Investigate superlinear speedup (e.g. caches)
