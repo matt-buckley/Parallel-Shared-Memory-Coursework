@@ -113,6 +113,8 @@ int main(int argc, char *argv[]) {
         arraySize = atoi(argv[1]);
     }
 
+    int numMutableElements = (arraySize - 2) * (arraySize - 2);
+
     // Define default thread count based on number of threads
     int numThreads = 16;
 
@@ -241,26 +243,26 @@ int main(int argc, char *argv[]) {
     int numCurrentThreads;
     int elementLoc; // CAN REUSE i INSTEAD ONCE DEBUGGING COMPLETE
 
-    if (numThreads > (arraySize - 2) * (arraySize - 2)) {
+    if (numThreads > numMutableElements) {
         printf("Error - cannot be more threads than there are mutable elements in array. Reducing number of threads to this value.\n");
-        numThreads = (arraySize - 2) * (arraySize - 2);
+        numThreads = numMutableElements;
     }
     
-    elementsPerThread = (arraySize - 2) * (arraySize - 2) / numThreads;
-    numThreadsWithAnExtraElement = (arraySize - 2) * (arraySize - 2) % numThreads;
+    elementsPerThread = numMutableElements / numThreads;
+    numThreadsWithAnExtraElement = numMutableElements % numThreads;
 
     //pthread_barrier_t barrier;
     //pthread_barrier_init(&barrier, NULL, arraySize - 1);
     do {
 
         numCurrentThreads = 0;
-        numThreadsWithAnExtraElement = (arraySize - 2) * (arraySize - 2) % numThreads; // is a caluclation or a memory fetch faster here?
+        numThreadsWithAnExtraElement = numMutableElements % numThreads; // is a caluclation or a memory fetch faster here?
         precisionMetForAll = true;
 
         // Only operates inside the mutable grid
         //printf("elementsPerThread: %d\n", elementsPerThread);
         //printf("numThreadsWithAnExtraELement: %d\n", numThreadsWithAnExtraElement);
-        for (elementLoc = 1; elementLoc <= ((arraySize - 2) * (arraySize - 2));) {
+        for (elementLoc = 1; elementLoc <= numMutableElements;) {
             if (elementLoc < 0) {
                 printf("elementsPerThread: %d\n", elementsPerThread);
                 printf("numThreadsWithAnExtraELement: %d\n", numThreadsWithAnExtraElement);
