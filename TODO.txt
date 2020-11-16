@@ -1,3 +1,4 @@
+Swap memory pointers to copy newArray to tesArray
 Correctness testing
 Barriers
 File input for custom arrays
