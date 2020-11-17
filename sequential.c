@@ -2,15 +2,16 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#include <stdbool.h>
 
 // This is always going to be 4, and passing more arguments to make it reusable would increase unnecessary communication
 // Should this even be in a function?
 double meanOfFour(double *nums, double **iterableArray) {
     double sum = 0;
 
-    int i;
-    for (i = 0; i < 4; i++) {
-        sum += nums[i];
+    int row;
+    for (row = 0; row < 4; row++) {
+        sum += nums[row];
     }
 
     return sum / 4;
@@ -22,7 +23,7 @@ int main(int argc, char *argv[]) {
     int arraySize = 18;
     double precision = 0.001;
     // For iteration
-    int i, j;
+    int row, col;
 
     // Define dimension
     if (argc > 1) {
@@ -40,8 +41,8 @@ int main(int argc, char *argv[]) {
     }
     
     double **finalArray = (double **) malloc(arraySize * sizeof(double *));
-    for (i = 0; i < arraySize; i++) {
-        finalArray[i] = (double *) malloc(arraySize * sizeof(double));
+    for (row = 0; row < arraySize; row++) {
+        finalArray[row] = (double *) malloc(arraySize * sizeof(double));
     }
 
     if (argc > 3) {
@@ -52,41 +53,42 @@ int main(int argc, char *argv[]) {
         }
         */
         int argcCounter;
-        i = -1;
-        j = 0;
+        row = -1;
+        col = 0;
         char *temp;
         for (argcCounter = 3; argcCounter < argc; argcCounter++) {
             // Reset to start of next line
             if (((argcCounter - 3) % arraySize) == 0) {
-                i += 1;
-                j = 0;
+                row += 1;
+                col = 0;
             }
             else {
-                j += 1;
+                col += 1;
             }  
-            finalArray[i][j] = strtod(argv[argcCounter], &temp);
+            finalArray[row][col] = strtod(argv[argcCounter], &temp);
         }
     }
     else {
         // Random integers between 0 and RAND_MAX
         /*srand(5);
-        for (i = 0; i < arraySize; i++) {
-            for (j = 0; j < arraySize; j++) {
-                finalArray[i][j] = rand() / (double) RAND_MAX;
+        for (row = 0; row < arraySize; row++) {
+            for (col = 0; col < arraySize; col++) {
+                finalArray[row][col] = rand() / (double) RAND_MAX;
             }
         }*/
 
         // 1.0s on outside
-        for (i = 0; i < arraySize; i++) {
-            for (j = 0; j < arraySize; j++) {
-                if (i == 0 || j == 0 || i == arraySize - 1 || j == arraySize - 1) {
-                    finalArray[i][j] = 1.0;
+        for (row = 0; row < arraySize; row++) {
+            for (col = 0; col < arraySize; col++) {
+                if (row == 0 || col == 0 || row == arraySize - 1 || col == arraySize - 1) {
+                    finalArray[row][col] = 1.0;
                 }
                 else {
-                    finalArray[i][j] = 0.0;
+                    finalArray[row][col] = 0.0;
                 }
             }
         }
+
     }
 
     // A lot of this needs changing, including nested for loops, assigning values unnecessarily, and more
@@ -94,28 +96,34 @@ int main(int argc, char *argv[]) {
 
     // Here as does all calculations on 'old' values before updating, rather than
     double **iterableArray = (double **) malloc(arraySize * sizeof(double *));
-    for (i = 0; i < arraySize; i++) {
-        iterableArray[i] = (double *) malloc(arraySize * sizeof(double));
+    for (row = 0; row < arraySize; row++) {
+        iterableArray[row] = (double *) malloc(arraySize * sizeof(double));
     }
 
-    for (i = 0; i < arraySize; i++) {
-        for (j = 0; j < arraySize; j++) {
-            iterableArray[i][j] = finalArray[i][j];
+    for (row = 0; row < arraySize; row++) {
+        for (col = 0; col < arraySize; col++) {
+            if (row == 0 || col == 0 || row == arraySize - 1 || col == arraySize - 1) {
+                iterableArray[row][col] = 1.0;
+            }
+            else {
+                iterableArray[row][col] = 0.0;
+            }
         }
     }
     
-    double biggestDiff;
+    bool precisionMetForAll;
     int k;
     do {
-        biggestDiff = 0.0;
-        for (i = 1; i < arraySize - 1; i++) {
-            for (j = 1; j < arraySize - 1; j++) {
+        precisionMetForAll = true;
+        for (row = 1; row < arraySize - 1; row++) {
+            for (col = 1; col < arraySize - 1; col++) {
                 
-                iterableArray[i][j] = (finalArray[row - 1][col] + finalArray[row][col - 1] + finalArray[row + 1][col] + finalArray[row][col + 1]) / 4;
+                iterableArray[row][col] = (finalArray[row - 1][col] + finalArray[row][col - 1] + finalArray[row + 1][col] + finalArray[row][col + 1]) / 4;
 
-                double diff = fabs(finalArray[i][j] - iterableArray[i][j]);
-                if (diff > biggestDiff) {
-                    biggestDiff = diff;
+                if (precisionMetForAll == true) { // if 0, do nothing because at least one value is still > precision
+                    if (fabs(finalArray[row][col] - iterableArray[row][col]) > precision) {
+                        precisionMetForAll = false;
+                    }
                 }
             }
         }
@@ -125,21 +133,21 @@ int main(int argc, char *argv[]) {
         finalArray = iterableArray;
         iterableArray = tmp;
 
-        /*for (i = 0; i < arraySize; i++) {
-            for (j = 0; j < arraySize; j++) {
-                printf("%f\t", iterableArray[i][j]);
+        /*for (row = 0; row < arraySize; row++) {
+            for (col = 0; col < arraySize; col++) {
+                printf("%f\t", iterableArray[row][col]);
             }
             printf("\n");
         }
         printf("\n");*/
 
-    } while (biggestDiff > precision); //comparison here as will already do at least once
+    } while (precisionMetForAll == false); //comparison here as will already do at least once
 
     printf("Completed sequentially after %d iterations.\n", iterationNum);
     FILE *file = fopen("resultSequential.txt", "w");
-    for (i = 0; i < arraySize; i++) {
-        for (j = 0; j < arraySize; j++) {
-            fprintf(file, "%f,", finalArray[i][j]);
+    for (row = 0; row < arraySize; row++) {
+        for (col = 0; col < arraySize; col++) {
+            fprintf(file, "%f,", finalArray[row][col]);
         }
         fprintf(file, "\n");
     }
