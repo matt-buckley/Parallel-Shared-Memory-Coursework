@@ -5,7 +5,7 @@
 
 // This is always going to be 4, and passing more arguments to make it reusable would increase unnecessary communication
 // Should this even be in a function?
-double meanOfFour(double *nums) {
+double meanOfFour(double *nums, double **iterableArray) {
     double sum = 0;
 
     int i;
@@ -38,7 +38,11 @@ int main(int argc, char *argv[]) {
             return 0;
         }
     }
-    double testArray[arraySize][arraySize];
+    
+    double **finalArray = (double **) malloc(arraySize * sizeof(double *));
+    for (i = 0; i < arraySize; i++) {
+        finalArray[i] = (double *) malloc(arraySize * sizeof(double));
+    }
 
     if (argc > 3) {
         /* Omitted because requires using -lm compile flag
@@ -60,7 +64,7 @@ int main(int argc, char *argv[]) {
             else {
                 j += 1;
             }  
-            testArray[i][j] = strtod(argv[argcCounter], &temp);
+            finalArray[i][j] = strtod(argv[argcCounter], &temp);
         }
     }
     else {
@@ -68,7 +72,7 @@ int main(int argc, char *argv[]) {
         /*srand(5);
         for (i = 0; i < arraySize; i++) {
             for (j = 0; j < arraySize; j++) {
-                testArray[i][j] = rand() / (double) RAND_MAX;
+                finalArray[i][j] = rand() / (double) RAND_MAX;
             }
         }*/
 
@@ -76,10 +80,10 @@ int main(int argc, char *argv[]) {
         for (i = 0; i < arraySize; i++) {
             for (j = 0; j < arraySize; j++) {
                 if (i == 0 || j == 0 || i == arraySize - 1 || j == arraySize - 1) {
-                    testArray[i][j] = 1.0;
+                    finalArray[i][j] = 1.0;
                 }
                 else {
-                    testArray[i][j] = 0.0;
+                    finalArray[i][j] = 0.0;
                 }
             }
         }
@@ -89,38 +93,41 @@ int main(int argc, char *argv[]) {
     int iterationNum = 0;
 
     // Here as does all calculations on 'old' values before updating, rather than
-    double newArray[arraySize][arraySize];
-    memcpy(newArray, testArray, arraySize * arraySize * sizeof(double));
-    /*for (i = 0; i < arraySize; i++) {
-        for (j = 0; j < arraySize; j++) {
-            printf("%f\t", newArray[i][j]);
-        }
-        printf("\n");
+    double **iterableArray = (double **) malloc(arraySize * sizeof(double *));
+    for (i = 0; i < arraySize; i++) {
+        iterableArray[i] = (double *) malloc(arraySize * sizeof(double));
     }
-    printf("\n");*/
+
+    for (i = 0; i < arraySize; i++) {
+        for (j = 0; j < arraySize; j++) {
+            iterableArray[i][j] = finalArray[i][j];
+        }
+    }
     
     double biggestDiff;
+    int k;
     do {
         biggestDiff = 0.0;
-        for (i = 0; i < arraySize; i++) {
-            for (j = 0; j < arraySize; j++) {
-                if (i != 0 && j != 0 && i != arraySize - 1 && j != arraySize - 1) {
-                    double nums[4] = {testArray[i-1][j], testArray[i][j-1], testArray[i+1][j], testArray[i][j+1]};
-                    double avg = meanOfFour(nums);
-                    double diff = fabs(testArray[i][j] - avg);
-                    newArray[i][j] = avg;
-                    if (diff > biggestDiff) {
-                        biggestDiff = diff;
-                    }
+        for (i = 1; i < arraySize - 1; i++) {
+            for (j = 1; j < arraySize - 1; j++) {
+                
+                iterableArray[i][j] = (finalArray[row - 1][col] + finalArray[row][col - 1] + finalArray[row + 1][col] + finalArray[row][col + 1]) / 4;
+
+                double diff = fabs(finalArray[i][j] - iterableArray[i][j]);
+                if (diff > biggestDiff) {
+                    biggestDiff = diff;
                 }
             }
         }
         iterationNum += 1;
-        memcpy(testArray, newArray, arraySize * arraySize * sizeof(double));
+        
+        double **tmp = finalArray;
+        finalArray = iterableArray;
+        iterableArray = tmp;
 
         /*for (i = 0; i < arraySize; i++) {
             for (j = 0; j < arraySize; j++) {
-                printf("%f\t", newArray[i][j]);
+                printf("%f\t", iterableArray[i][j]);
             }
             printf("\n");
         }
@@ -132,7 +139,7 @@ int main(int argc, char *argv[]) {
     FILE *file = fopen("resultSequential.txt", "w");
     for (i = 0; i < arraySize; i++) {
         for (j = 0; j < arraySize; j++) {
-            fprintf(file, "%f", testArray[i][j]);
+            fprintf(file, "%f,", finalArray[i][j]);
         }
         fprintf(file, "\n");
     }

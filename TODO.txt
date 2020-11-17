@@ -1,9 +1,8 @@
-Swap memory pointers to copy newArray to tesArray
-Correctness testing
 Barriers
 File input for custom arrays
 Automate testing for different sizes and different values (enter same seed in through command line)
 Automate speedup and efficiency calculations
-Implement improved speedup
+Implement improved speedup (e.g. re-use threads, add option to do rows to reduce calculations)
 Write report
 Investigate superlinear speedup (e.g. caches)
+Comment EVERYTHING

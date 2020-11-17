@@ -12,20 +12,20 @@ struct startFunctionArguments {
     int elementLoc;
     int elementsToProcess;
 };
-double **newArray;
-double **testArray;
+double **iterableArray;
+double **finalArray;
 bool precisionMetForAll;
 
 // This is always going to be 4, and passing more arguments to make it reusable would increase unnecessary communication
 // Should this even be in a function?
 /*double meanOfFour(int i, int j, int test) {
     
-    double sum = testArray[i-1][j] + testArray[i][j-1] + testArray[i+1][j] + testArray[i][j+1]; //optimise this
+    double sum = finalArray[i-1][j] + finalArray[i][j-1] + finalArray[i+1][j] + finalArray[i][j+1]; //optimise this
 
     if (test != 1) {
-        newArray[i][j] = sum / 4;
+        iterableArray[i][j] = sum / 4;
     } else {
-        return newArray[i][j];
+        return iterableArray[i][j];
     }
 
     //return sum / 4; // calculating again should be faster than fetching from memory
@@ -39,28 +39,15 @@ void *averageRows(void *arguments) {
     int elementLoc = args -> elementLoc;
     int elementsToProcess = args -> elementsToProcess;
 
-    //printf("elementLoc: %d\n", elementLoc);
-    //printf("elementsToProcess: %d\n", elementsToProcess);
     int row = ((elementLoc - 1) / (arraySize - 2)) + 1;
     int col = (elementLoc - ((row - 1) * (arraySize - 2)));
-    //printf("Initial row: %d\n", row);
-    //printf("Initial column: %d\n", col);
-    //printf("\n");
 
     while (elementsToProcess > 0) {
-        //if (row > arraySize - 2 || col > arraySize - 2) {
-        /*    printf("elementLoc: %d\n", args -> elementLoc);
-            printf("elementsToProcess: %d\n", args -> elementsToProcess);
-            printf("Initial row: %d\n", ((elementLoc - 1) / (arraySize - 2)) + 1);
-            printf("Initial column: %d\n", (elementLoc - ((((elementLoc - 1) / (arraySize - 2)) + 1) - 1) * (arraySize - 2)));
-            printf("Row: %d\n", row);
-            printf("Column: %d\n\n", col);
-        *///}
-        double sum = testArray[row - 1][col] + testArray[row][col - 1] + testArray[row + 1][col] + testArray[row][col + 1];
-        newArray[row][col] = sum / 4;
+
+        iterableArray[row][col] = (finalArray[row - 1][col] + finalArray[row][col - 1] + finalArray[row + 1][col] + finalArray[row][col + 1]) / 4;
 
         if (precisionMetForAll == true) { // if 0, do nothing because at least one value is still > precision
-            double diff = fabs(testArray[row][col] - newArray[row][col]);
+            double diff = fabs(finalArray[row][col] - iterableArray[row][col]);
             if (diff > precision) {
                 precisionMetForAll = false;
             }
@@ -74,15 +61,6 @@ void *averageRows(void *arguments) {
         elementsToProcess--;
 
     }
-
-    /*int currentRow;
-    int currentCol;
-    for (currentRow = row; currentRow < row + rowsToProcess; currentRow++) {
-        for (col = 1; col < arraySize - 1; col++) {
-            double sum = testArray[currentRow - 1][col] + testArray[currentRow][col - 1] + testArray[currentRow + 1][col] + testArray[currentRow][col + 1];
-            newArray[currentRow][col] = sum / 4;
-        }
-    }*/
 
     //pthread_barrier_wait(args -> barrier);
 }
@@ -102,10 +80,9 @@ void createThreads(int elementLoc, int elementsToProcess, pthread_t *threadArray
 
 int main(int argc, char *argv[]) {
 
-    // Any way to make these const?
     arraySize = 18;
     precision = 0.001;
-    // For iteration
+    // For iteration, must be defined before use in loop when using Balena's compiler.
     int i, j;
 
     // Define dimension
@@ -147,9 +124,9 @@ int main(int argc, char *argv[]) {
     // A lot of this needs changing, including nested for loops, assigning values unnecessarily, and more
     int iterationNum = 0;
 
-    testArray = (double **) malloc(arraySize * sizeof(double *));
+    finalArray = (double **) malloc(arraySize * sizeof(double *));
     for (i = 0; i < arraySize; i++) {
-        testArray[i] = (double *) malloc(arraySize * sizeof(double));
+        finalArray[i] = (double *) malloc(arraySize * sizeof(double));
     }
     
     // Still need to ensure that:
@@ -176,7 +153,7 @@ int main(int argc, char *argv[]) {
             else {
                 j += 1;
             }  
-            testArray[i][j] = strtod(argv[argcCounter], &temp);
+            finalArray[i][j] = strtod(argv[argcCounter], &temp);
         }
     }
     else {
@@ -184,7 +161,7 @@ int main(int argc, char *argv[]) {
         /*srand(5);
         for (i = 0; i < arraySize; i++) {
             for (j = 0; j < arraySize; j++) {
-                testArray[i][j] = rand() / (double) RAND_MAX;
+                finalArray[i][j] = rand() / (double) RAND_MAX;
             }
         }*/
 
@@ -192,10 +169,10 @@ int main(int argc, char *argv[]) {
         for (i = 0; i < arraySize; i++) {
             for (j = 0; j < arraySize; j++) {
                 if (i == 0 || j == 0 || i == arraySize - 1 || j == arraySize - 1) {
-                    testArray[i][j] = 1.0;
+                    finalArray[i][j] = 1.0;
                 }
                 else {
-                    testArray[i][j] = 0.0;
+                    finalArray[i][j] = 0.0;
                 }
             }
         }
@@ -205,7 +182,7 @@ int main(int argc, char *argv[]) {
     if (arraySize < 3) { // array has no mutable values
         for (i = 0; i < arraySize; i++) {
             for (j = 0; j < arraySize; j++) {
-                printf("%f\t", testArray[i][j]);
+                printf("%f\t", finalArray[i][j]);
             }
         }
         printf("\n");
@@ -215,23 +192,20 @@ int main(int argc, char *argv[]) {
 
 
     // Here as does all calculations on 'old' values before updating, rather than
-    newArray = (double **) malloc(arraySize * sizeof(double *));
+    iterableArray = (double **) malloc(arraySize * sizeof(double *));
     for (i = 0; i < arraySize; i++) {
-        newArray[i] = (double *) malloc(arraySize * sizeof(double));
+        iterableArray[i] = (double *) malloc(arraySize * sizeof(double));
     }
 
-    //double newArray[arraySize][arraySize];
-    // Can't use memcpy() as this copies the pointers rather than the values
-    //memcpy(newArray, testArray, arraySize * arraySize * sizeof(double));
     for (i = 0; i < arraySize; i++) {
         for (j = 0; j < arraySize; j++) {
-            newArray[i][j] = testArray[i][j];
+            iterableArray[i][j] = finalArray[i][j];
         }
     }
 
     /*for (i = 0; i < arraySize; i++) {
         for (j = 0; j < arraySize; j++) {
-            printf("%f\t", newArray[i][j]);
+            printf("%f\t", iterableArray[i][j]);
         }
         printf("\n");
     }
@@ -296,17 +270,15 @@ int main(int argc, char *argv[]) {
         }
 
         iterationNum += 1;
-        //memcpy(testArray, newArray, arraySize * arraySize * sizeof(double));
-        for (i = 0; i < arraySize; i++) {
-            for (j = 0; j < arraySize; j++) {
-                testArray[i][j] = newArray[i][j];
-            }
-        }
+        
+        double **tmp = finalArray;
+        finalArray = iterableArray;
+        iterableArray = tmp;
 
-
+        // To print array at the end of each iteration
         /*for (i = 0; i < arraySize; i++) {
             for (j = 0; j < arraySize; j++) {
-                printf("%f\t", newArray[i][j]);
+                printf("%f\t", iterableArray[i][j]);
             }
             printf("\n");
         }
@@ -319,7 +291,7 @@ int main(int argc, char *argv[]) {
     FILE *file = fopen("resultParallel.txt", "w");
     for (i = 0; i < arraySize; i++) {
         for (j = 0; j < arraySize; j++) {
-           fprintf(file, "%f", testArray[i][j]);
+           fprintf(file, "%f,", finalArray[i][j]);
         }
         fprintf(file, "\n");
     }
