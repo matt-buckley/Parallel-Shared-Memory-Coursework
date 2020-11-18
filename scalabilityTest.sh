@@ -1,6 +1,7 @@
 #!/bin/bash
 
-gcc parallel.c -lpthread -o parallel.out
+#gcc parallel.c -lpthread -o parallel.out
+gcc sequential.c -o sequential.out
 
 for arraySize in 100 500 1000 2000 3000 4000 5000 6000 7000
 do
@@ -26,9 +27,10 @@ do
         echo "#SBATCH --account=cm30225" >> singleScaleTest.slurm
         echo "#SBATCH --partition=teaching" >> singleScaleTest.slurm
         echo "#SBATCH --job-name=Run_Test" >> singleScaleTest.slurm
-        echo "#SBATCH --output=results-$arraySize-$priority-$threadNum.out" >> singleScaleTest.slurm
+        echo "#SBATCH --output=sequential-results-$arraySize-$priority-$threadNum.out" >> singleScaleTest.slurm
         echo "#SBATCH --nodes=1" >> singleScaleTest.slurm
-        echo "perf stat -r $runNumber ./parallel.out $arraySize $priority $threadNum" >> singleScaleTest.slurm
+        #echo "perf stat -r $runNumber ./parallel.out $arraySize $priority $threadNum" >> singleScaleTest.slurm
+        echo "perf stat -r $runNumber ./sequential.out $arraySize $priority" >> singleScaleTest.slurm
         sbatch singleScaleTest.slurm
         #done
     done
