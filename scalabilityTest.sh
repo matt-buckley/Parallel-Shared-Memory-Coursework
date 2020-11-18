@@ -23,17 +23,24 @@ do
 
         rm singleScaleTest.slurm
         echo "#!/bin/bash" >> singleScaleTest.slurm
-        echo "# Account &  partition (must have these)" >> singleScaleTest.slurm
         echo "#SBATCH --account=cm30225" >> singleScaleTest.slurm
         echo "#SBATCH --partition=teaching" >> singleScaleTest.slurm
-        echo "# Name of job (optional)" >> singleScaleTest.slurm
         echo "#SBATCH --job-name=Run_Test" >> singleScaleTest.slurm
         echo "#SBATCH --output=results-$arraySize-$priority-$threadNum.out" >> singleScaleTest.slurm
-        echo "# One node" >> singleScaleTest.slurm
         echo "#SBATCH --nodes=1" >> singleScaleTest.slurm
-        echo "# Any normal shell stuff" >> singleScaleTest.slurm
-        echo perf stat -r $runNumber ./parallel.out $arraySize $priority $threadNum >> singleScaleTest.slurm
+        echo "perf stat -r $runNumber ./parallel.out $arraySize $priority $threadNum" >> singleScaleTest.slurm
         sbatch singleScaleTest.slurm
         #done
     done
 done
+
+rm singleScaleTest.slurm
+echo "#!/bin/bash" >> singleScaleTest.slurm
+echo "#SBATCH --account=cm30225" >> singleScaleTest.slurm
+echo "#SBATCH --partition=teaching" >> singleScaleTest.slurm
+echo "#SBATCH --job-name=Finalise" >> singleScaleTest.slurm
+echo "#SBATCH --nodes=1" >> singleScaleTest.slurm
+echo "#SBATCH --mail-type=END" >> singleScaleTest.slurm
+echo "#SBATCH --mail-user=mcb68@bath.ac.uk" >> singleScaleTest.slurm
+echo "echo finished" >> singleScaleTest.slurm
+rm singleScaleTest.slurm
