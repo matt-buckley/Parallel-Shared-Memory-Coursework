@@ -205,7 +205,9 @@ int main(int argc, char *argv[]) {
 
     for (row = 0; row < arraySize; row++) {
         for (col = 0; col < arraySize; col++) {
-            iterableArray[row][col] = finalArray[row][col];
+            if (row == 0 || col == 0 || row == arraySize - 1 || col == arraySize - 1) {
+                iterableArray[row][col] = finalArray[row][col];
+            }
         }
     }
 

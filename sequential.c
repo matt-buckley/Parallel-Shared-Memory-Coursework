@@ -105,7 +105,9 @@ int main(int argc, char *argv[]) {
 
     for (row = 0; row < arraySize; row++) {
         for (col = 0; col < arraySize; col++) {
-            iterableArray[row][col] = finalArray[row][col];
+            if (row == 0 || col == 0 || row == arraySize - 1 || col == arraySize - 1) {
+                iterableArray[row][col] = finalArray[row][col];
+            }
         }
     }
     
@@ -142,7 +144,7 @@ int main(int argc, char *argv[]) {
     } while (precisionMetForAll == false); //comparison here as will already do at least once
 
     // ONLY NEEDED FOR CORRECTNESS TESTING
-    //printf("Completed sequentially after %d iterations.\n", iterationNum);
+    printf("Completed sequentially after %d iterations.\n", iterationNum);
     char filename[25] = "resultSequential-";
     strcat(filename, arraySizeStr);
     strcat(filename, ".txt");

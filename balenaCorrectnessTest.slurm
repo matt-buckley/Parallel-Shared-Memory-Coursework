@@ -9,14 +9,16 @@
 #SBATCH --nodes=1
 # Any normal shell stuff
 
+arraySize=100
+
 # Try with -Wall
 gcc parallel.c -lpthread -o parallel.out
-perf stat ./parallel.out 7000
+perf stat ./parallel.out $arraySize
 
 gcc sequential.c -o sequential.out
-perf stat ./sequential.out 7000
+perf stat ./sequential.out $arraySize
 
-if cmp -s "resultParallel-16-7000.txt" "resultSequential-7000.txt"; then
+if cmp -s "resultParallel-16-$arraySize.txt" "resultSequential-$arraySize.txt"; then
     echo "Correct"
 else
     echo "Incorrect"
