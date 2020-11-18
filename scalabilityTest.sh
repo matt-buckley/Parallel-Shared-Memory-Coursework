@@ -43,4 +43,5 @@ echo "#SBATCH --nodes=1" >> singleScaleTest.slurm
 echo "#SBATCH --mail-type=END" >> singleScaleTest.slurm
 echo "#SBATCH --mail-user=mcb68@bath.ac.uk" >> singleScaleTest.slurm
 echo "echo finished" >> singleScaleTest.slurm
+sbatch singleScaleTest.slurm
 rm singleScaleTest.slurm
