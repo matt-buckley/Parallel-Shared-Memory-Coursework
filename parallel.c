@@ -116,13 +116,13 @@ int main(int argc, char *argv[]) {
     // - Full number of array elements is entered
     // - Entered array matches given array dimensions
     // Maybe just mention it may not work if incorrect in report
-    if (argc > 4) {
-        /* Omitted because requires using -lm compile flag
-        if ((int) sqrt((double )argc - 4) != arraySize) {
-            printf("Error - entered array does not match array size.");
-            return 0;
-        }
-        */
+    /*if (argc > 4) {
+        // Omitted because requires using -lm compile flag
+        //if ((int) sqrt((double )argc - 4) != arraySize) {
+        //    printf("Error - entered array does not match array size.");
+        //    return 0;
+        //}
+        
         int argcCounter;
         row = -1;
         col = 0;
@@ -138,15 +138,27 @@ int main(int argc, char *argv[]) {
             }  
             finalArray[row][col] = strtod(argv[argcCounter], &temp);
         }
+    }*/
+    if (argc > 4) {
+        FILE *file = fopen(argv[4], "r");
+        char *tempChar;
+        char *buff = malloc(20 * sizeof(char)); // more than enough to hold the number of decimal points a C double can possess (IEEE 754 encoding)
+        for (row = 0; row < arraySize; row++) {
+            for (col = 0; col < arraySize; col++) {
+                fscanf(file, "%s ", buff);
+                finalArray[row][col] = strtod(buff, &tempChar);
+            }
+        }
+        fclose(file);
     }
     else {
         // Random integers between 0 and RAND_MAX
-        /*srand(5);
-        for (row = 0; row < arraySize; row++) {
-            for (col = 0; col < arraySize; col++) {
-                finalArray[row][col] = rand() / (double) RAND_MAX;
-            }
-        }*/
+        //srand(5);
+        //for (row = 0; row < arraySize; row++) {
+        //    for (col = 0; col < arraySize; col++) {
+        //        finalArray[row][col] = rand() / (double) RAND_MAX;
+        //    }
+        //}
 
         // 1.0s on outside
         for (row = 0; row < arraySize; row++) {
@@ -160,7 +172,6 @@ int main(int argc, char *argv[]) {
             }
         }
     }
-
 
     if (arraySize < 3) { // array has no mutable values
         for (row = 0; row < arraySize; row++) {
@@ -206,7 +217,7 @@ int main(int argc, char *argv[]) {
     int elementLoc; // CAN REUSE row INSTEAD ONCE DEBUGGING COMPLETE
 
     if (numThreads > numMutableElements) {
-        printf("Error - cannot be more threads than there are mutable elements in array. Reducing number of threads to this value.\n");
+        printf("Cannot use this many threads (default 16) as there are more threads than there are mutable elements in array. Reducing number of threads to this value.\n");
         numThreads = numMutableElements;
     }
     

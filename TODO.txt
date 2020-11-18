@@ -1,4 +1,3 @@
-File input for custom arrays
 Automate testing for different sizes and different values (enter same random seed in through command line)
 Automate speedup and efficiency calculations
 
