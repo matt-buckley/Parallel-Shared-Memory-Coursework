@@ -14,35 +14,45 @@ struct startFunctionArguments {
 double **iterableArray;
 double **finalArray;
 bool precisionMetForAll;
+pthread_barrier_t barrier;
 
 // Can just combine this with the function above
 void averageRows(void *arguments) {
 
-    struct startFunctionArguments *args = (struct startFunctionArguments *) arguments;
+    while (true) {
 
-    int elementLoc = args -> elementLoc;
-    int elementsToProcess = args -> elementsToProcess;
+        struct startFunctionArguments *args = (struct startFunctionArguments *) arguments;
 
-    int row = ((elementLoc - 1) / (arraySize - 2)) + 1;
-    int col = (elementLoc - ((row - 1) * (arraySize - 2)));
+        int elementLoc = args -> elementLoc;
+        int elementsToProcess = args -> elementsToProcess;
 
-    while (elementsToProcess > 0) {
+        int row = ((elementLoc - 1) / (arraySize - 2)) + 1;
+        int col = (elementLoc - ((row - 1) * (arraySize - 2)));
 
-        iterableArray[row][col] = (finalArray[row - 1][col] + finalArray[row][col - 1] + finalArray[row + 1][col] + finalArray[row][col + 1]) / 4;
+        while (elementsToProcess > 0) {
 
-        if (precisionMetForAll == true) { // if 0, do nothing because at least one value is still > precision
-            double diff = fabs(finalArray[row][col] - iterableArray[row][col]);
-            if (diff > precision) {
-                precisionMetForAll = false;
+            iterableArray[row][col] = (finalArray[row - 1][col] + finalArray[row][col - 1] + finalArray[row + 1][col] + finalArray[row][col + 1]) / 4;
+
+            if (precisionMetForAll == true) { // if 0, do nothing because at least one value is still > precision
+                double diff = fabs(finalArray[row][col] - iterableArray[row][col]);
+                if (diff > precision) {
+                    precisionMetForAll = false;
+                }
             }
+
+            col += 1;
+            if (col == arraySize - 1) {
+                row += 1;
+                col = 1;
+            }
+            elementsToProcess--;
+
         }
 
-        col += 1;
-        if (col == arraySize - 1) {
-            row += 1;
-            col = 1;
-        }
-        elementsToProcess--;
+        // To ensure all threads are finished
+        pthread_barrier_wait(&barrier);
+        // To allow main to update arrays and check if finished
+        pthread_barrier_wait(&barrier);
 
     }
 
@@ -198,9 +208,6 @@ int main(int argc, char *argv[]) {
             if (row == 0 || col == 0 || row == arraySize - 1 || col == arraySize - 1) {
                 iterableArray[row][col] = 1.0;
             }
-            else {
-                iterableArray[row][col] = 0.0;
-            }
         }
     }
 
@@ -221,64 +228,55 @@ int main(int argc, char *argv[]) {
     if (numThreads > numMutableElements) {
         printf("Cannot use this many threads (default 16) as there are more threads than there are mutable elements in array. Reducing number of threads to this value.\n");
         numThreads = numMutableElements;
+        numThreadsStr = "X";
     }
     
     elementsPerThread = numMutableElements / numThreads;
     numThreadsWithAnExtraElement = numMutableElements % numThreads;
+    numCurrentThreads = 0;
+    precisionMetForAll = true;
+
+    pthread_barrier_init(&barrier, NULL, numThreads + 1); // total threads plus main
+
+    // Only operates inside the mutable grid
+    for (elementLoc = 1; elementLoc <= numMutableElements;) {
+        if (numThreadsWithAnExtraElement > 0) {
+            createThreads(elementLoc, elementsPerThread + 1, threadArray, numCurrentThreads);
+            numThreadsWithAnExtraElement -= 1;
+            elementLoc += (elementsPerThread + 1);
+        }
+        else {
+            createThreads(elementLoc, elementsPerThread, threadArray, numCurrentThreads);
+            elementLoc += elementsPerThread;
+        }
+        numCurrentThreads += 1;
+    }
 
     do {
 
-        numCurrentThreads = 0;
-        numThreadsWithAnExtraElement = numMutableElements % numThreads; // is a caluclation or a memory fetch faster here?
-        precisionMetForAll = true;
-
-        // Only operates inside the mutable grid
-        //printf("elementsPerThread: %d\n", elementsPerThread);
-        //printf("numThreadsWithAnExtraELement: %d\n", numThreadsWithAnExtraElement);
-        for (elementLoc = 1; elementLoc <= numMutableElements;) {
-            if (elementLoc < 0) {
-                printf("elementsPerThread: %d\n", elementsPerThread);
-                printf("numThreadsWithAnExtraELement: %d\n", numThreadsWithAnExtraElement);
-                printf("row: %d\n", elementLoc);
-                exit(0);
-            }
-            if (numThreadsWithAnExtraElement > 0) {
-                createThreads(elementLoc, elementsPerThread + 1, threadArray, numCurrentThreads);
-                numThreadsWithAnExtraElement -= 1;
-                elementLoc += (elementsPerThread + 1);
-            }
-            else {
-                createThreads(elementLoc, elementsPerThread, threadArray, numCurrentThreads);
-                elementLoc += elementsPerThread;
-            }
-            numCurrentThreads += 1;
+        if (iterationNum != 0 && precisionMetForAll == false) {
+            precisionMetForAll = true;
+            pthread_barrier_wait(&barrier);
         }
 
-        for (row = 0; row < numCurrentThreads; row++) {
-            pthread_join(threadArray[row], NULL);
-        }
+        // Ensures all threads are finalised
+        pthread_barrier_wait(&barrier);
 
         iterationNum += 1;
         
+        // Could put in function
         double **tmp = finalArray;
         finalArray = iterableArray;
         iterableArray = tmp;
 
-        // To print array at the end of each iteration
-        /*for (row = 0; row < arraySize; row++) {
-            for (col = 0; col < arraySize; col++) {
-                printf("%f\t", iterableArray[row][col]);
-            }
-            printf("\n");
-        }
-        printf("\n");*/
+        // If precisionMetForAll is false, continue iterating; else, finalise.
 
 
     } while (precisionMetForAll == false); //comparison here as will already do at least once
 
     // ONLY NEEDED FOR CORRECTNESS TESTING
-    //printf("Completed after %d iterations using %d threads.\n", iterationNum, numCurrentThreads);
-    /*char filename[25] = "resultParallel-";
+    /*printf("Completed after %d iterations using %d threads.\n", iterationNum, numCurrentThreads);
+    char filename[25] = "resultParallel-";
     strcat(filename, numThreadsStr);
     strcat(filename, "-");
     strcat(filename, arraySizeStr);

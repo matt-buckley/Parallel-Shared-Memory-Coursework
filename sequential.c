@@ -108,9 +108,6 @@ int main(int argc, char *argv[]) {
             if (row == 0 || col == 0 || row == arraySize - 1 || col == arraySize - 1) {
                 iterableArray[row][col] = 1.0;
             }
-            else {
-                iterableArray[row][col] = 0.0;
-            }
         }
     }
     
@@ -146,8 +143,9 @@ int main(int argc, char *argv[]) {
 
     } while (precisionMetForAll == false); //comparison here as will already do at least once
 
+    // ONLY NEEDED FOR CORRECTNESS TESTING
     //printf("Completed sequentially after %d iterations.\n", iterationNum);
-    char filename[25] = "resultSequential-";
+    /*char filename[25] = "resultSequential-";
     strcat(filename, arraySizeStr);
     strcat(filename, ".txt");
     FILE *file = fopen(filename, "w");
@@ -156,7 +154,7 @@ int main(int argc, char *argv[]) {
             fprintf(file, "%f,", finalArray[row][col]);
         }
         fprintf(file, "\n");
-    }
+    }*/
 
     return 0;
 
