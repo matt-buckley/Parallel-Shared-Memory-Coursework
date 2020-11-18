@@ -140,6 +140,7 @@ int main(int argc, char *argv[]) {
         }
     }*/
     if (argc > 4) {
+        printf("Reading in file. Errors may occur if array stored in file is not %dx%d.\n", arraySize, arraySize);
         FILE *file = fopen(argv[4], "r");
         char *tempChar;
         char *buff = malloc(20 * sizeof(char)); // more than enough to hold the number of decimal points a C double can possess (IEEE 754 encoding)
