@@ -7,7 +7,7 @@ gcc parallel.c -lpthread
 gcc sequential.c
 ./a.out
 
-if cmp -s "resultParallel.txt" "resultSequential.txt"; then
+if cmp -s "resultParallel-16-18.txt" "resultSequential-18.txt"; then
     echo "Correct"
 else
     echo "Incorrect"

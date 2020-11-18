@@ -21,6 +21,8 @@ int main(int argc, char *argv[]) {
 
     // Any way to make these const?
     int arraySize = 18;
+    char *arraySizeStr = malloc(10 * sizeof(char));
+    arraySizeStr = "18";
     double precision = 0.001;
     // For iteration
     int row, col;
@@ -28,6 +30,7 @@ int main(int argc, char *argv[]) {
     // Define dimension
     if (argc > 1) {
         arraySize = atoi(argv[1]);
+        arraySizeStr = argv[1];
     }
 
     // Define precision
@@ -143,8 +146,11 @@ int main(int argc, char *argv[]) {
 
     } while (precisionMetForAll == false); //comparison here as will already do at least once
 
-    printf("Completed sequentially after %d iterations.\n", iterationNum);
-    FILE *file = fopen("resultSequential.txt", "w");
+    //printf("Completed sequentially after %d iterations.\n", iterationNum);
+    char filename[25] = "resultSequential-";
+    strcat(filename, arraySizeStr);
+    strcat(filename, ".txt");
+    FILE *file = fopen(filename, "w");
     for (row = 0; row < arraySize; row++) {
         for (col = 0; col < arraySize; col++) {
             fprintf(file, "%f,", finalArray[row][col]);

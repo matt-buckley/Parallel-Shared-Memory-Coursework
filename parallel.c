@@ -3,7 +3,6 @@
 #include <math.h>
 #include <string.h>
 #include <pthread.h>
-//#include <math.h>
 #include <stdbool.h>
 
 int arraySize;
@@ -64,6 +63,8 @@ void createThreads(int elementLoc, int elementsToProcess, pthread_t *threadArray
 int main(int argc, char *argv[]) {
 
     arraySize = 18;
+    char *arraySizeStr = malloc(10 * sizeof(char));
+    arraySizeStr = "18";
     precision = 0.001;
     // For iteration, must be defined before use in loop when using Balena's compiler.
     int row, col;
@@ -71,27 +72,27 @@ int main(int argc, char *argv[]) {
     // Define dimension
     if (argc > 1) {
         arraySize = atoi(argv[1]);
+        arraySizeStr = argv[1];
     }
 
     int numMutableElements = (arraySize - 2) * (arraySize - 2);
 
     // Define default thread count based on number of threads
     int numThreads = 16;
+    char *numThreadsStr = malloc(10 * sizeof(char));
+    numThreadsStr = "16";
 
     // Define precision
     if (argc > 2) {
         char *temp;
         precision = strtod(argv[2], &temp);
-        if (precision <= 0 || precision > 1) {
-            printf("Error with entered precision, please enter a precision between 0 and 1\n");
-            return 0;
-        }
     }
 
     if (argc > 3) {
         numThreads = atoi(argv[3]);
-        if (numThreads == 0) {
-            printf("Invalid number of threads - please enter -1 to use the default");
+        numThreadsStr = argv[3];
+        if (numThreads < 1) {
+            printf("Invalid number of threads.");
             return 0;
         }
 
@@ -154,12 +155,12 @@ int main(int argc, char *argv[]) {
     }
     else {
         // Random integers between 0 and RAND_MAX
-        //srand(5);
-        //for (row = 0; row < arraySize; row++) {
-        //    for (col = 0; col < arraySize; col++) {
-        //        finalArray[row][col] = rand() / (double) RAND_MAX;
-        //    }
-        //}
+        /*srand(5);
+        for (row = 0; row < arraySize; row++) {
+            for (col = 0; col < arraySize; col++) {
+                finalArray[row][col] = rand() / (double) RAND_MAX;
+            }
+        }*/
 
         // 1.0s on outside
         for (row = 0; row < arraySize; row++) {
@@ -275,14 +276,20 @@ int main(int argc, char *argv[]) {
 
     } while (precisionMetForAll == false); //comparison here as will already do at least once
 
-    printf("Completed after %d iterations using %d threads.\n", iterationNum, numCurrentThreads);
-    FILE *file = fopen("resultParallel.txt", "w");
+    // ONLY NEEDED FOR CORRECTNESS TESTING
+    //printf("Completed after %d iterations using %d threads.\n", iterationNum, numCurrentThreads);
+    /*char filename[25] = "resultParallel-";
+    strcat(filename, numThreadsStr);
+    strcat(filename, "-");
+    strcat(filename, arraySizeStr);
+    strcat(filename, ".txt");
+    FILE *file = fopen(filename, "w");
     for (row = 0; row < arraySize; row++) {
         for (col = 0; col < arraySize; col++) {
            fprintf(file, "%f,", finalArray[row][col]);
         }
         fprintf(file, "\n");
-    }
+    }*/
 
     return 0;
 
