@@ -1,10 +1,16 @@
-Re-use threads
 File input for custom arrays
-Automate testing for different sizes and different values (enter same seed in through command line)
+Automate testing for different sizes and different values (enter same random seed in through command line)
 Automate speedup and efficiency calculations
-Implement improved speedup (e.g. re-use threads, add option to do rows to reduce calculations)
+
+Implement a thread pool
+- https://stackoverflow.com/questions/20167199/reuse-of-threads-pthread
+- https://github.com/jonhoo/pthread_pool
+
+Implement other improved speedup measures (e.g. re-use threads, perhaps add option to do rows to reduce calculations)
 Write report
 Investigate superlinear speedup (e.g. caches)
 Improve efficiency in allocating arrays by removing if statement, and only populating edge of iterableArray
 Comment EVERYTHING
-In report, note that briefly had superlinear speedup due to algorithm differences - max speedup of 19.2, reasonable speedup of 9.7 before using precision flags
+In report, note:
+- That briefly had superlinear speedup due to algorithm differences - max speedup of 19.2, reasonable speedup of 9.7 before using precision flags
+- Why barriers don't work in this case (need some things to happen sequentially in between threads running)

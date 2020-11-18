@@ -15,7 +15,6 @@ struct startFunctionArguments {
 double **iterableArray;
 double **finalArray;
 bool precisionMetForAll;
-pthread_barrier_t barrier;
 
 // Can just combine this with the function above
 void averageRows(void *arguments) {
@@ -48,10 +47,9 @@ void averageRows(void *arguments) {
 
     }
 
-    pthread_barrier_wait(&barrier);
 }
 
-void createThreads(int elementLoc, int elementsToProcess, int numCurrentThreads) {
+void createThreads(int elementLoc, int elementsToProcess, pthread_t *threadArray, int numCurrentThreads) {
     pthread_t thread;
 
     struct startFunctionArguments *args = malloc(sizeof(struct startFunctionArguments));
@@ -60,6 +58,7 @@ void createThreads(int elementLoc, int elementsToProcess, int numCurrentThreads)
 
     pthread_create(&thread, NULL, (void *(*)(void *))averageRows, (void *)args);
     
+    threadArray[numCurrentThreads] = thread;
 }
 
 int main(int argc, char *argv[]) {
@@ -200,7 +199,7 @@ int main(int argc, char *argv[]) {
     }
     printf("\n");*/
     
-    //pthread_t threadArray[numThreads];
+    pthread_t threadArray[numThreads];
     int elementsPerThread;
     int numThreadsWithAnExtraElement;
     int numCurrentThreads;
@@ -214,7 +213,6 @@ int main(int argc, char *argv[]) {
     elementsPerThread = numMutableElements / numThreads;
     numThreadsWithAnExtraElement = numMutableElements % numThreads;
 
-    pthread_barrier_init(&barrier, NULL, numThreads + 1); // 1 for main
     do {
 
         numCurrentThreads = 0;
@@ -232,22 +230,20 @@ int main(int argc, char *argv[]) {
                 exit(0);
             }
             if (numThreadsWithAnExtraElement > 0) {
-                createThreads(elementLoc, elementsPerThread + 1, numCurrentThreads);
+                createThreads(elementLoc, elementsPerThread + 1, threadArray, numCurrentThreads);
                 numThreadsWithAnExtraElement -= 1;
                 elementLoc += (elementsPerThread + 1);
             }
             else {
-                createThreads(elementLoc, elementsPerThread, numCurrentThreads);
+                createThreads(elementLoc, elementsPerThread, threadArray, numCurrentThreads);
                 elementLoc += elementsPerThread;
             }
             numCurrentThreads += 1;
         }
 
-        pthread_barrier_wait(&barrier);
-        // BARRIER WOULD BE BETTER HERE
-        /*for (row = 0; row < numCurrentThreads; row++) {
+        for (row = 0; row < numCurrentThreads; row++) {
             pthread_join(threadArray[row], NULL);
-        }*/
+        }
 
         iterationNum += 1;
         
