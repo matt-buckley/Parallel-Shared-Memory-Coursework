@@ -1,3 +1,6 @@
+CHANGE WHAT ARRAY IS POPULATED WITH
+Is only so fast because middle doesn't change, it's just full of 0s because gradient goes to less than precision
+
 Automate testing for different sizes and different values (enter same random seed in through command line)
 Automate speedup and efficiency calculations
 

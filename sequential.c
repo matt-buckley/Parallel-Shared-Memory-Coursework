@@ -73,15 +73,15 @@ int main(int argc, char *argv[]) {
     }
     else {
         // Random integers between 0 and RAND_MAX
-        /*srand(5);
+        srand(10); // same random seed as parallel.c
         for (row = 0; row < arraySize; row++) {
             for (col = 0; col < arraySize; col++) {
-                finalArray[row][col] = rand() / (double) RAND_MAX;
+                finalArray[row][col] = rand() % 10;
             }
-        }*/
+        }
 
         // 1.0s on outside
-        for (row = 0; row < arraySize; row++) {
+        /*for (row = 0; row < arraySize; row++) {
             for (col = 0; col < arraySize; col++) {
                 if (row == 0 || col == 0 || row == arraySize - 1 || col == arraySize - 1) {
                     finalArray[row][col] = 1.0;
@@ -90,7 +90,7 @@ int main(int argc, char *argv[]) {
                     finalArray[row][col] = 0.0;
                 }
             }
-        }
+        }*/
 
     }
 
@@ -105,9 +105,7 @@ int main(int argc, char *argv[]) {
 
     for (row = 0; row < arraySize; row++) {
         for (col = 0; col < arraySize; col++) {
-            if (row == 0 || col == 0 || row == arraySize - 1 || col == arraySize - 1) {
-                iterableArray[row][col] = 1.0;
-            }
+            iterableArray[row][col] = finalArray[row][col];
         }
     }
     
@@ -145,7 +143,7 @@ int main(int argc, char *argv[]) {
 
     // ONLY NEEDED FOR CORRECTNESS TESTING
     //printf("Completed sequentially after %d iterations.\n", iterationNum);
-    /*char filename[25] = "resultSequential-";
+    char filename[25] = "resultSequential-";
     strcat(filename, arraySizeStr);
     strcat(filename, ".txt");
     FILE *file = fopen(filename, "w");
@@ -154,7 +152,7 @@ int main(int argc, char *argv[]) {
             fprintf(file, "%f,", finalArray[row][col]);
         }
         fprintf(file, "\n");
-    }*/
+    }
 
     return 0;
 
