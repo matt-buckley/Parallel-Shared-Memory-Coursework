@@ -18,7 +18,7 @@ do
             echo "#SBATCH --partition=teaching" >> fullTest-singleScaleTest-$arraySize-$priority-$threadNum.slurm
             echo "#SBATCH --job-name=Parallel-$arraySize-$priority-$threadNum" >> fullTest-singleScaleTest-$arraySize-$priority-$threadNum.slurm
             echo "#SBATCH --time=00:15:00" >> fullTest-singleScaleTest-$arraySize-$priority-$threadNum.slurm
-            echo "#SBATCH --output=parallel-results-$arraySize-$priority-$threadNum.out" >> fullTest-singleScaleTest-$arraySize-$priority-$threadNum.slurm
+            echo "#SBATCH --output=fullTest-parallel-results-$arraySize-$priority-$threadNum.out" >> fullTest-singleScaleTest-$arraySize-$priority-$threadNum.slurm
             echo "#SBATCH --nodes=1" >> fullTest-singleScaleTest-$arraySize-$priority-$threadNum.slurm
             echo "perf stat -r 4 ./parallel.out $arraySize $priority $threadNum" >> fullTest-singleScaleTest-$arraySize-$priority-$threadNum.slurm
             sbatch fullTest-singleScaleTest-$arraySize-$priority-$threadNum.slurm
@@ -28,7 +28,7 @@ do
             echo "#SBATCH --partition=teaching" >> fullTest-singleScaleTest-$arraySize-$priority.slurm
             echo "#SBATCH --job-name=Sequential-$arraySize-$priority" >> fullTest-singleScaleTest-$arraySize-$priority.slurm
             echo "#SBATCH --time=00:15:00" >> fullTest-singleScaleTest-$arraySize-$priority.slurm
-            echo "#SBATCH --output=sequential-results-$arraySize-$priority-$threadNum.out" >> fullTest-singleScaleTest-$arraySize-$priority.slurm
+            echo "#SBATCH --output=fullTest-sequential-results-$arraySize-$priority-$threadNum.out" >> fullTest-singleScaleTest-$arraySize-$priority.slurm
             echo "#SBATCH --nodes=1" >> fullTest-singleScaleTest-$arraySize-$priority.slurm
             echo "perf stat -r 4 ./sequential.out $arraySize $priority" >> fullTest-singleScaleTest-$arraySize-$priority.slurm
             sbatch fullTest-singleScaleTest-$arraySize-$priority.slurm
