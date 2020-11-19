@@ -9,7 +9,7 @@ for arraySize in 200 400 600 800
 do
     #for threadNum in 2 4 6 8 10 12 14 16
     #for threadNum in  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
-    for threadNum in 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 21
+    for threadNum in 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32
     do
         #for priority in 1.0 0.1 0.01 0.001 0.00001 0.0000001
         #for priority in 1.0 0.1 0.01 0.001 0.0001 0.00001 0.000001
