@@ -3,11 +3,11 @@
 gcc parallel.c -lpthread -o parallel.out
 gcc sequential.c -o sequential.out
 
-for arraySize in 10 50 100 200 300 400 500 600 700 800 900 950 1000
+for arraySize in 10 100 200 400 600 800 900 1000
 do
-    for threadNum in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
+    for threadNum in 2 4 6 8 10 12 14 16
     do
-        for priority in 1.0 0.1 0.01 0.001 0.0001 0.00001 0.000001
+        for priority in 1.0 0.1 0.01 0.001 0.00001
         do
 
             echo "#!/bin/bash" >> singleScaleTest-$arraySize-$priority-$threadNum.slurm
