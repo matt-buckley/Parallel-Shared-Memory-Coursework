@@ -3,7 +3,7 @@
 gcc parallel.c -lpthread -o parallel.out
 gcc sequential.c -o sequential.out
 
-for arraySize in 100 500 1000 2000 3000 4000 5000 6000 7000
+for arraySize in 10 50 100 200 300 400 500 600 700 800 900 950 1000
 do
     for threadNum in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
     do

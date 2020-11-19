@@ -5,6 +5,7 @@
 # Name of job (optional)
 #SBATCH --job-name=Run_Test
 #SBATCH --output=results.out
+#SBATCH --time=00:15:00
 # One node
 #SBATCH --nodes=1
 # Any normal shell stuff

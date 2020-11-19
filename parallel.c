@@ -168,7 +168,7 @@ int main(int argc, char *argv[]) {
         srand(10); // same random seed as sequential.c
         for (row = 0; row < arraySize; row++) {
             for (col = 0; col < arraySize; col++) {
-                finalArray[row][col] = rand() % 10;
+                finalArray[row][col] = rand() % 2;
             }
         }
 
@@ -203,6 +203,7 @@ int main(int argc, char *argv[]) {
         iterableArray[row] = (double *) malloc(arraySize * sizeof(double));
     }
 
+    // Only need to set the outer elements as the inner elements will be filled during the first iteration
     for (row = 0; row < arraySize; row++) {
         for (col = 0; col < arraySize; col++) {
             if (row == 0 || col == 0 || row == arraySize - 1 || col == arraySize - 1) {
@@ -277,7 +278,7 @@ int main(int argc, char *argv[]) {
     // Quicker to just return than call join on all the threads and wait for them to finish
 
     // ONLY NEEDED FOR CORRECTNESS TESTING
-    printf("Completed after %d iterations using %d threads.\n", iterationNum, numCurrentThreads);
+    /*printf("Completed after %d iterations using %d threads.\n", iterationNum, numCurrentThreads);
     char filename[25] = "resultParallel-";
     strcat(filename, numThreadsStr);
     strcat(filename, "-");
@@ -289,7 +290,7 @@ int main(int argc, char *argv[]) {
            fprintf(file, "%f,", finalArray[row][col]);
         }
         fprintf(file, "\n");
-    }
+    }*/
 
     return 0;
 
