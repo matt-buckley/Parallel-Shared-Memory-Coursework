@@ -1,0 +1,30 @@
+
+ Performance counter stats for './sequential.out 400 0.001':
+
+      52675.818398      task-clock (msec)         #    1.000 CPUs utilized          
+                61      context-switches          #    0.001 K/sec                  
+                 1      cpu-migrations            #    0.000 K/sec                  
+               760      page-faults               #    0.014 K/sec                  
+   136,903,366,422      cycles                    #    2.599 GHz                    
+    27,987,600,715      stalled-cycles-frontend   #   20.44% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+   433,546,755,250      instructions              #    3.17  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+    12,326,278,471      branches                  #  234.003 M/sec                  
+        14,466,183      branch-misses             #    0.12% of all branches        
+
+      52.657089472 seconds time elapsed
+
+
+########################################################################
+----------------------! Balena Job Details !----------------------------
+
+JobID          : 3443933
+No. of nodes   : 1
+No. of CPUs    : 16
+Timelimit      : 00:15:00
+Elapsed time   : 00:00:53
+Nodelist       : node-sw-160
+
+########################################################################
+
