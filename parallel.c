@@ -157,7 +157,7 @@ int main(int argc, char *argv[]) {
         char *buff = malloc(20 * sizeof(char)); // more than enough to hold the number of decimal points a C double can possess (IEEE 754 encoding)
         for (row = 0; row < arraySize; row++) {
             for (col = 0; col < arraySize; col++) {
-                fscanf(file, "%s ", buff);
+                int i = fscanf(file, "%s ", buff);
                 finalArray[row][col] = strtod(buff, &tempChar);
             }
         }
@@ -278,8 +278,8 @@ int main(int argc, char *argv[]) {
     // Quicker to just return than call join on all the threads and wait for them to finish
 
     // ONLY NEEDED FOR CORRECTNESS TESTING
-    /*printf("Completed after %d iterations using %d threads.\n", iterationNum, numCurrentThreads);
-    char filename[25] = "resultParallel-";
+    printf("Completed after %d iterations using %d threads.\n", iterationNum, numCurrentThreads);
+    /*char filename[25] = "resultParallel-";
     strcat(filename, numThreadsStr);
     strcat(filename, "-");
     strcat(filename, arraySizeStr);

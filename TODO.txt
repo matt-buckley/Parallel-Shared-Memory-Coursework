@@ -16,3 +16,4 @@ In report, note:
 - That briefly had superlinear speedup due to algorithm differences - max speedup of 19.2, reasonable speedup of 9.7 before using precision flags
 - Why barriers don't work in this case (need some things to happen sequentially in between threads running)
 - Issues with using only values on the outside, i.e. numbers in the middle don't change even as you scale up
+- Neither parallel nor sequential using compile-time optimisations
