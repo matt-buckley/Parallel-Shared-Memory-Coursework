@@ -1,7 +1,4 @@
-Automate testing for different sizes and different values (enter same random seed in through command line)
 Automate speedup and efficiency calculations
-
-Implement barriers using two barrier waits to implement code
 
 Implement a thread pool
 - https://stackoverflow.com/questions/20167199/reuse-of-threads-pthread
