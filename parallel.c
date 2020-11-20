@@ -277,6 +277,7 @@ int main(int argc, char *argv[]) {
 
     // Quicker to just return than call join on all the threads and wait for them to finish
 
+    // UNCOMMENT BEFORE SUBMISSION TO REMOVE WARNINGS
     // ONLY NEEDED FOR CORRECTNESS TESTING
     printf("Completed after %d iterations using %d threads.\n", iterationNum, numCurrentThreads);
     /*char filename[25] = "resultParallel-";

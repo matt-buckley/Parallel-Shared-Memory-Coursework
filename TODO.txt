@@ -1,3 +1,15 @@
+Further tests to schedule:
+
+Already scheduled test for sequential
+Sequential ones - only been scheduled for 0.001 so far
+More than 16 thread ones - only been scheduled for 0.001 so far, and even numbers from 20
+13 and 15 ones - only been scheduled for 0.001 so far
+Already scheduled N/A ones
+
+Look into 900 vs 1000 in speed difference
+
+Test more in 800–1000 range
+
 Automate speedup and efficiency calculations
 
 Implement a thread pool

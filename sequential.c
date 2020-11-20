@@ -145,6 +145,7 @@ int main(int argc, char *argv[]) {
 
     } while (precisionMetForAll == false); //comparison here as will already do at least once
 
+    // UNCOMMENT BEFORE SUBMISSION TO REMOVE WARNINGS
     // ONLY NEEDED FOR CORRECTNESS TESTING
     /*printf("Completed sequentially after %d iterations.\n", iterationNum);
     char filename[25] = "resultSequential-";
