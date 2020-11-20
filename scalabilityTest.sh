@@ -14,7 +14,7 @@ do
     do
         for priority in 1.0 0.1 0.01 0.001 0.00001 0.0000001
         #for priority in 1.0 0.1 0.01 0.001 0.0001 0.00001 0.000001
-        #for priority in 0.0001
+        #for priority in 0.001
         do
 
             #echo "#!/bin/bash" >> singleScaleTest-$arraySize-$priority-$threadNum.slurm
@@ -22,9 +22,9 @@ do
             #echo "#SBATCH --partition=teaching" >> singleScaleTest-$arraySize-$priority-$threadNum.slurm
             #echo "#SBATCH --job-name=Parallel-$arraySize-$priority-$threadNum" >> singleScaleTest-$arraySize-$priority-$threadNum.slurm
             #echo "#SBATCH --time=00:15:00" >> singleScaleTest-$arraySize-$priority-$threadNum.slurm
-            #echo "#SBATCH --output=parallel-results-$arraySize-$priority-$threadNum.out" >> singleScaleTest-$arraySize-$priority-$threadNum.slurm
+            #echo "#SBATCH --output=parallel-results-$arraySize-$priority-$threadNum.txt" >> singleScaleTest-$arraySize-$priority-$threadNum.slurm
             #echo "#SBATCH --nodes=1" >> singleScaleTest-$arraySize-$priority-$threadNum.slurm
-            #echo "perf stat -r 4 ./parallel.out $arraySize $priority $threadNum" >> singleScaleTest-$arraySize-$priority-$threadNum.slurm
+            #echo "perf stat ./parallel.out $arraySize $priority $threadNum" >> singleScaleTest-$arraySize-$priority-$threadNum.slurm
             #sbatch singleScaleTest-$arraySize-$priority-$threadNum.slurm
 
             echo "#!/bin/bash" >> singleScaleTest-$arraySize-$priority.slurm
@@ -32,7 +32,7 @@ do
             echo "#SBATCH --partition=teaching" >> singleScaleTest-$arraySize-$priority.slurm
             echo "#SBATCH --job-name=Sequential-$arraySize-$priority" >> singleScaleTest-$arraySize-$priority.slurm
             echo "#SBATCH --time=00:15:00" >> singleScaleTest-$arraySize-$priority.slurm
-            echo "#SBATCH --output=sequential-results-$arraySize-$priority.out" >> singleScaleTest-$arraySize-$priority.slurm
+            echo "#SBATCH --output=sequential-results-$arraySize-$priority.txt" >> singleScaleTest-$arraySize-$priority.slurm
             echo "#SBATCH --nodes=1" >> singleScaleTest-$arraySize-$priority.slurm
             echo "perf stat ./sequential.out $arraySize $priority" >> singleScaleTest-$arraySize-$priority.slurm
             sbatch singleScaleTest-$arraySize-$priority.slurm
