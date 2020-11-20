@@ -1,0 +1,30 @@
+
+ Performance counter stats for './parallel.out 100 0.1 14' (4 runs):
+
+         48.908856      task-clock (msec)         #    1.784 CPUs utilized            ( +-  0.65% )
+             5,928      context-switches          #    0.121 M/sec                    ( +-  0.52% )
+               626      cpu-migrations            #    0.013 M/sec                    ( +- 10.70% )
+               230      page-faults               #    0.005 M/sec                    ( +-  0.22% )
+       109,283,192      cycles                    #    2.234 GHz                      ( +-  0.64% )
+        69,965,255      stalled-cycles-frontend   #   64.02% frontend cycles idle     ( +-  1.19% )
+   <not supported>      stalled-cycles-backend   
+       117,378,733      instructions              #    1.07  insns per cycle        
+                                                  #    0.60  stalled cycles per insn  ( +-  0.36% )
+         9,462,532      branches                  #  193.473 M/sec                    ( +-  0.88% )
+           123,810      branch-misses             #    1.31% of all branches          ( +-  1.37% )
+
+       0.027411758 seconds time elapsed                                          ( +-  1.70% )
+
+
+########################################################################
+----------------------! Balena Job Details !----------------------------
+
+JobID          : 3432559
+No. of nodes   : 1
+No. of CPUs    : 16
+Timelimit      : 00:15:00
+Elapsed time   : 00:00:05
+Nodelist       : node-sw-159
+
+########################################################################
+

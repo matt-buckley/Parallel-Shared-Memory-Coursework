@@ -1,0 +1,65 @@
+
+ Performance counter stats for './sequential.out 900 0.01' (4 runs):
+
+      58777.872538      task-clock (msec)         #    1.000 CPUs utilized            ( +-  0.01% )
+               104      context-switches          #    0.002 K/sec                    ( +- 13.80% )
+                 7      cpu-migrations            #    0.000 K/sec                    ( +- 57.74% )
+             3,307      page-faults               #    0.056 K/sec                    ( +-  0.01% )
+   152,762,291,748      cycles                    #    2.599 GHz                      ( +-  0.01% )
+    30,659,038,731      stalled-cycles-frontend   #   20.07% frontend cycles idle     ( +-  0.06% )
+   <not supported>      stalled-cycles-backend   
+   487,106,700,353      instructions              #    3.19  insns per cycle        
+                                                  #    0.06  stalled cycles per insn  ( +-  0.00% )
+    13,726,087,744      branches                  #  233.525 M/sec                    ( +-  0.00% )
+         7,442,658      branch-misses             #    0.05% of all branches          ( +-  0.04% )
+
+      58.762017569 seconds time elapsed                                          ( +-  0.01% )
+
+
+ Performance counter stats for './sequential.out 900 0.01' (4 runs):
+
+      58787.358904      task-clock (msec)         #    1.000 CPUs utilized            ( +-  0.02% )
+               110      context-switches          #    0.002 K/sec                    ( +-  3.05% )
+                12      cpu-migrations            #    0.000 K/sec                    ( +- 25.24% )
+             3,307      page-faults               #    0.056 K/sec                    ( +-  0.01% )
+   152,786,904,022      cycles                    #    2.599 GHz                      ( +-  0.02% )
+    30,681,236,376      stalled-cycles-frontend   #   20.08% frontend cycles idle     ( +-  0.08% )
+   <not supported>      stalled-cycles-backend   
+   487,108,359,657      instructions              #    3.19  insns per cycle        
+                                                  #    0.06  stalled cycles per insn  ( +-  0.00% )
+    13,726,347,300      branches                  #  233.491 M/sec                    ( +-  0.00% )
+         7,449,249      branch-misses             #    0.05% of all branches          ( +-  0.04% )
+
+      58.773148356 seconds time elapsed                                          ( +-  0.02% )
+
+
+ Performance counter stats for './sequential.out 900 0.01' (4 runs):
+
+      58795.179624      task-clock (msec)         #    1.000 CPUs utilized            ( +-  0.02% )
+               122      context-switches          #    0.002 K/sec                    ( +-  3.69% )
+                12      cpu-migrations            #    0.000 K/sec                    ( +- 31.15% )
+             3,307      page-faults               #    0.056 K/sec                    ( +-  0.01% )
+   152,807,211,883      cycles                    #    2.599 GHz                      ( +-  0.02% )
+    30,701,731,435      stalled-cycles-frontend   #   20.09% frontend cycles idle     ( +-  0.08% )
+   <not supported>      stalled-cycles-backend   
+   487,107,416,496      instructions              #    3.19  insns per cycle        
+                                                  #    0.06  stalled cycles per insn  ( +-  0.00% )
+    13,726,164,945      branches                  #  233.457 M/sec                    ( +-  0.00% )
+         7,450,472      branch-misses             #    0.05% of all branches          ( +-  0.06% )
+
+      58.781491563 seconds time elapsed                                          ( +-  0.02% )
+
+slurmstepd: error: *** JOB 3438543 ON node-sw-162 CANCELLED AT 2020-11-20T08:53:11 DUE TO TIME LIMIT ***
+
+########################################################################
+----------------------! Balena Job Details !----------------------------
+
+JobID          : 3438543
+No. of nodes   : 1
+No. of CPUs    : 16
+Timelimit      : 00:15:00
+Elapsed time   : 00:15:27
+Nodelist       : node-sw-162
+
+########################################################################
+

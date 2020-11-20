@@ -1,0 +1,82 @@
+
+ Performance counter stats for './sequential.out 400 0.001' (4 runs):
+
+      52675.147542      task-clock (msec)         #    1.000 CPUs utilized            ( +-  0.00% )
+                88      context-switches          #    0.002 K/sec                    ( +- 14.18% )
+                 6      cpu-migrations            #    0.000 K/sec                    ( +- 59.61% )
+               760      page-faults               #    0.014 K/sec                  
+   136,901,514,959      cycles                    #    2.599 GHz                      ( +-  0.00% )
+    27,988,173,604      stalled-cycles-frontend   #   20.44% frontend cycles idle     ( +-  0.02% )
+   <not supported>      stalled-cycles-backend   
+   433,548,330,661      instructions              #    3.17  insns per cycle        
+                                                  #    0.06  stalled cycles per insn  ( +-  0.00% )
+    12,326,651,578      branches                  #  234.013 M/sec                    ( +-  0.00% )
+        14,465,308      branch-misses             #    0.12% of all branches          ( +-  0.02% )
+
+      52.658795687 seconds time elapsed                                          ( +-  0.00% )
+
+
+ Performance counter stats for './sequential.out 400 0.001' (4 runs):
+
+      52675.291632      task-clock (msec)         #    1.000 CPUs utilized            ( +-  0.00% )
+               103      context-switches          #    0.002 K/sec                    ( +-  7.73% )
+                12      cpu-migrations            #    0.000 K/sec                    ( +- 31.86% )
+               760      page-faults               #    0.014 K/sec                  
+   136,901,824,111      cycles                    #    2.599 GHz                      ( +-  0.00% )
+    27,986,299,390      stalled-cycles-frontend   #   20.44% frontend cycles idle     ( +-  0.02% )
+   <not supported>      stalled-cycles-backend   
+   433,548,236,540      instructions              #    3.17  insns per cycle        
+                                                  #    0.06  stalled cycles per insn  ( +-  0.00% )
+    12,326,550,574      branches                  #  234.010 M/sec                    ( +-  0.00% )
+        14,479,806      branch-misses             #    0.12% of all branches          ( +-  0.02% )
+
+      52.660353213 seconds time elapsed                                          ( +-  0.00% )
+
+
+ Performance counter stats for './sequential.out 400 0.001' (4 runs):
+
+      52675.772653      task-clock (msec)         #    1.000 CPUs utilized            ( +-  0.00% )
+               102      context-switches          #    0.002 K/sec                    ( +-  3.96% )
+                10      cpu-migrations            #    0.000 K/sec                    ( +- 28.27% )
+               760      page-faults               #    0.014 K/sec                  
+   136,903,085,820      cycles                    #    2.599 GHz                      ( +-  0.00% )
+    27,988,374,567      stalled-cycles-frontend   #   20.44% frontend cycles idle     ( +-  0.02% )
+   <not supported>      stalled-cycles-backend   
+   433,548,032,953      instructions              #    3.17  insns per cycle        
+                                                  #    0.06  stalled cycles per insn  ( +-  0.00% )
+    12,326,502,250      branches                  #  234.007 M/sec                    ( +-  0.00% )
+        14,477,009      branch-misses             #    0.12% of all branches          ( +-  0.01% )
+
+      52.661102214 seconds time elapsed                                          ( +-  0.00% )
+
+
+ Performance counter stats for './sequential.out 400 0.001' (4 runs):
+
+      52678.747425      task-clock (msec)         #    1.000 CPUs utilized            ( +-  0.00% )
+               105      context-switches          #    0.002 K/sec                    ( +-  7.79% )
+                12      cpu-migrations            #    0.000 K/sec                    ( +- 32.20% )
+               760      page-faults               #    0.014 K/sec                  
+   136,910,800,493      cycles                    #    2.599 GHz                      ( +-  0.00% )
+    27,994,626,662      stalled-cycles-frontend   #   20.45% frontend cycles idle     ( +-  0.01% )
+   <not supported>      stalled-cycles-backend   
+   433,548,203,402      instructions              #    3.17  insns per cycle        
+                                                  #    0.06  stalled cycles per insn  ( +-  0.00% )
+    12,326,530,581      branches                  #  233.994 M/sec                    ( +-  0.00% )
+        14,479,332      branch-misses             #    0.12% of all branches          ( +-  0.01% )
+
+      52.664029971 seconds time elapsed                                          ( +-  0.00% )
+
+slurmstepd: error: *** JOB 3438526 ON node-sw-162 CANCELLED AT 2020-11-20T08:21:56 DUE TO TIME LIMIT ***
+
+########################################################################
+----------------------! Balena Job Details !----------------------------
+
+JobID          : 3438526
+No. of nodes   : 1
+No. of CPUs    : 16
+Timelimit      : 00:15:00
+Elapsed time   : 00:15:27
+Nodelist       : node-sw-162
+
+########################################################################
+

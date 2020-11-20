@@ -1,0 +1,31 @@
+
+ Performance counter stats for './sequential.out 1000 0.01' (4 runs):
+
+     121982.842603      task-clock (msec)         #    1.000 CPUs utilized            ( +-  0.01% )
+               218      context-switches          #    0.002 K/sec                    ( +-  9.99% )
+                18      cpu-migrations            #    0.000 K/sec                    ( +- 34.93% )
+             4,049      page-faults               #    0.033 K/sec                  
+   317,030,358,865      cycles                    #    2.599 GHz                      ( +-  0.01% )
+    64,475,520,363      stalled-cycles-frontend   #   20.34% frontend cycles idle     ( +-  0.05% )
+   <not supported>      stalled-cycles-backend   
+ 1,007,067,735,511      instructions              #    3.18  insns per cycle        
+                                                  #    0.06  stalled cycles per insn  ( +-  0.00% )
+    28,510,705,272      branches                  #  233.727 M/sec                    ( +-  0.00% )
+        13,636,977      branch-misses             #    0.05% of all branches          ( +-  0.01% )
+
+     121.946412321 seconds time elapsed                                          ( +-  0.01% )
+
+slurmstepd: error: *** JOB 3438549 ON node-sw-163 CANCELLED AT 2020-11-20T09:00:11 DUE TO TIME LIMIT ***
+
+########################################################################
+----------------------! Balena Job Details !----------------------------
+
+JobID          : 3438549
+No. of nodes   : 1
+No. of CPUs    : 16
+Timelimit      : 00:15:00
+Elapsed time   : 00:15:24
+Nodelist       : node-sw-163
+
+########################################################################
+
