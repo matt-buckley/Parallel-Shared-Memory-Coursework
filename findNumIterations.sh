@@ -1,6 +1,6 @@
 gcc parallel.c -lpthread -o parallel.out
 
-precision=0.001
+precision=0.01
 
 for arraySize in 100 200 400 600 800 900 1000
 do
