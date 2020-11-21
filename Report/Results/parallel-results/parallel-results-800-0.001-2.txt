@@ -1,14 +1,14 @@
-slurmstepd: error: *** JOB 3432876 ON node-sw-159 CANCELLED AT 2020-11-19T10:30:17 DUE TO TIME LIMIT ***
+slurmstepd: error: *** JOB 3443913 ON node-sw-163 CANCELLED AT 2020-11-20T17:14:51 ***
 
 ########################################################################
 ----------------------! Balena Job Details !----------------------------
 
-JobID          : 3432876
+JobID          : 3443913
 No. of nodes   : 1
 No. of CPUs    : 16
 Timelimit      : 00:15:00
-Elapsed time   : 00:15:11
-Nodelist       : node-sw-159
+Elapsed time   : 00:08:58
+Nodelist       : node-sw-163
 
 ########################################################################
 

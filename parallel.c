@@ -15,6 +15,8 @@ double **iterableArray;
 double **finalArray;
 bool precisionMetForAll;
 pthread_barrier_t barrier;
+struct timespec startTime, endTime;
+double sequentialTime;
 
 // Can just combine this with the function above
 void averageRows(void *arguments) {
@@ -71,6 +73,8 @@ void createThreads(int elementLoc, int elementsToProcess, pthread_t *threadArray
 }
 
 int main(int argc, char *argv[]) {
+
+    clock_gettime(CLOCK_MONOTONIC, &startTime);
 
     arraySize = 18;
     char *arraySizeStr = malloc(10 * sizeof(char));
@@ -238,6 +242,11 @@ int main(int argc, char *argv[]) {
     precisionMetForAll = true;
 
     pthread_barrier_init(&barrier, NULL, numThreads + 1); // total threads plus main
+
+    // Will miss thread creation but ah well
+    clock_gettime(CLOCK_MONOTONIC, &endTime);
+    sequentialTime = startTime.tv_nsec - endTime.tv_nsec;
+    clock_gettime(CLOCK_MONOTONIC, &startTime);
 
     // Only operates inside the mutable grid
     for (elementLoc = 1; elementLoc <= numMutableElements;) {

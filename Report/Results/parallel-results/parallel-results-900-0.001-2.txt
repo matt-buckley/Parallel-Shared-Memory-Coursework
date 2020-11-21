@@ -1,14 +1,30 @@
-slurmstepd: error: *** JOB 3432975 ON node-sw-163 CANCELLED AT 2020-11-19T21:56:59 DUE TO TIME LIMIT ***
+
+ Performance counter stats for './parallel.out 900 0.001 2':
+
+    1428519.702122      task-clock (msec)         #    1.982 CPUs utilized          
+         1,121,725      context-switches          #    0.785 K/sec                  
+               409      cpu-migrations            #    0.000 K/sec                  
+             3,345      page-faults               #    0.002 K/sec                  
+ 3,708,571,023,361      cycles                    #    2.596 GHz                    
+   865,822,022,959      stalled-cycles-frontend   #   23.35% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+11,341,268,624,900      instructions              #    3.06  insns per cycle        
+                                                  #    0.08  stalled cycles per insn
+   449,312,099,705      branches                  #  314.530 M/sec                  
+       241,243,963      branch-misses             #    0.05% of all branches        
+
+     720.605267843 seconds time elapsed
+
 
 ########################################################################
 ----------------------! Balena Job Details !----------------------------
 
-JobID          : 3432975
+JobID          : 3443904
 No. of nodes   : 1
 No. of CPUs    : 16
 Timelimit      : 00:15:00
-Elapsed time   : 00:15:11
-Nodelist       : node-sw-163
+Elapsed time   : 00:12:01
+Nodelist       : node-sw-161
 
 ########################################################################
 
