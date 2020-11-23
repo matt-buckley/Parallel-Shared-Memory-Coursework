@@ -99,7 +99,7 @@ void createThreads(int elementLoc, int elementsToProcess) {
 }
 
 /**
- * Main function, handling most serial processing
+ * Main function, handles most serial processing
  * @param argc: Number of arguments passed to main from command line
  * @param argv: Arguments passed to main
  */
@@ -171,7 +171,7 @@ int main(int argc, char *argv[]) {
         finalArray[row] = (double *) malloc(arraySize * sizeof(double));
     }
     
-    // Read in array from file if defined in command line
+    // Read in array from file if filename defined in command line
     if (argc > 4) {
 
         printf("Reading in file. Errors may occur if array stored in file is not %dx%d.\n", arraySize, arraySize);
@@ -251,7 +251,8 @@ int main(int argc, char *argv[]) {
     // Iteration counter
     int iterationNum = 0;
     
-    // Precision flag set to true so threads will know if they need to check whether to set it
+    // Precision flag — true if program can finish as criteria fulfilled
+    // Precision flag set to true here so threads will know if they need to check whether to set it
     precisionMetForAll = true;
 
     // Creates threads according to specifications defined by variables above
@@ -272,7 +273,7 @@ int main(int argc, char *argv[]) {
 
     }
 
-    // Loop that updates arrays between iterations and checks if program should finish
+    // Loop that updates arrays between iterations and checks if program should finish, , when all elements change by less than the precision
     do {
 
         // Resets precision flag between iterations and calls wait once arrays have been updated
@@ -296,7 +297,7 @@ int main(int argc, char *argv[]) {
 
         // If precisionMetForAll is false, continue iterating; else, finalise program
 
-    } while (precisionMetForAll == false); //comparison here as will already do at least once
+    } while (precisionMetForAll == false);
 
     // Not technically needed as program will end and free threads regardless, but avoids using an infinite loop
     programEnd = true;

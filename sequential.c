@@ -4,107 +4,84 @@
 #include <string.h>
 #include <stdbool.h>
 
-// This is always going to be 4, and passing more arguments to make it reusable would increase unnecessary communication
-// Should this even be in a function?
-double meanOfFour(double *nums, double **iterableArray) {
-    double sum = 0;
-
-    int row;
-    for (row = 0; row < 4; row++) {
-        sum += nums[row];
-    }
-
-    return sum / 4;
-}
-
+/**
+ * Main function, handles all processing; does not use other functions to reduce calls
+ * @param argc: Number of arguments passed to main from command line
+ * @param argv: Arguments passed to main
+ */
 int main(int argc, char *argv[]) {
 
-    // Any way to make these const?
+    // Define default array dimension, precision, and thread count
     int arraySize = 18;
-    char *arraySizeStr = malloc(10 * sizeof(char));
-    arraySizeStr = "18";
     double precision = 0.01;
-    // For iteration
+
+    // Define default values as strings for output filename
+    char *arraySizeStr = malloc(20 * sizeof(char));
+    arraySizeStr = "18";
+
+    // For iteration, but these must be defined before use in loop when using Balena's compiler.
     int row, col;
 
-    // Define dimension
+    // Read in array dimension if defined in command line
     if (argc > 1) {
         arraySize = atoi(argv[1]);
         arraySizeStr = argv[1];
     }
 
-    // Define precision
+    // Read in precision if defined in command line
     if (argc > 2) {
         char *temp;
         precision = strtod(argv[2], &temp);
-        if (precision <= 0 || precision > 1) {
-            printf("Error with entered precision, please enter a precision between 0 and 1\n");
-            return 0;
-        }
     }
     
+    // Assign memory for final array (holds final values and is static during iteration)
     double **finalArray = (double **) malloc(arraySize * sizeof(double *));
     for (row = 0; row < arraySize; row++) {
         finalArray[row] = (double *) malloc(arraySize * sizeof(double));
     }
 
+    // Read in array from file if filename defined in command line
     if (argc > 3) {
-        /* Omitted because requires using -lm compile flag
-        if ((int) sqrt((double )argc - 4) != arraySize) {
-            printf("Error - entered array does not match array size.");
-            return 0;
-        }
-        */
-        int argcCounter;
-        row = -1;
-        col = 0;
-        char *temp;
-        for (argcCounter = 3; argcCounter < argc; argcCounter++) {
-            // Reset to start of next line
-            if (((argcCounter - 3) % arraySize) == 0) {
-                row += 1;
-                col = 0;
+        
+        printf("Reading in file. Errors may occur if array stored in file is not %dx%d.\n", arraySize, arraySize);
+        
+        FILE *file = fopen(argv[4], "r");
+        char *tempChar;
+        char *buff = malloc(20 * sizeof(char)); // 20 chars should be more than enough to hold the number of decimal points a C double can possess (IEEE 754 encoding)
+        
+        for (row = 0; row < arraySize; row++) {
+            for (col = 0; col < arraySize; col++) {
+                fscanf(file, "%s ", buff);
+                finalArray[row][col] = strtod(buff, &tempChar);
             }
-            else {
-                col += 1;
-            }  
-            finalArray[row][col] = strtod(argv[argcCounter], &temp);
         }
+
+        fclose(file);
+
     }
+    // If no filename entered into command line, generate default array
     else {
-        // Random integers between 0 and RAND_MAX
-        srand(10); // same random seed as parallel.c
+        
+        // Random seed is defined to be the same as sequential program to ensure same array is generated
+        srand(10);
+
+        // Default array is random 1.0s and 0.0s
         for (row = 0; row < arraySize; row++) {
             for (col = 0; col < arraySize; col++) {
                 finalArray[row][col] = rand() % 2;
             }
         }
 
-        // 1.0s on outside
-        /*for (row = 0; row < arraySize; row++) {
-            for (col = 0; col < arraySize; col++) {
-                if (row == 0 || col == 0 || row == arraySize - 1 || col == arraySize - 1) {
-                    finalArray[row][col] = 1.0;
-                }
-                else {
-                    finalArray[row][col] = 0.0;
-                }
-            }
-        }*/
-
     }
 
-    // A lot of this needs changing, including nested for loops, assigning values unnecessarily, and more
-    int iterationNum = 0;
-
-    // Here as does all calculations on 'old' values before updating, rather than
+    // Assigns memory for array newly calculate values are written to
     double **iterableArray = (double **) malloc(arraySize * sizeof(double *));
     for (row = 0; row < arraySize; row++) {
         iterableArray[row] = (double *) malloc(arraySize * sizeof(double));
     }
 
 
-    // Only need to set the outer elements as the inner elements will be filled during the first iteration
+    // Sets the outer elements of iterableArray as the inner elements will be filled during the first iteration
     for (row = 0; row < arraySize; row++) {
         for (col = 0; col < arraySize; col++) {
             if (row == 0 || col == 0 || row == arraySize - 1 || col == arraySize - 1) {
@@ -112,41 +89,51 @@ int main(int argc, char *argv[]) {
             }
         }
     }
+
+    // Iteration counter
+    int iterationNum = 0;
     
+    // Precision flag - true if program can finalise
     bool precisionMetForAll;
-    int k;
+
+    // Loop that iterates until program should finish, when all elements change by less than the precision
     do {
+
         precisionMetForAll = true;
+
+        // Loops through mutable part of the array
         for (row = 1; row < arraySize - 1; row++) {
             for (col = 1; col < arraySize - 1; col++) {
                 
+                // Calculates mean of surrounding four elements and assigns to array
+                // Reads from static array and assigns to mutable array
                 iterableArray[row][col] = (finalArray[row - 1][col] + finalArray[row][col - 1] + finalArray[row + 1][col] + finalArray[row][col + 1]) / 4;
 
-                if (precisionMetForAll == true) { // if 0, do nothing because at least one value is still > precision
+                // Precision checker — sets flag to false if difference between newly calculate value and 
+                // previous value is greater than the precision
+                // Only runs if flag is true, meaning either this is the first check, or all previous elements
+                // are less than the precision
+                if (precisionMetForAll == true) {
                     if (fabs(finalArray[row][col] - iterableArray[row][col]) > precision) {
                         precisionMetForAll = false;
                     }
                 }
             }
         }
+
         iterationNum += 1;
         
+        // Swaps (pointers to) static and iterable arrays between iterations to update readable values
+        // to those just calculated
         double **tmp = finalArray;
         finalArray = iterableArray;
         iterableArray = tmp;
 
-        /*for (row = 0; row < arraySize; row++) {
-            for (col = 0; col < arraySize; col++) {
-                printf("%f\t", iterableArray[row][col]);
-            }
-            printf("\n");
-        }
-        printf("\n");*/
+        // If precisionMetForAll is false, continue iterating; else, finalise program
 
-    } while (precisionMetForAll == false); //comparison here as will already do at least once
+    } while (precisionMetForAll == false);
 
-    // UNCOMMENT BEFORE SUBMISSION TO REMOVE WARNINGS
-    // ONLY NEEDED FOR CORRECTNESS TESTING
+    // Prints output to file for correctness testing
     printf("Completed sequentially after %d iterations.\n", iterationNum);
     char filename[25] = "resultSequential-";
     strcat(filename, arraySizeStr);

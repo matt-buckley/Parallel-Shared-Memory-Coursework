@@ -12,6 +12,8 @@ Test more in 800–1000 range
 
 Remove global variables
 
+Swap precision and threads to use in command line, as per spec
+
 Implement a thread pool
 - https://stackoverflow.com/questions/20167199/reuse-of-threads-pthread
 - https://github.com/jonhoo/pthread_pool
