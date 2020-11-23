@@ -1,30 +1,30 @@
 
- Performance counter stats for './parallel.out 600 0.01 8' (4 runs):
+ Performance counter stats for './parallel.out 600 0.01 8':
 
-      26702.489510      task-clock (msec)         #    6.871 CPUs utilized            ( +-  0.02% )
-           182,898      context-switches          #    0.007 M/sec                    ( +-  0.03% )
-                68      cpu-migrations            #    0.003 K/sec                    ( +- 38.91% )
-             1,591      page-faults               #    0.060 K/sec                    ( +-  0.03% )
-    68,770,293,031      cycles                    #    2.575 GHz                      ( +-  0.02% )
-    17,611,612,271      stalled-cycles-frontend   #   25.61% frontend cycles idle     ( +-  0.09% )
+      26692.640196      task-clock (msec)         #    6.876 CPUs utilized          
+           182,850      context-switches          #    0.007 M/sec                  
+                37      cpu-migrations            #    0.001 K/sec                  
+             1,591      page-faults               #    0.060 K/sec                  
+    68,753,899,942      cycles                    #    2.576 GHz                    
+    17,590,683,076      stalled-cycles-frontend   #   25.58% frontend cycles idle   
    <not supported>      stalled-cycles-backend   
-   203,025,446,379      instructions              #    2.95  insns per cycle        
-                                                  #    0.09  stalled cycles per insn  ( +-  0.00% )
-     8,143,732,958      branches                  #  304.980 M/sec                    ( +-  0.00% )
-         7,277,821      branch-misses             #    0.09% of all branches          ( +-  0.04% )
+   203,037,324,823      instructions              #    2.95  insns per cycle        
+                                                  #    0.09  stalled cycles per insn
+     8,144,057,652      branches                  #  305.105 M/sec                  
+         7,334,365      branch-misses             #    0.09% of all branches        
 
-       3.886317754 seconds time elapsed                                          ( +-  0.12% )
+       3.882178524 seconds time elapsed
 
 
 ########################################################################
 ----------------------! Balena Job Details !----------------------------
 
-JobID          : 3432814
+JobID          : 3455050
 No. of nodes   : 1
 No. of CPUs    : 16
 Timelimit      : 00:15:00
-Elapsed time   : 00:00:17
-Nodelist       : node-sw-161
+Elapsed time   : 00:00:05
+Nodelist       : node-sw-162
 
 ########################################################################
 

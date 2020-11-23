@@ -23,7 +23,7 @@ int main(int argc, char *argv[]) {
     int arraySize = 18;
     char *arraySizeStr = malloc(10 * sizeof(char));
     arraySizeStr = "18";
-    double precision = 0.001;
+    double precision = 0.01;
     // For iteration
     int row, col;
 
@@ -147,7 +147,7 @@ int main(int argc, char *argv[]) {
 
     // UNCOMMENT BEFORE SUBMISSION TO REMOVE WARNINGS
     // ONLY NEEDED FOR CORRECTNESS TESTING
-    /*printf("Completed sequentially after %d iterations.\n", iterationNum);
+    printf("Completed sequentially after %d iterations.\n", iterationNum);
     char filename[25] = "resultSequential-";
     strcat(filename, arraySizeStr);
     strcat(filename, ".txt");
@@ -157,7 +157,7 @@ int main(int argc, char *argv[]) {
             fprintf(file, "%f,", finalArray[row][col]);
         }
         fprintf(file, "\n");
-    }*/
+    }
 
     return 0;
 

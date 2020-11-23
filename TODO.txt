@@ -10,7 +10,7 @@ Look into 900 vs 1000 in speed difference
 
 Test more in 800–1000 range
 
-Automate speedup and efficiency calculations
+Remove global variables
 
 Implement a thread pool
 - https://stackoverflow.com/questions/20167199/reuse-of-threads-pthread
@@ -23,6 +23,6 @@ Improve efficiency in allocating arrays by removing if statement, and only popul
 Comment EVERYTHING
 In report, note:
 - That briefly had superlinear speedup due to algorithm differences - max speedup of 19.2, reasonable speedup of 9.7 before using precision flags
-- Why barriers don't work in this case (need some things to happen sequentially in between threads running)
 - Issues with using only values on the outside, i.e. numbers in the middle don't change even as you scale up
 - Neither parallel nor sequential using compile-time optimisations
+- Iteration number different than array size

@@ -1,0 +1,566 @@
+
+ Performance counter stats for './sequential.out 200 0.01':
+
+        982.339066      task-clock (msec)         #    0.998 CPUs utilized          
+                 6      context-switches          #    0.006 K/sec                  
+                 0      cpu-migrations            #    0.000 K/sec                  
+               288      page-faults               #    0.293 K/sec                  
+     2,553,050,525      cycles                    #    2.599 GHz                    
+       515,068,529      stalled-cycles-frontend   #   20.17% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+     8,094,988,131      instructions              #    3.17  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+       230,391,557      branches                  #  234.534 M/sec                  
+           565,261      branch-misses             #    0.25% of all branches        
+
+       0.984555851 seconds time elapsed
+
+
+ Performance counter stats for './sequential.out 200 0.01':
+
+        982.489249      task-clock (msec)         #    0.999 CPUs utilized          
+                 6      context-switches          #    0.006 K/sec                  
+                 0      cpu-migrations            #    0.000 K/sec                  
+               288      page-faults               #    0.293 K/sec                  
+     2,553,442,575      cycles                    #    2.599 GHz                    
+       515,222,864      stalled-cycles-frontend   #   20.18% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+     8,094,977,559      instructions              #    3.17  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+       230,388,784      branches                  #  234.495 M/sec                  
+           564,959      branch-misses             #    0.25% of all branches        
+
+       0.983411718 seconds time elapsed
+
+
+ Performance counter stats for './sequential.out 200 0.01':
+
+        982.928499      task-clock (msec)         #    0.999 CPUs utilized          
+                 7      context-switches          #    0.007 K/sec                  
+                 0      cpu-migrations            #    0.000 K/sec                  
+               288      page-faults               #    0.293 K/sec                  
+     2,554,578,206      cycles                    #    2.599 GHz                    
+       516,418,380      stalled-cycles-frontend   #   20.22% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+     8,094,985,050      instructions              #    3.17  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+       230,391,340      branches                  #  234.393 M/sec                  
+           565,443      branch-misses             #    0.25% of all branches        
+
+       0.983621139 seconds time elapsed
+
+
+ Performance counter stats for './sequential.out 200 0.01':
+
+        982.626320      task-clock (msec)         #    0.999 CPUs utilized          
+                 7      context-switches          #    0.007 K/sec                  
+                 0      cpu-migrations            #    0.000 K/sec                  
+               288      page-faults               #    0.293 K/sec                  
+     2,553,794,030      cycles                    #    2.599 GHz                    
+       515,698,657      stalled-cycles-frontend   #   20.19% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+     8,095,037,833      instructions              #    3.17  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+       230,403,479      branches                  #  234.477 M/sec                  
+           565,282      branch-misses             #    0.25% of all branches        
+
+       0.983460606 seconds time elapsed
+
+
+ Performance counter stats for './sequential.out 200 0.01':
+
+        982.700523      task-clock (msec)         #    0.999 CPUs utilized          
+                 6      context-switches          #    0.006 K/sec                  
+                 2      cpu-migrations            #    0.002 K/sec                  
+               288      page-faults               #    0.293 K/sec                  
+     2,553,991,737      cycles                    #    2.599 GHz                    
+       515,741,150      stalled-cycles-frontend   #   20.19% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+     8,094,988,536      instructions              #    3.17  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+       230,393,093      branches                  #  234.449 M/sec                  
+           565,274      branch-misses             #    0.25% of all branches        
+
+       0.983826696 seconds time elapsed
+
+
+ Performance counter stats for './sequential.out 200 0.01':
+
+        982.396582      task-clock (msec)         #    0.997 CPUs utilized          
+                 6      context-switches          #    0.006 K/sec                  
+                 1      cpu-migrations            #    0.001 K/sec                  
+               288      page-faults               #    0.293 K/sec                  
+     2,553,200,993      cycles                    #    2.599 GHz                    
+       515,139,794      stalled-cycles-frontend   #   20.18% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+     8,095,041,371      instructions              #    3.17  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+       230,404,383      branches                  #  234.533 M/sec                  
+           564,760      branch-misses             #    0.25% of all branches        
+
+       0.984920901 seconds time elapsed
+
+
+ Performance counter stats for './sequential.out 200 0.01':
+
+        982.255919      task-clock (msec)         #    0.999 CPUs utilized          
+                 7      context-switches          #    0.007 K/sec                  
+                 0      cpu-migrations            #    0.000 K/sec                  
+               288      page-faults               #    0.293 K/sec                  
+     2,552,831,424      cycles                    #    2.599 GHz                    
+       514,912,891      stalled-cycles-frontend   #   20.17% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+     8,094,990,954      instructions              #    3.17  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+       230,391,967      branches                  #  234.554 M/sec                  
+           564,966      branch-misses             #    0.25% of all branches        
+
+       0.982799976 seconds time elapsed
+
+
+ Performance counter stats for './sequential.out 200 0.01':
+
+        982.612186      task-clock (msec)         #    0.991 CPUs utilized          
+                 6      context-switches          #    0.006 K/sec                  
+                 0      cpu-migrations            #    0.000 K/sec                  
+               288      page-faults               #    0.293 K/sec                  
+     2,553,760,410      cycles                    #    2.599 GHz                    
+       515,660,182      stalled-cycles-frontend   #   20.19% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+     8,094,939,587      instructions              #    3.17  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+       230,382,448      branches                  #  234.459 M/sec                  
+           565,182      branch-misses             #    0.25% of all branches        
+
+       0.991487869 seconds time elapsed
+
+
+ Performance counter stats for './sequential.out 200 0.01':
+
+        982.661833      task-clock (msec)         #    0.985 CPUs utilized          
+                 6      context-switches          #    0.006 K/sec                  
+                 0      cpu-migrations            #    0.000 K/sec                  
+               288      page-faults               #    0.293 K/sec                  
+     2,553,890,434      cycles                    #    2.599 GHz                    
+       515,782,482      stalled-cycles-frontend   #   20.20% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+     8,095,064,842      instructions              #    3.17  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+       230,409,387      branches                  #  234.475 M/sec                  
+           565,897      branch-misses             #    0.25% of all branches        
+
+       0.997355173 seconds time elapsed
+
+
+ Performance counter stats for './sequential.out 200 0.01':
+
+        982.815737      task-clock (msec)         #    0.999 CPUs utilized          
+                12      context-switches          #    0.012 K/sec                  
+                 0      cpu-migrations            #    0.000 K/sec                  
+               288      page-faults               #    0.293 K/sec                  
+     2,554,265,213      cycles                    #    2.599 GHz                    
+       515,900,268      stalled-cycles-frontend   #   20.20% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+     8,095,106,021      instructions              #    3.17  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+       230,415,230      branches                  #  234.444 M/sec                  
+           565,858      branch-misses             #    0.25% of all branches        
+
+       0.983495959 seconds time elapsed
+
+
+ Performance counter stats for './sequential.out 200 0.01':
+
+        982.489744      task-clock (msec)         #    1.000 CPUs utilized          
+                 6      context-switches          #    0.006 K/sec                  
+                 0      cpu-migrations            #    0.000 K/sec                  
+               288      page-faults               #    0.293 K/sec                  
+     2,553,442,260      cycles                    #    2.599 GHz                    
+       515,283,313      stalled-cycles-frontend   #   20.18% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+     8,094,988,864      instructions              #    3.17  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+       230,391,654      branches                  #  234.498 M/sec                  
+           565,126      branch-misses             #    0.25% of all branches        
+
+       0.982908591 seconds time elapsed
+
+
+ Performance counter stats for './sequential.out 200 0.01':
+
+        982.465964      task-clock (msec)         #    0.999 CPUs utilized          
+                 6      context-switches          #    0.006 K/sec                  
+                 0      cpu-migrations            #    0.000 K/sec                  
+               288      page-faults               #    0.293 K/sec                  
+     2,553,382,257      cycles                    #    2.599 GHz                    
+       515,336,316      stalled-cycles-frontend   #   20.18% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+     8,094,942,487      instructions              #    3.17  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+       230,383,111      branches                  #  234.495 M/sec                  
+           564,767      branch-misses             #    0.25% of all branches        
+
+       0.983039704 seconds time elapsed
+
+
+ Performance counter stats for './sequential.out 200 0.01':
+
+        982.512873      task-clock (msec)         #    0.999 CPUs utilized          
+                 7      context-switches          #    0.007 K/sec                  
+                 0      cpu-migrations            #    0.000 K/sec                  
+               288      page-faults               #    0.293 K/sec                  
+     2,553,498,437      cycles                    #    2.599 GHz                    
+       515,333,585      stalled-cycles-frontend   #   20.18% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+     8,095,020,495      instructions              #    3.17  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+       230,400,225      branches                  #  234.501 M/sec                  
+           565,442      branch-misses             #    0.25% of all branches        
+
+       0.983588080 seconds time elapsed
+
+
+########################################################################
+----------------------! Balena Job Details !----------------------------
+
+JobID          : 3455039
+No. of nodes   : 1
+No. of CPUs    : 16
+Timelimit      : 00:15:00
+Elapsed time   : 00:00:20
+Nodelist       : node-sw-161
+
+########################################################################
+
+
+ Performance counter stats for './sequential.out 200 0.01':
+
+        982.577790      task-clock (msec)         #    0.999 CPUs utilized          
+                11      context-switches          #    0.011 K/sec                  
+                 2      cpu-migrations            #    0.002 K/sec                  
+               288      page-faults               #    0.293 K/sec                  
+     2,553,650,866      cycles                    #    2.599 GHz                    
+       515,448,482      stalled-cycles-frontend   #   20.18% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+     8,095,073,455      instructions              #    3.17  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+       230,409,688      branches                  #  234.495 M/sec                  
+           565,481      branch-misses             #    0.25% of all branches        
+
+       0.983445168 seconds time elapsed
+
+
+ Performance counter stats for './sequential.out 200 0.01':
+
+        982.404059      task-clock (msec)         #    0.999 CPUs utilized          
+                 6      context-switches          #    0.006 K/sec                  
+                 1      cpu-migrations            #    0.001 K/sec                  
+               288      page-faults               #    0.293 K/sec                  
+     2,553,222,081      cycles                    #    2.599 GHz                    
+       515,094,892      stalled-cycles-frontend   #   20.17% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+     8,094,980,074      instructions              #    3.17  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+       230,390,560      branches                  #  234.517 M/sec                  
+           565,017      branch-misses             #    0.25% of all branches        
+
+       0.982933752 seconds time elapsed
+
+
+ Performance counter stats for './sequential.out 200 0.01':
+
+        982.534153      task-clock (msec)         #    1.000 CPUs utilized          
+                 6      context-switches          #    0.006 K/sec                  
+                 0      cpu-migrations            #    0.000 K/sec                  
+               288      page-faults               #    0.293 K/sec                  
+     2,553,559,349      cycles                    #    2.599 GHz                    
+       515,472,805      stalled-cycles-frontend   #   20.19% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+     8,094,935,182      instructions              #    3.17  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+       230,382,392      branches                  #  234.478 M/sec                  
+           564,627      branch-misses             #    0.25% of all branches        
+
+       0.983009697 seconds time elapsed
+
+
+ Performance counter stats for './sequential.out 200 0.01':
+
+        982.696313      task-clock (msec)         #    0.995 CPUs utilized          
+                 6      context-switches          #    0.006 K/sec                  
+                 1      cpu-migrations            #    0.001 K/sec                  
+               288      page-faults               #    0.293 K/sec                  
+     2,553,980,030      cycles                    #    2.599 GHz                    
+       515,715,985      stalled-cycles-frontend   #   20.19% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+     8,095,053,454      instructions              #    3.17  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+       230,406,098      branches                  #  234.463 M/sec                  
+           565,321      branch-misses             #    0.25% of all branches        
+
+       0.987466773 seconds time elapsed
+
+
+ Performance counter stats for './sequential.out 200 0.01':
+
+        982.765274      task-clock (msec)         #    0.999 CPUs utilized          
+                22      context-switches          #    0.022 K/sec                  
+                 0      cpu-migrations            #    0.000 K/sec                  
+               288      page-faults               #    0.293 K/sec                  
+     2,554,105,162      cycles                    #    2.599 GHz                    
+       515,809,367      stalled-cycles-frontend   #   20.20% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+     8,095,111,018      instructions              #    3.17  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+       230,417,222      branches                  #  234.458 M/sec                  
+           565,185      branch-misses             #    0.25% of all branches        
+
+       0.983659069 seconds time elapsed
+
+
+ Performance counter stats for './sequential.out 200 0.01':
+
+        982.345017      task-clock (msec)         #    0.999 CPUs utilized          
+                 6      context-switches          #    0.006 K/sec                  
+                 1      cpu-migrations            #    0.001 K/sec                  
+               288      page-faults               #    0.293 K/sec                  
+     2,553,067,470      cycles                    #    2.599 GHz                    
+       515,057,859      stalled-cycles-frontend   #   20.17% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+     8,094,985,316      instructions              #    3.17  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+       230,391,168      branches                  #  234.532 M/sec                  
+           564,701      branch-misses             #    0.25% of all branches        
+
+       0.983135229 seconds time elapsed
+
+
+ Performance counter stats for './sequential.out 200 0.01':
+
+        982.316825      task-clock (msec)         #    0.999 CPUs utilized          
+                 6      context-switches          #    0.006 K/sec                  
+                 0      cpu-migrations            #    0.000 K/sec                  
+               288      page-faults               #    0.293 K/sec                  
+     2,552,994,578      cycles                    #    2.599 GHz                    
+       515,048,135      stalled-cycles-frontend   #   20.17% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+     8,094,930,013      instructions              #    3.17  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+       230,381,538      branches                  #  234.529 M/sec                  
+           564,758      branch-misses             #    0.25% of all branches        
+
+       0.982831176 seconds time elapsed
+
+
+ Performance counter stats for './sequential.out 200 0.01':
+
+        982.529006      task-clock (msec)         #    0.999 CPUs utilized          
+                 6      context-switches          #    0.006 K/sec                  
+                 0      cpu-migrations            #    0.000 K/sec                  
+               288      page-faults               #    0.293 K/sec                  
+     2,553,546,269      cycles                    #    2.599 GHz                    
+       515,394,360      stalled-cycles-frontend   #   20.18% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+     8,095,026,805      instructions              #    3.17  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+       230,401,906      branches                  #  234.499 M/sec                  
+           564,544      branch-misses             #    0.25% of all branches        
+
+       0.983251629 seconds time elapsed
+
+
+ Performance counter stats for './sequential.out 200 0.01':
+
+        982.403127      task-clock (msec)         #    0.999 CPUs utilized          
+                 6      context-switches          #    0.006 K/sec                  
+                 0      cpu-migrations            #    0.000 K/sec                  
+               288      page-faults               #    0.293 K/sec                  
+     2,553,219,635      cycles                    #    2.599 GHz                    
+       515,158,904      stalled-cycles-frontend   #   20.18% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+     8,094,934,793      instructions              #    3.17  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+       230,382,615      branches                  #  234.509 M/sec                  
+           565,002      branch-misses             #    0.25% of all branches        
+
+       0.982959044 seconds time elapsed
+
+
+########################################################################
+----------------------! Balena Job Details !----------------------------
+
+JobID          : 3455041
+No. of nodes   : 1
+No. of CPUs    : 16
+Timelimit      : 00:15:00
+Elapsed time   : 00:00:19
+Nodelist       : node-sw-163
+
+########################################################################
+
+
+ Performance counter stats for './sequential.out 200 0.01':
+
+        982.595763      task-clock (msec)         #    0.999 CPUs utilized          
+                 6      context-switches          #    0.006 K/sec                  
+                 0      cpu-migrations            #    0.000 K/sec                  
+               288      page-faults               #    0.293 K/sec                  
+     2,553,719,937      cycles                    #    2.599 GHz                    
+       515,588,478      stalled-cycles-frontend   #   20.19% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+     8,095,026,631      instructions              #    3.17  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+       230,401,836      branches                  #  234.483 M/sec                  
+           564,692      branch-misses             #    0.25% of all branches        
+
+       0.983366477 seconds time elapsed
+
+
+ Performance counter stats for './sequential.out 200 0.01':
+
+        982.429173      task-clock (msec)         #    0.999 CPUs utilized          
+                 7      context-switches          #    0.007 K/sec                  
+                 0      cpu-migrations            #    0.000 K/sec                  
+               288      page-faults               #    0.293 K/sec                  
+     2,553,282,125      cycles                    #    2.599 GHz                    
+       515,226,927      stalled-cycles-frontend   #   20.18% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+     8,094,936,089      instructions              #    3.17  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+       230,382,047      branches                  #  234.502 M/sec                  
+           564,968      branch-misses             #    0.25% of all branches        
+
+       0.982985732 seconds time elapsed
+
+
+ Performance counter stats for './sequential.out 200 0.01':
+
+        982.581690      task-clock (msec)         #    0.999 CPUs utilized          
+                 6      context-switches          #    0.006 K/sec                  
+                 0      cpu-migrations            #    0.000 K/sec                  
+               288      page-faults               #    0.293 K/sec                  
+     2,553,682,750      cycles                    #    2.599 GHz                    
+       515,532,831      stalled-cycles-frontend   #   20.19% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+     8,095,008,191      instructions              #    3.17  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+       230,398,477      branches                  #  234.483 M/sec                  
+           564,436      branch-misses             #    0.24% of all branches        
+
+       0.983274739 seconds time elapsed
+
+
+ Performance counter stats for './sequential.out 200 0.01':
+
+        982.405678      task-clock (msec)         #    0.999 CPUs utilized          
+                 5      context-switches          #    0.005 K/sec                  
+                 0      cpu-migrations            #    0.000 K/sec                  
+               288      page-faults               #    0.293 K/sec                  
+     2,553,229,702      cycles                    #    2.599 GHz                    
+       515,196,901      stalled-cycles-frontend   #   20.18% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+     8,094,941,015      instructions              #    3.17  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+       230,382,916      branches                  #  234.509 M/sec                  
+           564,346      branch-misses             #    0.24% of all branches        
+
+       0.983101943 seconds time elapsed
+
+
+ Performance counter stats for './sequential.out 200 0.01':
+
+        982.397340      task-clock (msec)         #    0.999 CPUs utilized          
+                 6      context-switches          #    0.006 K/sec                  
+                 0      cpu-migrations            #    0.000 K/sec                  
+               288      page-faults               #    0.293 K/sec                  
+     2,553,203,683      cycles                    #    2.599 GHz                    
+       515,117,805      stalled-cycles-frontend   #   20.18% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+     8,095,004,906      instructions              #    3.17  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+       230,398,099      branches                  #  234.526 M/sec                  
+           564,635      branch-misses             #    0.25% of all branches        
+
+       0.983015131 seconds time elapsed
+
+
+ Performance counter stats for './sequential.out 200 0.01':
+
+        982.726744      task-clock (msec)         #    0.999 CPUs utilized          
+                 6      context-switches          #    0.006 K/sec                  
+                 0      cpu-migrations            #    0.000 K/sec                  
+               288      page-faults               #    0.293 K/sec                  
+     2,554,060,407      cycles                    #    2.599 GHz                    
+       515,881,987      stalled-cycles-frontend   #   20.20% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+     8,094,933,984      instructions              #    3.17  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+       230,382,033      branches                  #  234.431 M/sec                  
+           564,896      branch-misses             #    0.25% of all branches        
+
+       0.983372698 seconds time elapsed
+
+
+ Performance counter stats for './sequential.out 200 0.01':
+
+        982.676454      task-clock (msec)         #    0.999 CPUs utilized          
+                 8      context-switches          #    0.008 K/sec                  
+                 1      cpu-migrations            #    0.001 K/sec                  
+               288      page-faults               #    0.293 K/sec                  
+     2,553,920,927      cycles                    #    2.599 GHz                    
+       515,662,757      stalled-cycles-frontend   #   20.19% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+     8,095,069,588      instructions              #    3.17  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+       230,409,617      branches                  #  234.471 M/sec                  
+           565,197      branch-misses             #    0.25% of all branches        
+
+       0.983267514 seconds time elapsed
+
+
+ Performance counter stats for './sequential.out 200 0.01':
+
+        982.556105      task-clock (msec)         #    0.999 CPUs utilized          
+                 6      context-switches          #    0.006 K/sec                  
+                 0      cpu-migrations            #    0.000 K/sec                  
+               288      page-faults               #    0.293 K/sec                  
+     2,553,616,145      cycles                    #    2.599 GHz                    
+       515,466,971      stalled-cycles-frontend   #   20.19% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+     8,094,933,359      instructions              #    3.17  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+       230,381,960      branches                  #  234.472 M/sec                  
+           564,604      branch-misses             #    0.25% of all branches        
+
+       0.983238286 seconds time elapsed
+
+
+ Performance counter stats for './sequential.out 200 0.01':
+
+        982.458676      task-clock (msec)         #    0.999 CPUs utilized          
+                 6      context-switches          #    0.006 K/sec                  
+                 0      cpu-migrations            #    0.000 K/sec                  
+               288      page-faults               #    0.293 K/sec                  
+     2,553,363,104      cycles                    #    2.599 GHz                    
+       515,293,005      stalled-cycles-frontend   #   20.18% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+     8,095,062,417      instructions              #    3.17  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+       230,407,959      branches                  #  234.522 M/sec                  
+           565,314      branch-misses             #    0.25% of all branches        
+
+       0.983106563 seconds time elapsed
+
+
+########################################################################
+----------------------! Balena Job Details !----------------------------
+
+JobID          : 3455043
+No. of nodes   : 1
+No. of CPUs    : 16
+Timelimit      : 00:15:00
+Elapsed time   : 00:00:21
+Nodelist       : node-sw-162
+
+########################################################################
+

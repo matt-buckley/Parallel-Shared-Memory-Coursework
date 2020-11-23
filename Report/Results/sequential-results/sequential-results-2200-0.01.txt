@@ -1,0 +1,31 @@
+
+ Performance counter stats for './sequential.out 2200 0.01':
+
+     568916.229004      task-clock (msec)         #    1.000 CPUs utilized          
+               660      context-switches          #    0.001 K/sec                  
+                 0      cpu-migrations            #    0.000 K/sec                  
+            19,065      page-faults               #    0.034 K/sec                  
+ 1,478,594,448,162      cycles                    #    2.599 GHz                    
+   306,978,648,669      stalled-cycles-frontend   #   20.76% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+ 4,678,819,067,427      instructions              #    3.16  insns per cycle        
+                                                  #    0.07  stalled cycles per insn
+   130,796,867,639      branches                  #  229.905 M/sec                  
+        30,183,180      branch-misses             #    0.02% of all branches        
+
+     568.829216928 seconds time elapsed
+
+slurmstepd: error: *** JOB 3455247 ON node-sw-162 CANCELLED AT 2020-11-22T09:53:39 DUE TO TIME LIMIT ***
+
+########################################################################
+----------------------! Balena Job Details !----------------------------
+
+JobID          : 3455247
+No. of nodes   : 1
+No. of CPUs    : 16
+Timelimit      : 00:15:00
+Elapsed time   : 00:15:31
+Nodelist       : node-sw-162
+
+########################################################################
+

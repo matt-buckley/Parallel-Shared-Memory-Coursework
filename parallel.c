@@ -17,31 +17,51 @@ bool precisionMetForAll;
 pthread_barrier_t barrier;
 struct timespec startTime, endTime;
 double sequentialTime;
+bool programEnd;
 
-// Can just combine this with the function above
+/**
+ * Start function for pthreads - takes sequence of elements to process and fills iterable array
+ * @param arguments: struct that contains location of first element to process and number of elements to process
+ */
 void averageRows(void *arguments) {
 
-    while (true) {
+    struct startFunctionArguments *args = (struct startFunctionArguments *) arguments;
 
-        struct startFunctionArguments *args = (struct startFunctionArguments *) arguments;
+    int elementLoc = args -> elementLoc;
+    int elementsToProcess = args -> elementsToProcess;
 
-        int elementLoc = args -> elementLoc;
-        int elementsToProcess = args -> elementsToProcess;
+    // Uses elementLoc to calculate row and col of first element to process
+    int initialRow = ((elementLoc - 1) / (arraySize - 2)) + 1;
+    int initialCol = (elementLoc - ((initialRow - 1) * (arraySize - 2)));
 
-        int row = ((elementLoc - 1) / (arraySize - 2)) + 1;
-        int col = (elementLoc - ((row - 1) * (arraySize - 2)));
+    int row, col;
 
+    // Thread continues operating until programEnd flag is true, or main() returns
+    while (programEnd == false) {
+
+        row = initialRow;
+        col = initialCol;
+        elementsToProcess = args -> elementsToProcess;
+
+        // Continues processing elements one by one until all elements 'assigned' to this thread have been processed
         while (elementsToProcess > 0) {
 
+            // Calculates mean of surrounding four elements and assigns to array
+            // Reads from static array and assigns to mutable array
             iterableArray[row][col] = (finalArray[row - 1][col] + finalArray[row][col - 1] + finalArray[row + 1][col] + finalArray[row][col + 1]) / 4;
 
-            if (precisionMetForAll == true) { // if 0, do nothing because at least one value is still > precision
+            // Precision checker — sets flag to false if difference between newly calculate value and 
+            // previous value is greater than the precision
+            // Only runs if flag is true, meaning either this is the first check, or all previous elements
+            // are less than the precision
+            if (precisionMetForAll == true) {
                 double diff = fabs(finalArray[row][col] - iterableArray[row][col]);
                 if (diff > precision) {
                     precisionMetForAll = false;
                 }
             }
 
+            // Updates row and col value for next element
             col += 1;
             if (col == arraySize - 1) {
                 row += 1;
@@ -51,57 +71,84 @@ void averageRows(void *arguments) {
 
         }
 
-        // To ensure all threads are finished
+        // Blocks thread to ensure all other threads are finished before continuing
         pthread_barrier_wait(&barrier);
-        // To allow main to update arrays and check if finished
+        // Blocks thread again to allow main to update arrays and check if finished
         pthread_barrier_wait(&barrier);
 
     }
 
 }
 
-void createThreads(int elementLoc, int elementsToProcess, pthread_t *threadArray, int numCurrentThreads) {
+/**
+ * Creates struct of arguments to pass, then creates thread
+ * @param elementLoc: 'Location' of first element for thread to process (e.g. [1][1] = 1, [2][1] = arraySize-1)
+ * @param elementsToProcess: Number of elements this thread should process from elementLoc onwards
+ */
+void createThreads(int elementLoc, int elementsToProcess) {
+
     pthread_t thread;
 
+    // Creates struct to hold arguments that will be passed to start function of new thread
     struct startFunctionArguments *args = malloc(sizeof(struct startFunctionArguments));
     args -> elementLoc = elementLoc;
     args -> elementsToProcess = elementsToProcess;
 
     pthread_create(&thread, NULL, (void *(*)(void *))averageRows, (void *)args);
     
-    threadArray[numCurrentThreads] = thread;
 }
 
+/**
+ * Main function, handling most serial processing
+ * @param argc: Number of arguments passed to main from command line
+ * @param argv: Arguments passed to main
+ */
 int main(int argc, char *argv[]) {
+
+    programEnd = false;
+
+
+
+    // STILL NEED TO COMMENT CLOCK FUNCTIONS
+
+
 
     clock_gettime(CLOCK_MONOTONIC, &startTime);
 
+    // Define default array dimension, precision, and thread count
     arraySize = 18;
-    char *arraySizeStr = malloc(10 * sizeof(char));
+    precision = 0.01;
+    int numThreads = 16;
+
+    // Define default values as strings for output filename
+    char *numThreadsStr = malloc(20 * sizeof(char));
+    numThreadsStr = "16";
+    char *arraySizeStr = malloc(20 * sizeof(char));
     arraySizeStr = "18";
-    precision = 0.001;
-    // For iteration, must be defined before use in loop when using Balena's compiler.
+
+    // For iteration, but these must be defined before use in loop when using Balena's compiler.
     int row, col;
 
-    // Define dimension
+    // Read in array dimension if defined in command line
     if (argc > 1) {
         arraySize = atoi(argv[1]);
         arraySizeStr = argv[1];
     }
 
+    // Number of elements to change — does not include boundary elements
     int numMutableElements = (arraySize - 2) * (arraySize - 2);
+    if (numMutableElements < 1) {
+        printf("Error — array too small to iterate on.");
+        return 0;
+    }
 
-    // Define default thread count based on number of threads
-    int numThreads = 16;
-    char *numThreadsStr = malloc(10 * sizeof(char));
-    numThreadsStr = "16";
-
-    // Define precision
+    // Read in precision if defined in command line
     if (argc > 2) {
         char *temp;
         precision = strtod(argv[2], &temp);
     }
 
+    // Read in number of threads to use if defined in command line
     if (argc > 3) {
         numThreads = atoi(argv[3]);
         numThreadsStr = argv[3];
@@ -109,105 +156,62 @@ int main(int argc, char *argv[]) {
             printf("Invalid number of threads.");
             return 0;
         }
-
-
-
-
-        // IN REPORT - MENTION THE ABOVE, AND MENTION WHAT THE DEFAULT IS
-    
-    
-    
     }
 
-    // A lot of this needs changing, including nested for loops, assigning values unnecessarily, and more
-    int iterationNum = 0;
+    // Reduces number of threads if more threads are assigned than could be used
+    if (numThreads > numMutableElements) {
+        printf("Cannot use this many threads (default 16) as there are more threads than there are mutable elements in array. Reducing number of threads to number of mutable elements.\n");
+        numThreads = numMutableElements;
+        numThreadsStr = "unknown number of";
+    }
 
+    // Assign memory for final array (holds final values and is static during iteration)
     finalArray = (double **) malloc(arraySize * sizeof(double *));
     for (row = 0; row < arraySize; row++) {
         finalArray[row] = (double *) malloc(arraySize * sizeof(double));
     }
     
-    // Still need to ensure that:
-    // - Full number of array elements is entered
-    // - Entered array matches given array dimensions
-    // Maybe just mention it may not work if incorrect in report
-    /*if (argc > 4) {
-        // Omitted because requires using -lm compile flag
-        //if ((int) sqrt((double )argc - 4) != arraySize) {
-        //    printf("Error - entered array does not match array size.");
-        //    return 0;
-        //}
-        
-        int argcCounter;
-        row = -1;
-        col = 0;
-        char *temp;
-        for (argcCounter = 4; argcCounter < argc; argcCounter++) {
-            // Reset to start of next line
-            if (((argcCounter - 4) % arraySize) == 0) {
-                row += 1;
-                col = 0;
-            }
-            else {
-                col += 1;
-            }  
-            finalArray[row][col] = strtod(argv[argcCounter], &temp);
-        }
-    }*/
+    // Read in array from file if defined in command line
     if (argc > 4) {
+
         printf("Reading in file. Errors may occur if array stored in file is not %dx%d.\n", arraySize, arraySize);
+        
         FILE *file = fopen(argv[4], "r");
         char *tempChar;
-        char *buff = malloc(20 * sizeof(char)); // more than enough to hold the number of decimal points a C double can possess (IEEE 754 encoding)
+        char *buff = malloc(20 * sizeof(char)); // 20 chars should be more than enough to hold the number of decimal points a C double can possess (IEEE 754 encoding)
+        
         for (row = 0; row < arraySize; row++) {
             for (col = 0; col < arraySize; col++) {
-                int i = fscanf(file, "%s ", buff);
+                fscanf(file, "%s ", buff);
                 finalArray[row][col] = strtod(buff, &tempChar);
             }
         }
+
         fclose(file);
+
     }
+    // If no filename entered into command line, generate default array
     else {
-        // Random integers between 0 and RAND_MAX
-        srand(10); // same random seed as sequential.c
+        
+        // Random seed is defined to be the same as sequential program to ensure same array is generated
+        srand(10);
+
+        // Default array is random 1.0s and 0.0s
         for (row = 0; row < arraySize; row++) {
             for (col = 0; col < arraySize; col++) {
                 finalArray[row][col] = rand() % 2;
             }
         }
 
-        // 1.0s on outside
-        /*for (row = 0; row < arraySize; row++) {
-            for (col = 0; col < arraySize; col++) {
-                if (row == 0 || col == 0 || row == arraySize - 1 || col == arraySize - 1) {
-                    finalArray[row][col] = 1.0;
-                }
-                else {
-                    finalArray[row][col] = 0.0;
-                }
-            }
-        }*/
     }
 
-    if (arraySize < 3) { // array has no mutable values
-        for (row = 0; row < arraySize; row++) {
-            for (col = 0; col < arraySize; col++) {
-                printf("%f\t", finalArray[row][col]);
-            }
-        }
-        printf("\n");
-        return 0;
-    }
-
-
-
-    // Here as does all calculations on 'old' values before updating, rather than
+    // Assigns memory for array newly calculate values are written to
     iterableArray = (double **) malloc(arraySize * sizeof(double *));
     for (row = 0; row < arraySize; row++) {
         iterableArray[row] = (double *) malloc(arraySize * sizeof(double));
     }
 
-    // Only need to set the outer elements as the inner elements will be filled during the first iteration
+    // Sets the outer elements of iterableArray as the inner elements will be filled during the first iteration
     for (row = 0; row < arraySize; row++) {
         for (col = 0; col < arraySize; col++) {
             if (row == 0 || col == 0 || row == arraySize - 1 || col == arraySize - 1) {
@@ -215,81 +219,92 @@ int main(int argc, char *argv[]) {
             }
         }
     }
-
-    /*for (row = 0; row < arraySize; row++) {
-        for (col = 0; col < arraySize; col++) {
-            printf("%f\t", iterableArray[row][col]);
-        }
-        printf("\n");
-    }
-    printf("\n");*/
     
-    pthread_t threadArray[numThreads];
+    // Each thread will process at least 'elementsPerThread' elements each iteration, 
+    // with 'numThreadsWithAnExtraElement' each processing one extra element each
+    // Work is hence as evenly divided between the threads as possible
     int elementsPerThread;
     int numThreadsWithAnExtraElement;
-    int numCurrentThreads;
-    int elementLoc; // CAN REUSE row INSTEAD ONCE DEBUGGING COMPLETE
-
-    if (numThreads > numMutableElements) {
-        printf("Cannot use this many threads (default 16) as there are more threads than there are mutable elements in array. Reducing number of threads to this value.\n");
-        numThreads = numMutableElements;
-        numThreadsStr = "X";
-    }
-    
     elementsPerThread = numMutableElements / numThreads;
     numThreadsWithAnExtraElement = numMutableElements % numThreads;
-    numCurrentThreads = 0;
-    precisionMetForAll = true;
 
-    pthread_barrier_init(&barrier, NULL, numThreads + 1); // total threads plus main
+    // Creates barrier with count of total pthreads plus control thread (the thread running main())
+    pthread_barrier_init(&barrier, NULL, numThreads + 1);
+
+
+
 
     // Will miss thread creation but ah well
+    // COMMENT
+
+
+
+
     clock_gettime(CLOCK_MONOTONIC, &endTime);
     sequentialTime = startTime.tv_nsec - endTime.tv_nsec;
     clock_gettime(CLOCK_MONOTONIC, &startTime);
 
-    // Only operates inside the mutable grid
+
+
+    int elementLoc;
+
+    // Iteration counter
+    int iterationNum = 0;
+    
+    // Precision flag set to true so threads will know if they need to check whether to set it
+    precisionMetForAll = true;
+
+    // Creates threads according to specifications defined by variables above
     for (elementLoc = 1; elementLoc <= numMutableElements;) {
+
+        // Creates 'numThreadsWithAnExtraElement' pthreads that will process one extra element
         if (numThreadsWithAnExtraElement > 0) {
-            createThreads(elementLoc, elementsPerThread + 1, threadArray, numCurrentThreads);
+            createThreads(elementLoc, elementsPerThread + 1);
             numThreadsWithAnExtraElement -= 1;
             elementLoc += (elementsPerThread + 1);
         }
+
+        // Creates the remaining pthreads to process the default number of elements
         else {
-            createThreads(elementLoc, elementsPerThread, threadArray, numCurrentThreads);
+            createThreads(elementLoc, elementsPerThread);
             elementLoc += elementsPerThread;
         }
-        numCurrentThreads += 1;
+
     }
 
+    // Loop that updates arrays between iterations and checks if program should finish
     do {
 
+        // Resets precision flag between iterations and calls wait once arrays have been updated
+        // to allow threads to continue to next iteration
+        // Reset is here to allow precision check (the 'while') to complete before continuing
         if (iterationNum != 0) {
             precisionMetForAll = true;
             pthread_barrier_wait(&barrier);
         }
 
-        // Ensures all threads are finalised
+        // Ensures all threads have finished processing this iteration before continuing
         pthread_barrier_wait(&barrier);
 
         iterationNum += 1;
         
-        // Could put in function
+        // Swaps (pointers to) static and iterable arrays between iterations to update readable values
+        // to those just calculated
         double **tmp = finalArray;
         finalArray = iterableArray;
         iterableArray = tmp;
 
-        // If precisionMetForAll is false, continue iterating; else, finalise.
-
+        // If precisionMetForAll is false, continue iterating; else, finalise program
 
     } while (precisionMetForAll == false); //comparison here as will already do at least once
 
-    // Quicker to just return than call join on all the threads and wait for them to finish
+    // Not technically needed as program will end and free threads regardless, but avoids using an infinite loop
+    programEnd = true;
 
-    // UNCOMMENT BEFORE SUBMISSION TO REMOVE WARNINGS
-    // ONLY NEEDED FOR CORRECTNESS TESTING
-    printf("Completed after %d iterations using %d threads.\n", iterationNum, numCurrentThreads);
-    /*char filename[25] = "resultParallel-";
+    printf("Completed after %d iterations using %d threads.\n", iterationNum, numThreads);
+    
+    // Prints output to file for correctness testing
+    char filename[25] = "resultParallel-";
     strcat(filename, numThreadsStr);
     strcat(filename, "-");
     strcat(filename, arraySizeStr);
@@ -300,7 +315,7 @@ int main(int argc, char *argv[]) {
            fprintf(file, "%f,", finalArray[row][col]);
         }
         fprintf(file, "\n");
-    }*/
+    }
 
     return 0;
 

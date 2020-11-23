@@ -1,29 +1,29 @@
 
- Performance counter stats for './parallel.out 1000 0.01 12' (4 runs):
+ Performance counter stats for './parallel.out 1000 0.01 12':
 
-     132817.395404      task-clock (msec)         #   10.588 CPUs utilized            ( +-  0.02% )
-           490,777      context-switches          #    0.004 M/sec                    ( +-  0.06% )
-                84      cpu-migrations            #    0.001 K/sec                    ( +- 24.85% )
-             4,106      page-faults               #    0.031 K/sec                    ( +-  0.05% )
-   343,472,964,292      cycles                    #    2.586 GHz                      ( +-  0.02% )
-    84,955,081,226      stalled-cycles-frontend   #   24.73% frontend cycles idle     ( +-  0.08% )
+     132742.381022      task-clock (msec)         #   10.591 CPUs utilized          
+           490,735      context-switches          #    0.004 M/sec                  
+               140      cpu-migrations            #    0.001 K/sec                  
+             4,104      page-faults               #    0.031 K/sec                  
+   343,289,329,753      cycles                    #    2.586 GHz                    
+    84,826,870,486      stalled-cycles-frontend   #   24.71% frontend cycles idle   
    <not supported>      stalled-cycles-backend   
- 1,028,904,591,709      instructions              #    3.00  insns per cycle        
-                                                  #    0.08  stalled cycles per insn  ( +-  0.00% )
-    40,918,253,486      branches                  #  308.079 M/sec                    ( +-  0.00% )
-        21,134,376      branch-misses             #    0.05% of all branches          ( +-  0.15% )
+ 1,028,693,987,544      instructions              #    3.00  insns per cycle        
+                                                  #    0.08  stalled cycles per insn
+    40,911,283,582      branches                  #  308.201 M/sec                  
+        21,133,693      branch-misses             #    0.05% of all branches        
 
-      12.544073849 seconds time elapsed                                          ( +-  0.07% )
+      12.533404080 seconds time elapsed
 
 
 ########################################################################
 ----------------------! Balena Job Details !----------------------------
 
-JobID          : 3433139
+JobID          : 3455094
 No. of nodes   : 1
 No. of CPUs    : 16
 Timelimit      : 00:15:00
-Elapsed time   : 00:00:52
+Elapsed time   : 00:00:15
 Nodelist       : node-sw-162
 
 ########################################################################
