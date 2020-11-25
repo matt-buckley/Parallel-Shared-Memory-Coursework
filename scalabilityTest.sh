@@ -29,6 +29,7 @@ do
             echo "perf stat ./parallel.out $arraySize $priority $threadNum" >> singleScaleTest-$arraySize-$priority-$threadNum.slurm
             sbatch singleScaleTest-$arraySize-$priority-$threadNum.slurm
 
+            # THIS RESULTS IN THE SAME SEQUENTIAL JOB BEING SCHECULED 20 TIMES FOR EVERY $THREADNUM
             echo "#!/bin/bash" >> singleScaleTest-$arraySize-$priority.slurm
             echo "#SBATCH --account=cm30225" >> singleScaleTest-$arraySize-$priority.slurm
             echo "#SBATCH --partition=teaching" >> singleScaleTest-$arraySize-$priority.slurm
