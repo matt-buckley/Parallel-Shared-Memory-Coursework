@@ -1,0 +1,32 @@
+Total sequential time 0.006690 seconds
+Total time: 22.847109 seconds
+
+ Performance counter stats for './parallel-srand-10.out 300 0.01 19':
+
+      81064.867581      task-clock (msec)         #    3.548 CPUs utilized          
+         4,655,219      context-switches          #    0.057 M/sec                  
+           442,067      cpu-migrations            #    0.005 M/sec                  
+               720      page-faults               #    0.009 K/sec                  
+   196,911,636,267      cycles                    #    2.429 GHz                    
+    76,488,456,855      stalled-cycles-frontend   #   38.84% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+   453,443,478,804      instructions              #    2.30  insns per cycle        
+                                                  #    0.17  stalled cycles per insn
+    21,256,133,679      branches                  #  262.211 M/sec                  
+        82,025,795      branch-misses             #    0.39% of all branches        
+
+      22.851127499 seconds time elapsed
+
+
+########################################################################
+----------------------! Balena Job Details !----------------------------
+
+JobID          : 3508377
+No. of nodes   : 1
+No. of CPUs    : 1
+Timelimit      : 00:15:00
+Elapsed time   : 00:00:00
+Nodelist       : None assigned
+
+########################################################################
+

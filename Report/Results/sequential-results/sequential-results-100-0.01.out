@@ -1,0 +1,31 @@
+Completed sequentially after 9745 iterations.
+
+ Performance counter stats for './sequential.out 100 0.01':
+
+        851.675578      task-clock (msec)         #    0.997 CPUs utilized          
+                18      context-switches          #    0.021 K/sec                  
+                 1      cpu-migrations            #    0.001 K/sec                  
+               253      page-faults               #    0.297 K/sec                  
+     2,213,407,684      cycles                    #    2.599 GHz                    
+       450,742,653      stalled-cycles-frontend   #   20.36% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+     6,952,207,795      instructions              #    3.14  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+       202,090,671      branches                  #  237.286 M/sec                  
+         1,014,676      branch-misses             #    0.50% of all branches        
+
+       0.853920860 seconds time elapsed
+
+
+########################################################################
+----------------------! Balena Job Details !----------------------------
+
+JobID          : 3513133
+No. of nodes   : 1
+No. of CPUs    : 16
+Timelimit      : 00:15:00
+Elapsed time   : 00:00:01
+Nodelist       : node-sw-158
+
+########################################################################
+

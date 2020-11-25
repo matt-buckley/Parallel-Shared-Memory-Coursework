@@ -13,7 +13,7 @@
      8,471,664,543      branches                  #  288.448 M/sec                  
         12,420,191      branch-misses             #    0.15% of all branches        
 
-       4.3869550564.386955056 seconds time elapsed
+       4.386955056 seconds time elapsed
 
 
 ########################################################################

@@ -1,30 +1,32 @@
+Total sequential time 0.000856 seconds
+Total time: 2.212984 seconds
 
- Performance counter stats for './parallel.out 100 0.01 14' (4 runs):
+ Performance counter stats for './parallel-srand-10.out 100 0.01 14':
 
-        748.905136      task-clock (msec)         #    2.126 CPUs utilized            ( +-  0.44% )
-            88,890      context-switches          #    0.119 M/sec                    ( +-  3.10% )
-             4,098      cpu-migrations            #    0.005 M/sec                    ( +- 28.68% )
-               230      page-faults               #    0.308 K/sec                    ( +-  0.22% )
-     1,668,390,932      cycles                    #    2.228 GHz                      ( +-  0.66% )
-     1,089,181,103      stalled-cycles-frontend   #   65.28% frontend cycles idle     ( +-  1.60% )
+       4074.516222      task-clock (msec)         #    1.823 CPUs utilized          
+           534,359      context-switches          #    0.131 M/sec                  
+            32,303      cpu-migrations            #    0.008 M/sec                  
+               290      page-faults               #    0.071 K/sec                  
+     8,981,291,638      cycles                    #    2.204 GHz                    
+     5,656,465,654      stalled-cycles-frontend   #   62.98% frontend cycles idle   
    <not supported>      stalled-cycles-backend   
-     1,757,910,556      instructions              #    1.05  insns per cycle        
-                                                  #    0.62  stalled cycles per insn  ( +-  0.82% )
-       132,006,837      branches                  #  176.266 M/sec                    ( +-  2.17% )
-         1,486,418      branch-misses             #    1.13% of all branches          ( +-  2.44% )
+    10,132,243,365      instructions              #    1.13  insns per cycle        
+                                                  #    0.56  stalled cycles per insn
+       780,325,443      branches                  #  191.514 M/sec                  
+         8,383,851      branch-misses             #    1.07% of all branches        
 
-       0.352189417 seconds time elapsed                                          ( +-  5.65% )
+       2.235032044 seconds time elapsed
 
 
 ########################################################################
 ----------------------! Balena Job Details !----------------------------
 
-JobID          : 3432561
+JobID          : 3508350
 No. of nodes   : 1
 No. of CPUs    : 16
 Timelimit      : 00:15:00
 Elapsed time   : 00:00:03
-Nodelist       : node-sw-158
+Nodelist       : node-sw-162
 
 ########################################################################
 
