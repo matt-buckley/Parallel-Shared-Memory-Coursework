@@ -1,14 +1,6 @@
-Further tests to schedule:
+RUN AGAIN USING A DIFFERENT SEED TO TEST 2300
 
-Already scheduled test for sequential
-Sequential ones - only been scheduled for 0.001 so far
-More than 16 thread ones - only been scheduled for 0.001 so far, and even numbers from 20
-13 and 15 ones - only been scheduled for 0.001 so far
-Already scheduled N/A ones
-
-Look into 900 vs 1000 in speed difference
-
-Test more in 800–1000 range
+Test different array contents
 
 Remove global variables
 
@@ -18,11 +10,9 @@ Implement a thread pool
 - https://stackoverflow.com/questions/20167199/reuse-of-threads-pthread
 - https://github.com/jonhoo/pthread_pool
 
-Implement other improved speedup measures (e.g. re-use threads, perhaps add option to do rows to reduce calculations)
-Write report
+
 Investigate superlinear speedup (e.g. caches)
-Improve efficiency in allocating arrays by removing if statement, and only populating edge of iterableArray
-Comment EVERYTHING
+
 In report, note:
 - That briefly had superlinear speedup due to algorithm differences - max speedup of 19.2, reasonable speedup of 9.7 before using precision flags
 - Issues with using only values on the outside, i.e. numbers in the middle don't change even as you scale up

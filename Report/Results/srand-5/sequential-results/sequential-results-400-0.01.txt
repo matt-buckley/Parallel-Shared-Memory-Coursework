@@ -1,0 +1,206 @@
+
+ Performance counter stats for './sequential.out 400 0.01':
+
+     213309.310538      task-clock (msec)         #    1.000 CPUs utilized          
+               416      context-switches          #    0.002 K/sec                  
+                30      cpu-migrations            #    0.000 K/sec                  
+               790      page-faults               #    0.004 K/sec                  
+   554,385,861,192      cycles                    #    2.599 GHz                    
+   110,710,624,170      stalled-cycles-frontend   #   19.97% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+ 1,767,712,748,816      instructions              #    3.19  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+    49,804,675,883      branches                  #  233.486 M/sec                  
+        60,597,672      branch-misses             #    0.12% of all branches        
+
+     213.242482922 seconds time elapsed
+
+slurmstepd: error: *** JOB 3488547 ON node-sw-159 CANCELLED AT 2020-11-24T20:09:25 DUE TO TIME LIMIT ***
+
+########################################################################
+----------------------! Balena Job Details !----------------------------
+
+JobID          : 3488547
+No. of nodes   : 1
+No. of CPUs    : 16
+Timelimit      : 00:15:00
+Elapsed time   : 00:15:15
+Nodelist       : node-sw-159
+
+########################################################################
+
+
+ Performance counter stats for './sequential.out 400 0.01':
+
+     213281.859911      task-clock (msec)         #    1.000 CPUs utilized          
+               397      context-switches          #    0.002 K/sec                  
+                31      cpu-migrations            #    0.000 K/sec                  
+               790      page-faults               #    0.004 K/sec                  
+   554,314,580,754      cycles                    #    2.599 GHz                    
+   110,659,854,241      stalled-cycles-frontend   #   19.96% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+ 1,767,711,366,034      instructions              #    3.19  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+    49,804,732,812      branches                  #  233.516 M/sec                  
+        60,623,502      branch-misses             #    0.12% of all branches        
+
+     213.216142274 seconds time elapsed
+
+slurmstepd: error: *** JOB 3488550 ON node-sw-160 CANCELLED AT 2020-11-24T20:09:55 DUE TO TIME LIMIT ***
+
+########################################################################
+----------------------! Balena Job Details !----------------------------
+
+JobID          : 3488550
+No. of nodes   : 1
+No. of CPUs    : 16
+Timelimit      : 00:15:00
+Elapsed time   : 00:15:15
+Nodelist       : node-sw-160
+
+########################################################################
+
+
+ Performance counter stats for './sequential.out 400 0.01':
+
+     213323.581701      task-clock (msec)         #    1.000 CPUs utilized          
+               382      context-switches          #    0.002 K/sec                  
+                44      cpu-migrations            #    0.000 K/sec                  
+               790      page-faults               #    0.004 K/sec                  
+   554,423,079,126      cycles                    #    2.599 GHz                    
+   110,746,621,777      stalled-cycles-frontend   #   19.98% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+ 1,767,710,440,792      instructions              #    3.19  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+    49,804,291,259      branches                  #  233.468 M/sec                  
+        60,515,987      branch-misses             #    0.12% of all branches        
+
+     213.256458520 seconds time elapsed
+
+
+ Performance counter stats for './sequential.out 400 0.01':
+
+     213271.578680      task-clock (msec)         #    1.000 CPUs utilized          
+               244      context-switches          #    0.001 K/sec                  
+                 1      cpu-migrations            #    0.000 K/sec                  
+               790      page-faults               #    0.004 K/sec                  
+   554,288,508,445      cycles                    #    2.599 GHz                    
+   110,633,877,891      stalled-cycles-frontend   #   19.96% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+ 1,767,702,821,818      instructions              #    3.19  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+    49,803,190,735      branches                  #  233.520 M/sec                  
+        60,573,218      branch-misses             #    0.12% of all branches        
+
+     213.193354666 seconds time elapsed
+
+slurmstepd: error: *** JOB 3488552 ON node-sw-161 CANCELLED AT 2020-11-24T20:12:27 DUE TO TIME LIMIT ***
+
+########################################################################
+----------------------! Balena Job Details !----------------------------
+
+JobID          : 3488552
+No. of nodes   : 1
+No. of CPUs    : 16
+Timelimit      : 00:15:00
+Elapsed time   : 00:15:29
+Nodelist       : node-sw-161
+
+########################################################################
+
+
+ Performance counter stats for './sequential.out 400 0.01':
+
+     213259.351136      task-clock (msec)         #    1.000 CPUs utilized          
+               388      context-switches          #    0.002 K/sec                  
+                41      cpu-migrations            #    0.000 K/sec                  
+               790      page-faults               #    0.004 K/sec                  
+   554,256,131,193      cycles                    #    2.599 GHz                    
+   110,621,592,775      stalled-cycles-frontend   #   19.96% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+ 1,767,712,264,251      instructions              #    3.19  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+    49,804,892,173      branches                  #  233.541 M/sec                  
+        60,592,637      branch-misses             #    0.12% of all branches        
+
+     213.193582855 seconds time elapsed
+
+slurmstepd: error: *** JOB 3488554 ON node-sw-162 CANCELLED AT 2020-11-24T20:14:27 DUE TO TIME LIMIT ***
+
+########################################################################
+----------------------! Balena Job Details !----------------------------
+
+JobID          : 3488554
+No. of nodes   : 1
+No. of CPUs    : 16
+Timelimit      : 00:15:00
+Elapsed time   : 00:15:19
+Nodelist       : node-sw-162
+
+########################################################################
+
+
+ Performance counter stats for './sequential.out 400 0.01':
+
+     213313.035642      task-clock (msec)         #    1.000 CPUs utilized          
+               404      context-switches          #    0.002 K/sec                  
+                42      cpu-migrations            #    0.000 K/sec                  
+               790      page-faults               #    0.004 K/sec                  
+   554,395,554,340      cycles                    #    2.599 GHz                    
+   110,722,584,148      stalled-cycles-frontend   #   19.97% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+ 1,767,718,067,145      instructions              #    3.19  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+    49,805,931,201      branches                  #  233.488 M/sec                  
+        60,585,528      branch-misses             #    0.12% of all branches        
+
+     213.248050711 seconds time elapsed
+
+
+ Performance counter stats for './sequential.out 400 0.01':
+
+     213331.622920      task-clock (msec)         #    1.000 CPUs utilized          
+               409      context-switches          #    0.002 K/sec                  
+                40      cpu-migrations            #    0.000 K/sec                  
+               790      page-faults               #    0.004 K/sec                  
+   554,443,856,174      cycles                    #    2.599 GHz                    
+   110,757,370,295      stalled-cycles-frontend   #   19.98% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+ 1,767,712,810,799      instructions              #    3.19  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+    49,804,938,382      branches                  #  233.463 M/sec                  
+        60,604,161      branch-misses             #    0.12% of all branches        
+
+     213.271587720 seconds time elapsed
+
+
+ Performance counter stats for './sequential.out 400 0.01':
+
+     213358.494241      task-clock (msec)         #    1.000 CPUs utilized          
+               406      context-switches          #    0.002 K/sec                  
+                32      cpu-migrations            #    0.000 K/sec                  
+               790      page-faults               #    0.004 K/sec                  
+   554,513,704,851      cycles                    #    2.599 GHz                    
+   110,795,647,957      stalled-cycles-frontend   #   19.98% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+ 1,767,711,478,966      instructions              #    3.19  insns per cycle        
+                                                  #    0.06  stalled cycles per insn
+    49,804,702,547      branches                  #  233.432 M/sec                  
+        60,610,992      branch-misses             #    0.12% of all branches        
+
+     213.293087661 seconds time elapsed
+
+slurmstepd: error: *** JOB 3488556 ON node-sw-158 CANCELLED AT 2020-11-24T20:24:00 DUE TO TIME LIMIT ***
+
+########################################################################
+----------------------! Balena Job Details !----------------------------
+
+JobID          : 3488556
+No. of nodes   : 1
+No. of CPUs    : 16
+Timelimit      : 00:15:00
+Elapsed time   : 00:15:24
+Nodelist       : node-sw-158
+
+########################################################################
+

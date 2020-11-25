@@ -1,0 +1,32 @@
+Total sequential time 0.000326 seconds
+Total time: 0.628022 seconds
+
+ Performance counter stats for './parallel.out 50 0.01 22':
+
+        917.495503      task-clock (msec)         #    1.455 CPUs utilized          
+           151,705      context-switches          #    0.165 M/sec                  
+            13,193      cpu-migrations            #    0.014 M/sec                  
+               248      page-faults               #    0.270 K/sec                  
+     1,928,072,612      cycles                    #    2.101 GHz                    
+     1,441,171,496      stalled-cycles-frontend   #   74.75% frontend cycles idle   
+   <not supported>      stalled-cycles-backend   
+     1,074,008,220      instructions              #    0.56  insns per cycle        
+                                                  #    1.34  stalled cycles per insn
+       152,214,983      branches                  #  165.903 M/sec                  
+         2,203,026      branch-misses             #    1.45% of all branches        
+
+       0.630764753 seconds time elapsed
+
+
+########################################################################
+----------------------! Balena Job Details !----------------------------
+
+JobID          : 3488240
+No. of nodes   : 1
+No. of CPUs    : 16
+Timelimit      : 00:15:00
+Elapsed time   : 00:00:02
+Nodelist       : node-sw-161
+
+########################################################################
+

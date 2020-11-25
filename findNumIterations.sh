@@ -1,10 +1,9 @@
-gcc parallel.c -lpthread -o parallel.out
+gcc parallel.c -lrt -lpthread -o parallel.out
 
 precision=0.01
-
-#for arraySize in 200 600 1000 1400 1800 2200 2300 2400 2500 2600 2700
-for arraySize in 2300
+#for arraySize in 550
+for arraySize in 50 100 150 200 250 300 350 400 450 500 550
 do
 	echo "For $arraySize x $arraySize :"
-	./parallel.out $arraySize $precision 12
+	./parallel.out $arraySize $precision 4
 done

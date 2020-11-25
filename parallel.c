@@ -15,8 +15,12 @@ double **iterableArray;
 double **finalArray;
 bool precisionMetForAll;
 pthread_barrier_t barrier;
-struct timespec startTime, endTime;
+
+struct timespec startTime, endTime, startTotal, endTotal;
+
 double sequentialTime;
+double totalTime;
+
 bool programEnd;
 
 /**
@@ -105,15 +109,18 @@ void createThreads(int elementLoc, int elementsToProcess) {
  */
 int main(int argc, char *argv[]) {
 
-    programEnd = false;
-
 
 
     // STILL NEED TO COMMENT CLOCK FUNCTIONS
 
 
-
+    clock_gettime(CLOCK_MONOTONIC, &startTotal);
     clock_gettime(CLOCK_MONOTONIC, &startTime);
+
+
+
+
+    programEnd = false;
 
     // Define default array dimension, precision, and thread count
     arraySize = 18;
@@ -194,12 +201,12 @@ int main(int argc, char *argv[]) {
     else {
         
         // Random seed is defined to be the same as sequential program to ensure same array is generated
-        srand(10);
+        srand(1);
 
         // Default array is random 1.0s and 0.0s
         for (row = 0; row < arraySize; row++) {
             for (col = 0; col < arraySize; col++) {
-                finalArray[row][col] = rand() % 2;
+                finalArray[row][col] = rand() % arraySize;
             }
         }
 
@@ -231,6 +238,16 @@ int main(int argc, char *argv[]) {
     // Creates barrier with count of total pthreads plus control thread (the thread running main())
     pthread_barrier_init(&barrier, NULL, numThreads + 1);
 
+    int elementLoc;
+
+    // Iteration counter
+    int iterationNum = 0;
+    
+    // Precision flag — true if program can finish as criteria fulfilled
+    // Precision flag set to true here so threads will know if they need to check whether to set it
+    precisionMetForAll = true;
+
+
 
 
 
@@ -241,19 +258,11 @@ int main(int argc, char *argv[]) {
 
 
     clock_gettime(CLOCK_MONOTONIC, &endTime);
-    sequentialTime = startTime.tv_nsec - endTime.tv_nsec;
-    clock_gettime(CLOCK_MONOTONIC, &startTime);
+    sequentialTime = (endTime.tv_sec - startTime.tv_sec) * 1000000000;
+    sequentialTime += (endTime.tv_nsec - startTime.tv_nsec);
 
 
 
-    int elementLoc;
-
-    // Iteration counter
-    int iterationNum = 0;
-    
-    // Precision flag — true if program can finish as criteria fulfilled
-    // Precision flag set to true here so threads will know if they need to check whether to set it
-    precisionMetForAll = true;
 
     // Creates threads according to specifications defined by variables above
     for (elementLoc = 1; elementLoc <= numMutableElements;) {
@@ -281,11 +290,20 @@ int main(int argc, char *argv[]) {
         // Reset is here to allow precision check (the 'while') to complete before continuing
         if (iterationNum != 0) {
             precisionMetForAll = true;
+
+            // ADD THIS BIT TO COMMENTS
+            clock_gettime(CLOCK_MONOTONIC, &endTime);
+            sequentialTime += (endTime.tv_sec - startTime.tv_sec) * 1000000000;
+            sequentialTime += (endTime.tv_nsec - startTime.tv_nsec);
+            
             pthread_barrier_wait(&barrier);
         }
 
         // Ensures all threads have finished processing this iteration before continuing
         pthread_barrier_wait(&barrier);
+
+        // COMMENT THIS
+        clock_gettime(CLOCK_MONOTONIC, &startTime);
 
         iterationNum += 1;
         
@@ -302,7 +320,7 @@ int main(int argc, char *argv[]) {
     // Not technically needed as program will end and free threads regardless, but avoids using an infinite loop
     programEnd = true;
 
-    printf("Completed after %d iterations using %d threads.\n", iterationNum, numThreads);
+    //printf("Completed after %d iterations using %d threads.\n", iterationNum, numThreads);
     
     // Prints output to file for correctness testing
     char filename[25] = "resultParallel-";
@@ -317,6 +335,13 @@ int main(int argc, char *argv[]) {
         }
         fprintf(file, "\n");
     }
+
+    // COMMENT THIS
+    clock_gettime(CLOCK_MONOTONIC, &endTotal);
+    totalTime = (endTotal.tv_sec - startTotal.tv_sec) * 1000000000;
+    totalTime += (endTotal.tv_nsec - startTotal.tv_nsec);
+    printf("Total sequential time %f seconds\n", sequentialTime / 1000000000);
+    printf("Total time: %f seconds\n", totalTime / 1000000000);
 
     return 0;
 

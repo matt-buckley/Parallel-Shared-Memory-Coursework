@@ -63,12 +63,12 @@ int main(int argc, char *argv[]) {
     else {
         
         // Random seed is defined to be the same as sequential program to ensure same array is generated
-        srand(10);
+        srand(1);
 
         // Default array is random 1.0s and 0.0s
         for (row = 0; row < arraySize; row++) {
             for (col = 0; col < arraySize; col++) {
-                finalArray[row][col] = rand() % 2;
+                finalArray[row][col] = rand() % arraySize;
             }
         }
 
