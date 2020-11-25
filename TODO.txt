@@ -13,6 +13,8 @@ Implement a thread pool
 
 Investigate superlinear speedup (e.g. caches)
 
+Comment clock
+
 In report, note:
 - That briefly had superlinear speedup due to algorithm differences - max speedup of 19.2, reasonable speedup of 9.7 before using precision flags
 - Issues with using only values on the outside, i.e. numbers in the middle don't change even as you scale up

@@ -201,6 +201,7 @@ int main(int argc, char *argv[]) {
     else {
         
         // Random seed is defined to be the same as sequential program to ensure same array is generated
+        // To change the random seed, alter the parameter passed to srand()
         srand(1);
 
         // Default array is random 1.0s and 0.0s
