@@ -1,4 +1,3 @@
-Total sequential time 0.004621 seconds
 Total time: 7.537155 seconds
 
  Performance counter stats for './parallel.out 250 0.01 16':

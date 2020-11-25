@@ -1,12 +1,13 @@
 #!/bin/bash
 
-gcc parallel.c -lpthread -o parallel.out
-gcc sequential.c -o sequential.out
+gcc parallel.c -lrt -lpthread -o parallel.out
+gcc sequential.c -lrt -o sequential.out
 
+for arraySize in 277
 #for arraySize in 10 100 200 400 600 800 900 1000
 #for arraySize in 10 50 100 200 300 400 500 600 700 800 900 950 1000
 #for arraySize in 200 400 600 800
-for arraySize in 200 600 1000 1400 1800 2200 2300 2400 2500 2600 2700
+#for arraySize in 200 600 1000 1400 1800 2200 2300 2400 2500 2600 2700
 do
     for threadNum in 2 4 6 8 10 12 13 14 15 16 17 18 19 20 22 24 26 28 30 32
     #for threadNum in  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
