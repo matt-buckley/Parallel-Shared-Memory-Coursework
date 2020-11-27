@@ -15,12 +15,8 @@ double **iterableArray;
 double **finalArray;
 bool precisionMetForAll;
 pthread_barrier_t barrier;
-
 struct timespec startTime, endTime, startTotal, endTotal;
-
-double sequentialTime;
-double totalTime;
-
+double sequentialTime, totalTime;
 bool programEnd;
 
 /**
@@ -109,16 +105,9 @@ void createThreads(int elementLoc, int elementsToProcess) {
  */
 int main(int argc, char *argv[]) {
 
-
-
-    // STILL NEED TO COMMENT CLOCK FUNCTIONS
-
-
+    // Start clocks to measure total sequential time and total running time (using same metric as sequential time)
     clock_gettime(CLOCK_MONOTONIC, &startTotal);
     clock_gettime(CLOCK_MONOTONIC, &startTime);
-
-
-
 
     programEnd = false;
 
@@ -204,7 +193,7 @@ int main(int argc, char *argv[]) {
         // To change the random seed, alter the parameter passed to srand()
         srand(1);
 
-        // Default array is random 1.0s and 0.0s
+        // Default array is random integers between 0 and arraySize
         for (row = 0; row < arraySize; row++) {
             for (col = 0; col < arraySize; col++) {
                 finalArray[row][col] = rand() % arraySize;
@@ -248,22 +237,10 @@ int main(int argc, char *argv[]) {
     // Precision flag set to true here so threads will know if they need to check whether to set it
     precisionMetForAll = true;
 
-
-
-
-
-    // Will miss thread creation but ah well
-    // COMMENT
-
-
-
-
+    // Update sequential time record
     clock_gettime(CLOCK_MONOTONIC, &endTime);
     sequentialTime = (endTime.tv_sec - startTime.tv_sec) * 1000000000;
     sequentialTime += (endTime.tv_nsec - startTime.tv_nsec);
-
-
-
 
     // Creates threads according to specifications defined by variables above
     for (elementLoc = 1; elementLoc <= numMutableElements;) {
@@ -290,20 +267,22 @@ int main(int argc, char *argv[]) {
         // to allow threads to continue to next iteration
         // Reset is here to allow precision check (the 'while') to complete before continuing
         if (iterationNum != 0) {
+
             precisionMetForAll = true;
 
-            // ADD THIS BIT TO COMMENTS
+            // Update sequential time record
             clock_gettime(CLOCK_MONOTONIC, &endTime);
             sequentialTime += (endTime.tv_sec - startTime.tv_sec) * 1000000000;
             sequentialTime += (endTime.tv_nsec - startTime.tv_nsec);
             
             pthread_barrier_wait(&barrier);
+
         }
 
         // Ensures all threads have finished processing this iteration before continuing
         pthread_barrier_wait(&barrier);
 
-        // COMMENT THIS
+        // Start sequential time clock for update later in loop
         clock_gettime(CLOCK_MONOTONIC, &startTime);
 
         iterationNum += 1;
@@ -337,12 +316,12 @@ int main(int argc, char *argv[]) {
         fprintf(file, "\n");
     }
 
-    // COMMENT THIS
+    // Update total clock and print results (printing disabled by default)
     clock_gettime(CLOCK_MONOTONIC, &endTotal);
     totalTime = (endTotal.tv_sec - startTotal.tv_sec) * 1000000000;
     totalTime += (endTotal.tv_nsec - startTotal.tv_nsec);
-    printf("Total sequential time %f seconds\n", sequentialTime / 1000000000);
-    printf("Total time: %f seconds\n", totalTime / 1000000000);
+    //printf("Total sequential time %f seconds\n", sequentialTime / 1000000000);
+    //printf("Total time: %f seconds\n", totalTime / 1000000000);
 
     return 0;
 

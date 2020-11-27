@@ -66,7 +66,7 @@ int main(int argc, char *argv[]) {
         // To change the random seed, alter the parameter passed to srand()
         srand(1);
 
-        // Default array is random 1.0s and 0.0s
+        // Default array is random integers between 0 and arraySize
         for (row = 0; row < arraySize; row++) {
             for (col = 0; col < arraySize; col++) {
                 finalArray[row][col] = rand() % arraySize;
