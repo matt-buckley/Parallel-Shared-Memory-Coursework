@@ -1,7 +1,3 @@
-CHECK REPORT FIGURE NUMBERS
-
-RUN AGAIN USING A DIFFERENT SEED TO TEST 2300
-
 Test different array contents
 
 Remove global variables
