@@ -4,7 +4,7 @@
 #SBATCH --partition=teaching
 # Name of job (optional)
 #SBATCH --job-name=Correctness-Test
-#SBATCH --output=results.out
+#SBATCH --output=correctness.out
 #SBATCH --time=00:15:00
 # Notification
 #SBATCH --mail-type=END
@@ -18,7 +18,8 @@
 precision=0.01
 numThreads=15
 
-for arraySize in 50 100 150 200 250 300 350 400 450 500 550
+for arraySize in 50 100 150 200 250 300
+#for arraySize in 350 400 450 500 550
 do
 
     gcc parallel.c -lpthread -lrt -o parallel.out
@@ -27,7 +28,7 @@ do
     gcc sequential.c -lrt -o sequential.out
     ./sequential.out $arraySize $precision
 
-    if cmp -s "resultParallel-16-$arraySize.txt" "resultSequential-$arraySize.txt"; then
+    if cmp -s "resultParallel-$numThreads-$arraySize.txt" "resultSequential-$arraySize.txt"; then
         echo "$arraySize: Correct"
     else
         echo "$arraySize: Incorrect"
