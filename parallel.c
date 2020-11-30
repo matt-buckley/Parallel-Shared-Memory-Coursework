@@ -121,6 +121,8 @@ int main(int argc, char *argv[]) {
     numThreadsStr = "16";
     char *arraySizeStr = malloc(20 * sizeof(char));
     arraySizeStr = "18";
+    char *precisionStr = malloc (10 * sizeof(char));
+    precisionStr = "0.01";
 
     // For iteration, but these must be defined before use in loop when using Balena's compiler.
     int row, col;
@@ -142,6 +144,7 @@ int main(int argc, char *argv[]) {
     if (argc > 2) {
         char *temp;
         precision = strtod(argv[2], &temp);
+        precisionStr = argv[2];
     }
 
     // Read in number of threads to use if defined in command line
@@ -307,6 +310,8 @@ int main(int argc, char *argv[]) {
     strcat(filename, numThreadsStr);
     strcat(filename, "-");
     strcat(filename, arraySizeStr);
+    strcat(filename, "-");
+    strcat(filename, precisionStr);
     strcat(filename, ".txt");
     FILE *file = fopen(filename, "w");
     for (row = 0; row < arraySize; row++) {

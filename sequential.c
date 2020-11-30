@@ -18,6 +18,8 @@ int main(int argc, char *argv[]) {
     // Define default values as strings for output filename
     char *arraySizeStr = malloc(20 * sizeof(char));
     arraySizeStr = "18";
+    char *precisionStr = malloc (10 * sizeof(char));
+    precisionStr = "0.01";
 
     // For iteration, but these must be defined before use in loop when using Balena's compiler.
     int row, col;
@@ -32,6 +34,7 @@ int main(int argc, char *argv[]) {
     if (argc > 2) {
         char *temp;
         precision = strtod(argv[2], &temp);
+        precisionStr = argv[2];
     }
     
     // Assign memory for final array (holds final values and is static during iteration)
@@ -138,6 +141,8 @@ int main(int argc, char *argv[]) {
     printf("Completed sequentially after %d iterations.\n", iterationNum);
     char filename[25] = "resultSequential-";
     strcat(filename, arraySizeStr);
+    strcat(filename, "-");
+    strcat(filename, precisionStr);
     strcat(filename, ".txt");
     FILE *file = fopen(filename, "w");
     for (row = 0; row < arraySize; row++) {
